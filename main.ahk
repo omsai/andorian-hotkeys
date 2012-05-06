@@ -1,14 +1,4 @@
-﻿; Shortcuts implemented in this script
-;
-; [Windows Key + w] List RMA report in web browser
-; [Windows Key + m] Launch WIP RMA database
-; [Windows Key + d] Date paste
-; [Windows Key + o] Sales order search from clipboard
-; [Windows Key + b] BOM search from clipboard
-; [Windows Key + t] Ticket search from clipboard or Outlook e-mail title
-;
-
-; Boilerplate
+﻿; Boilerplate
 #NoEnv ; performance and compatibility
 #Warn  ; catching common errors.
 SetWorkingDir %A_ScriptDir%  ; consistent starting directory.
