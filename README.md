@@ -1,6 +1,15 @@
----
 Make repetitive work awesome!
----
+=============================
+Macro up your computer to save cummulative hours of your life a year,
+and look forward to mundane work.
+
+Autohotkey is a powerful scripting language that sends keystrokes,
+runs programs and processes information so that you can focus on
+important things in life.
+
+Batteries included: these scripts save your information to an ini
+file, so no code editing is required to get running.
+
 
 Usage
 -----
