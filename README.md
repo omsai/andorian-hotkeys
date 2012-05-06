@@ -36,6 +36,8 @@ Installation
 
 Contribute
 ----------
+Code and ideas welcome.
+
 Looking for an artist to create a medium sized logo for this page.  I'm thinking
 [awesome face](http://knowyourmeme.com/memes/awesome-face-epic-smiley)
 in blue with [Andorian](http://en.memory-alpha.org/wiki/Andorian) antlers sitting
