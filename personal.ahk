@@ -164,22 +164,3 @@ else
     MsgBox, No *.TIF images found inside %Folder%
   return
 }
-
-;----------------------------------------------------------------------
-; [Windows Key + a] Add attachments to ticket
-;----------------------------------------------------------------------
-; Inputs:
-; - Ticket number copied (i.e. in clipboard)
-; - Have e-mail subject highlighted and thus open in Outlook reading pane
-;
-; Result:
-; - Attachment from e-mail added to ticket
-; - List of files added to beginning of Description
-;----------------------------------------------------------------------
-;#a::
-; Create desktop folder named with ticket number
-; Save attachments in folder
-; Import attachments in SLX
-; Get attachment names using cmd /K "C: & cd <path\to\folder> & dir /b"
-; List attachment names in SLX descripton
-;return
