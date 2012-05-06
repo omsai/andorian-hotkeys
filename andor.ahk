@@ -180,8 +180,6 @@ return
 Send ^c
 Run http://intranet/bomreport/
 
-; TODO: Backport Chome web page has mouse cursor load from personal.ahk instead 
-;       of using a timeout
 WinWait, Shamrock Components,,20
 if ErrorLevel
   return
