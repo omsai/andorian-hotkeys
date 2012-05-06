@@ -5,7 +5,7 @@
 ; [Windows Key + d] Date paste
 ; [Windows Key + o] Sales order search from clipboard
 ; [Windows Key + b] BOM search from clipboard
-; [Windows Key + t] Ticket search from Clipboard or Outlook e-mail title
+; [Windows Key + t] Ticket search from clipboard or Outlook e-mail title
 ;
 
 ; Boilerplate
@@ -22,7 +22,7 @@ NONE_VALUE := "NONE"   ; No script variable can be this value
 #Include *i experimental.ahk
 
 ;----------------------------------------------------------------------
-; [Windows Key + w] RMA report in web browser for US RMAs
+; [Windows Key + w] List RMA report in web browser
 ;----------------------------------------------------------------------
 #w::
 IniRead, REGION, %INI_FILE%, RMA, region, NONE_VALUE
@@ -191,7 +191,7 @@ clipboard = ; clear clipboard
 return
 
 ;----------------------------------------------------------------------
-; [Windows Key + t] Ticket search from Clipboard or Outlook e-mail title
+; [Windows Key + t] Ticket search from clipboard or Outlook e-mail title
 ;----------------------------------------------------------------------
 #t::
 SetTitleMatchMode, Slow
