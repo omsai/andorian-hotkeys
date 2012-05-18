@@ -7,6 +7,8 @@ SetWorkingDir %A_ScriptDir%  ; consistent starting directory.
 INI_FILE := "ahk.ini"  ; Persistent script variables
 NONE_VALUE := "NONE"   ; No script variable can be this value
 
+#Include lib\saleslogix.ahk
+
 ; (Optional) Additional shortcuts which would not work for everyone
 #Include *i personal.ahk
 #Include *i experimental.ahk
@@ -184,69 +186,12 @@ return
 ; [Windows Key + t] Ticket search from clipboard or Outlook e-mail title
 ;----------------------------------------------------------------------
 #t::
-SetTitleMatchMode, Slow
-SetTitleMatchMode, 2
-match_found := 0
-begin := RegExMatch(clipboard, "\d\d\d\-\d\d\-\d\d\d\d\d\d")
-if begin != 0
-{
-  ticket := SubStr(clipboard, begin, 13)
-  ;MsgBox %ticket%
-  match_found := 1
-  ; Prevent this clipboard data from clobbering subsequent Outlook subject
-  ; selections
-  clipboard = ; clear clipboard
-}
-; Check highlighted Outlook e-mail title for ticket number
-if match_found <> 1
-{
-  WinGetText, text, Microsoft Outlook
-  ;MsgBox DEBUG: %text%
-  Loop, Parse, text, `n, `r ; parses variable text by newline
-  {
-    if match_found <> 1
-    {
-      subject:=A_LoopField
-      ;MsgBox DEBUG: %subject%
-      begin := RegExMatch(subject, "\d\d\d\-\d\d\-\d\d\d\d\d\d")
-      if begin != 0
-      {
-        ticket := SubStr(subject, begin, 13)
-        ;MsgBox %ticket%
-        match_found := 1
-      }
-    }
-  }
-  VarSetCapacity(text,0) ; frees data from variable text
-}
-if match_found <> 1
-  return
+ticket := get_ticket_number_from_outlook_subject()
 WinWait,SalesLogix,,10,Personal
 if ErrorLevel
   return
 WinActivate
-; Gets rid of the Modal Window: "Sync Client logix has successfully applied
-; transactions to your local database.  ...refresh the client now?"
-WinWait, Confirm,,0.1
-; Ignore ErrorLevel from WinWait ... No prompt Window, so nothing to do
-if !ErrorLevel
-{
-  WinActivate
-  Send !y
-  ; Kludge: wait for SLX refresh to complete before finding ticket.
-  ;         Otherwise sending keystrokes while the main toolbar reloads
-  ;         creates an access violation and SLX has to be restarted.
-  SetTitleMatchMode, 1
-  SetTitleMatchMode, Fast
-  counter = 10
-  WinWait,Sage SalesLogix -,,5
-  while ( ErrorLevel &&  counter > 0 )
-  {
-    WinWait,Sage SalesLogix -,,2
-    counter--
-  }
-  Sleep,4000
-}
+ignore_saleslogix_refresh()
 Send !ltt%ticket%{tab}{enter}
 WinWait, Lookup Ticket,,10
 if ErrorLevel
