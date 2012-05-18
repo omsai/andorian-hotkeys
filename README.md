@@ -1,6 +1,18 @@
----
 Make repetitive work awesome!
----
+=============================
+<img src="https://github.com/downloads/omsai/autohotkey-scripts/andorian-scripts-banner.png"
+ alt="hot-scripts logo" title="Happy Andorian" align="right" />
+
+Automate your computer to save cummulative hours of your life a year,
+and watch your mundane work do itself.
+
+Autohotkey is a powerful scripting language that sends keystrokes,
+runs programs and processes information so that you can focus on
+important things in life.
+
+Batteries are included: these scripts ask for your information and
+save it to an ini file, so no code editing is required to get running.
+
 
 Usage
 -----
@@ -36,10 +48,4 @@ Installation
 
 Contribute
 ----------
-Code and ideas welcome.
-
-Looking for an artist to create a medium sized logo for this page.  I'm thinking
-[awesome face](http://knowyourmeme.com/memes/awesome-face-epic-smiley)
-in blue with [Andorian](http://en.memory-alpha.org/wiki/Andorian) antlers sitting
-behind a computer screen, a bit like
-[this](http://i1.kym-cdn.com/profiles/icons/big/000/081/496/Awesome-Face-L-computer.forreal.jpg)
+Code and feature requests welcome.
