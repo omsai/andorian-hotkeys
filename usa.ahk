@@ -1,13 +1,5 @@
-﻿; Shortcuts implemented in this script
-;
-; [Windows Key + s] Shipment form, Shipped folder, Loan agreements folder
-; [Windows Key + p] US Sales Plan
-; [Windows Key + i] BOM description from clipboard
-; [Windows Key + q] Import folder of multi-tiff data into iQ
-;
-
 ;----------------------------------------------------------------------
-; [Windows Key + s] Shipment form, Shipped folder, Loan agreements folder
+; [Windows Key + s] Open Shipment form, Shipped folder, and Loan agreements folder
 ;----------------------------------------------------------------------
 #s::
 Run \\ct-dc-01\home\Man Pack List & Loan Agreements\2012 LOAN AGREEMENTS
@@ -16,12 +8,12 @@ Run \\balrog\msystems\ISO 9001 - Quality\FORMS\FM US SHIPMENT REQUEST FORM.doc
 return
 
 ;----------------------------------------------------------------------
-; [Windows Key + p] US Sales Plan
+; [Windows Key + p] Launch US Sales Plan
 ;----------------------------------------------------------------------
 #p::Run \\ct-dc-01\home\Common\Sales Plan\U.S. Sales Plan.xls
 
 ;----------------------------------------------------------------------
-; [Windows Key + i] BOM description from clipboard
+; [Windows Key + i] Fill out BOM descriptions in loan agreement
 ;----------------------------------------------------------------------
 #i::
 description = ; clear variable
