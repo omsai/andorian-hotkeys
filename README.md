@@ -58,6 +58,9 @@ Installation
 4.  Have the script startup automatically with Windows by
     making a shortcut to `main.ahk` in your Windows start menu > Startup folder
 
+5.  (Optional) Create your own hotkeys.
+    Create a file named `<Windows username>.ahk` with your code next to `main.ahk`
+
 
 Contribute
 ----------
