@@ -16,6 +16,8 @@ save it to an ini file, so no code editing is required to get running.
 
 Usage
 -----
+#### Global Hotkeys
+
 `⊞ Win`+`W` List all RMAs in web browser
 
 `⊞ Win`+`M` Launch WIP RMA database (automatic login) and optionally opens RMA from highlighted selection
@@ -30,7 +32,16 @@ Usage
 
 `⊞ Win`+`D` Paste your initials and today's date
 
-See [usa.ahk](https://github.com/omsai/autohotkey-scripts/blob/master/usa.ahk) for other useful shortcuts
+
+#### USA Hotkeys
+
+`⊞ Win`+`S` Open Shipment form, Shipped folder, and Loan agreements folder
+
+`⊞ Win`+`P` Launch US Sales Plan
+
+`⊞ Win`+`I` Fill out BOM descriptions in loan agreement
+
+`⊞ Win`+`Q` Import folder of multi-tiff data into iQ
 
 
 Installation
