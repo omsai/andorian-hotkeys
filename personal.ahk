@@ -39,11 +39,6 @@ return
 #p::Run \\ct-dc-01\home\Common\Sales Plan\U.S. Sales Plan.xls
 
 ;----------------------------------------------------------------------
-; [Windows Key + a] Ticket large attachment archive folder
-;----------------------------------------------------------------------
-#a::Run \\balrog\dataExchange\Product Support\SLX Removed from Ticket
-
-;----------------------------------------------------------------------
 ; [Windows Key + i] BOM description from clipboard
 ;----------------------------------------------------------------------
 #i::
