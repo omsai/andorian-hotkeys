@@ -188,15 +188,57 @@ return
 ;----------------------------------------------------------------------
 #t::
 ticket := get_ticket_number_from_outlook_subject()
-WinWait,SalesLogix,,10,Personal
+if ticket = %NONE_VALUE%
+{
+    MsgBox,, Ticket search, No ticket number found in clipboard or e-mail title
+    return
+}
+open_ticket(ticket)
+return
+
+;----------------------------------------------------------------------
+; [Windows Key + a] Save attachments from Outlook to ticket folder
+;----------------------------------------------------------------------
+#a::
+ticket := get_ticket_number_from_outlook_subject()
+if ticket = %NONE_VALUE%
+{
+    MsgBox,, Import ticket attachments, No ticket number found in clipboard or e-mail title
+    return
+}
+FileCreateDir, %A_Desktop%\%ticket%
+; attachment selection window
+Send !fna
+WinWait,Save All Attachments,,0.1,
+only_one_attachment := 0
 if ErrorLevel
-  return
-WinActivate
-ignore_saleslogix_refresh()
-Send !ltt%ticket%{tab}{enter}
-WinWait, Lookup Ticket,,10
-if ErrorLevel
-  return
-WinActivate
-Send !o
+{
+    ; only one attachment
+    only_one_attachment := 1
+    Send !fn{enter}
+    WinWait,Save Attachment,,0.1,
+    if ErrorLevel
+        return
+}
+else
+{
+    WinActivate
+    Send {enter}
+    ; file save dialog
+    WinWait,Save All Attachments,,0.1,
+    if ErrorLevel
+        return
+}
+Send {home}
+clipboard = %A_Desktop%\%ticket%\
+Send ^v{enter}
+; exit hotscript if you get a file overwrite warning message
+WinWait,Microsoft Office Outlook,,0.1,
+if !ErrorLevel
+{
+    return
+}
+; TODO: add saved attachments to SalesLogix:
+;       open_ticket(ticket)
+;       loop add_attachment(file)
 return

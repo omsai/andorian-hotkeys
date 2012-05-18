@@ -22,6 +22,8 @@ Usage
 
 `⊞ Win`+`T` Open SalesLogix ticket from clipboard or Outlook e-mail title
 
+`⊞ Win`+`T` Save Outlook attachments to ticket folder
+
 `⊞ Win`+`O` Sales order search from highlighted selection
 
 `⊞ Win`+`B` BOM search from highlighted selection

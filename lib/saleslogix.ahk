@@ -41,12 +41,11 @@ get_ticket_number_from_outlook_subject()
 }
 
 
-/* Gets rid of the Modal Window:
-   "Sync Client logix has successfully applied transactions to your local
-   database.  ...refresh the client now?"
-*/
-ignore_saleslogix_refresh()
+_ignore_saleslogix_refresh()
 {
+    ; Gets rid of the Modal Window:
+    ; "Sync Client logix has successfully applied transactions 
+    ;  to your local database.  ...refresh the client now?"
     global SetTitleMatchMode
     WinWait, Confirm,,0.1
     
@@ -69,4 +68,33 @@ ignore_saleslogix_refresh()
         }
         Sleep,4000
     }
+}
+
+
+open_ticket(_ticket)
+{
+    WinWait,SalesLogix,,10,Personal
+    if ErrorLevel
+        return
+    WinActivate
+    _ignore_saleslogix_refresh()
+    Send !ltt%_ticket%{tab}{enter}
+    WinWait, Lookup Ticket,,10
+    if ErrorLevel
+        return
+    WinActivate
+    Send !o
+    ; wait for ticket to be actually open
+    WinWait,Sage SalesLogix - [Ticket: %_ticket%],,10
+    if ErrorLevel
+        return
+}
+
+
+add_attachment(_file)
+{
+    _ignore_saleslogix_refresh()
+    Send !if
+    clipboard = %_file%
+    Send ^v!o
 }
