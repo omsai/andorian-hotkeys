@@ -22,7 +22,7 @@ Usage
 
 `⊞ Win`+`T` Open SalesLogix ticket from clipboard or Outlook e-mail title
 
-`⊞ Win`+`T` Save Outlook attachments to ticket folder
+`⊞ Win`+`T` Save Outlook attachments to Desktop ticket folder
 
 `⊞ Win`+`O` Sales order search from highlighted selection
 
@@ -30,7 +30,7 @@ Usage
 
 `⊞ Win`+`D` Paste your initials and today's date
 
-See [personal.ahk](https://github.com/omsai/autohotkey-scripts/blob/master/personal.ahk) for other useful shortcuts
+See [usa.ahk](https://github.com/omsai/autohotkey-scripts/blob/master/usa.ahk) for other useful shortcuts
 
 
 Installation
