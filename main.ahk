@@ -7,11 +7,12 @@ SetWorkingDir %A_ScriptDir%  ; consistent starting directory.
 INI_FILE := "ahk.ini"  ; Persistent script variables
 NONE_VALUE := "NONE"   ; No script variable can be this value
 
+; Libraries
 #Include lib\saleslogix.ahk
 
 ; (Optional) Additional shortcuts which would not work for everyone
-#Include *i personal.ahk
-#Include *i experimental.ahk
+#Include *i usa.ahk
+#Include *i %A_UserName%.ahk
 
 ;----------------------------------------------------------------------
 ; [Windows Key + w] List RMA report in web browser
