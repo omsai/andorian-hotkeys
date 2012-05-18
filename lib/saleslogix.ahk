@@ -1,9 +1,12 @@
-﻿get_ticket_number_from_outlook_subject()
+﻿; Name all function variables with leading underscore
+; to avoid local variable error messages
+
+
+get_ticket_number_from_outlook_subject()
 {
     global SetTitleMatchMode
     SetTitleMatchMode, Slow
     SetTitleMatchMode, 2
-    match_found := 0
     
     ; Check clipboard
     _begin := RegExMatch(clipboard, "\d\d\d\-\d\d\-\d\d\d\d\d\d")
@@ -22,18 +25,19 @@
     ;MsgBox DEBUG: %text%
     Loop, Parse, text, `n, `r ; parses variable text by newline
     {
-        subject := A_LoopField
+        _subject := A_LoopField
         ;MsgBox DEBUG: %subject%
-        _begin := RegExMatch(subject, "\d\d\d\-\d\d\-\d\d\d\d\d\d")
+        _begin := RegExMatch(_subject, "\d\d\d\-\d\d\-\d\d\d\d\d\d")
         if _begin != 0
         {
-            _ticket := SubStr(subject, _begin, 13)
+            _ticket := SubStr(_subject, _begin, 13)
             ;MsgBox %_ticket%
             return _ticket
         }
     }
     
-    return 0 ; No match found
+    global NONE_VALUE
+    return NONE_VALUE ; No match found
 }
 
 
