@@ -66,3 +66,20 @@ Installation
 Contribute
 ----------
 Code and feature requests welcome.
+
+### Development
+
+1.  To get ssh working behind the firewall, create `~/.ssh/config` with:
+```
+Host github.com
+User git
+Hostname ssh.github.com
+PreferredAuthentications publickey
+IdentityFile ~/.ssh/id_rsa
+Port 443
+```
+
+2.  Change `[remote "origin"]` url in `.git/config` in the repository home directory from https to ssh:
+```
+url = ssh://git@github.com/omsai/andorian-hotkeys.git
+```
