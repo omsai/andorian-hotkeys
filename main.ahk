@@ -12,7 +12,7 @@ NONE_VALUE := "NONE"   ; No script variable can be this value
 
 ; (Optional) Additional shortcuts which would not work for everyone
 #Include *i usa.ahk
-#Include *i %A_UserName%.ahk
+#Include *i p.nanda.ahk
 
 ;----------------------------------------------------------------------
 ; [Windows Key + w] List RMA report in web browser
