@@ -1,6 +1,6 @@
 Make repetitive work awesome!
 =============================
-<img src="https://github.com/downloads/omsai/autohotkey-scripts/andorian-scripts-banner.png"
+<img src="https://github.com/downloads/omsai/andorian-hotkeys/andorian-scripts-banner.png"
  alt="hot-scripts logo" title="Happy Andorian" align="right" />
 
 Automate your computer to save cummulative hours of your life a year,
@@ -51,17 +51,35 @@ Installation
 2.  Install [Git](http://help.github.com/win-set-up-git/)
 
 3.  Clone this existing repository
-    * `(Right-click) on the Desktop > Git GUI`.
-    *  Set Source Location to this repository `git@github.com:omsai/autohotkey-scripts.git`.
-    *  I like to use  target `%HOMEPATH%`
+    *  Navigate to the directory you want to install this folder.  I like to use  target `%HOMEPATH%`
+    *  `(Right-click) in the folder > Git Bash`
+    *  Type `git clone https://omsai@github.com/omsai/andorian-hotkeys.git`
+    *  When prompted for a password just hit enter
 
 4.  Have the script startup automatically with Windows by
     making a shortcut to `main.ahk` in your Windows start menu > Startup folder
 
 5.  (Optional) Create your own hotkeys.
-    Create a file named `<Windows username>.ahk` with your code next to `main.ahk`
+    Create your ahk file and `#Include` it in [main.ahk](andorian-hotkeys/blob/master/main.ahk#L15)
 
 
 Contribute
 ----------
 Code and feature requests welcome.
+
+### Development
+
+1.  To get ssh working behind the firewall, create `~/.ssh/config` with:
+```
+Host github.com
+User git
+Hostname ssh.github.com
+PreferredAuthentications publickey
+IdentityFile ~/.ssh/id_rsa
+Port 443
+```
+
+2.  Change `[remote "origin"]` url in `.git/config` in the repository home directory from https to ssh:
+```
+url = ssh://git@github.com/omsai/andorian-hotkeys.git
+```
