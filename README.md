@@ -60,7 +60,7 @@ Installation
     making a shortcut to `main.ahk` in your Windows start menu > Startup folder
 
 5.  (Optional) Create your own hotkeys.
-    Create your ahk file and `#Include` it in [main.ahk](andorian-hotkeys/blob/master/main.ahk#L15)
+    Create your ahk file and edit [main.ahk](andorian-hotkeys/blob/master/main.ahk#L15) to `#Include` it
 
 
 Contribute
