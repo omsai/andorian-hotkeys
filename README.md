@@ -51,41 +51,25 @@ Please report any issues you may encounter with other browsers.
 
 1.  Install [Autohotkey](http://www.autohotkey.com/download/)
 
-2.  Install [Git](http://help.github.com/win-set-up-git/)
+2.  Install [GitHub for Windows](http://windows.github.com/)
 
-3.  Clone this existing repository
-    *  Navigate to the directory you want to install this folder.
-       I like to use  target `%HOMEPATH%`
-    *  `(Right-click) in the folder > Git Bash`
-    *  Type `git clone https://omsai@github.com/omsai/andorian-hotkeys.git`
-    *  When prompted for a password just hit enter
+3.  In "GitHub for Windows",
+    login to your GitHub account (you probably need to signup for a free
+    account first).
+    After login enter your e-mail and name for Git.
 
-4.  Have the script startup automatically with Windows by
+4.  [Clone this repository](github-windows://openRepo/https://github.com/omsai/andorian-hotkeys)
+
+5.  Have the script startup automatically in Windows by
     making a shortcut to `main.ahk` in your Windows start menu > Startup folder
 
-5.  (Optional) Create your own hotkeys.
-    Create your ahk file and edit [main.ahk](andorian-hotkeys/blob/master/main.ahk#L15)
-    to `#Include` it
+
+Create your own hotkeys
+-----------------------
+In the same directory as main.ahk, create your ahk file and edit
+[main.ahk](andorian-hotkeys/blob/master/main.ahk#L15) to `#Include` it
 
 
 Contribute
 ----------
 Code and feature requests welcome.
-
-### Development
-
-1.  To get ssh working behind the firewall, create `~/.ssh/config` with:
-```
-Host github.com
-User git
-Hostname ssh.github.com
-PreferredAuthentications publickey
-IdentityFile ~/.ssh/id_rsa
-Port 443
-```
-
-2.  Change `[remote "origin"]` url in `.git/config` in the repository home
-    directory from https to ssh:
-```
-url = ssh://git@github.com/omsai/andorian-hotkeys.git
-```
