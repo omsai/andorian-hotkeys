@@ -1,6 +1,5 @@
 ﻿; Boilerplate
 #NoEnv ; performance and compatibility
-#Warn  ; catching common errors.
 SetWorkingDir %A_ScriptDir%  ; consistent starting directory.
 
 ; Configuration saving
