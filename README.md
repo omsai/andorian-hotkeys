@@ -46,12 +46,16 @@ Usage
 
 Installation
 ------------
+*Google Chrome* is recommended, since it is used for development and testing.
+Please report any issues you may encounter with other browsers.
+
 1.  Install [Autohotkey](http://www.autohotkey.com/download/)
 
 2.  Install [Git](http://help.github.com/win-set-up-git/)
 
 3.  Clone this existing repository
-    *  Navigate to the directory you want to install this folder.  I like to use  target `%HOMEPATH%`
+    *  Navigate to the directory you want to install this folder.
+       I like to use  target `%HOMEPATH%`
     *  `(Right-click) in the folder > Git Bash`
     *  Type `git clone https://omsai@github.com/omsai/andorian-hotkeys.git`
     *  When prompted for a password just hit enter
@@ -60,7 +64,8 @@ Installation
     making a shortcut to `main.ahk` in your Windows start menu > Startup folder
 
 5.  (Optional) Create your own hotkeys.
-    Create your ahk file and edit [main.ahk](andorian-hotkeys/blob/master/main.ahk#L15) to `#Include` it
+    Create your ahk file and edit [main.ahk](andorian-hotkeys/blob/master/main.ahk#L15)
+    to `#Include` it
 
 
 Contribute
@@ -79,7 +84,8 @@ IdentityFile ~/.ssh/id_rsa
 Port 443
 ```
 
-2.  Change `[remote "origin"]` url in `.git/config` in the repository home directory from https to ssh:
+2.  Change `[remote "origin"]` url in `.git/config` in the repository home
+    directory from https to ssh:
 ```
 url = ssh://git@github.com/omsai/andorian-hotkeys.git
 ```
