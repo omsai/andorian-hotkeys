@@ -43,9 +43,14 @@ get_ticket_number_from_outlook_subject()
 
 _ignore_saleslogix_refresh()
 {
-    ; Gets rid of the Modal Window:
-    ; "Sync Client logix has successfully applied transactions 
-    ;  to your local database.  ...refresh the client now?"
+    ; Allows refresh from the Modal Window prompt:
+    ;
+    ;     "Sync Client logix has successfully applied transactions 
+    ;      to your local database.  ...refresh the client now?"
+    ;
+    ; One has to allow refresh, since suppressing the message could lead to
+    ; operation against supplanted records
+    
     global SetTitleMatchMode
     WinWait, Confirm,,0.1
     
