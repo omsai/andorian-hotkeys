@@ -30,7 +30,7 @@ Usage
 
 `⊞ Win`+`B` BOM search from highlighted selection
 
-`⊞ Win`+`D` Paste your initials and today's date
+`⊞ Win`+`5` Paste your initials and today's date
 
 
 #### USA Hotkeys

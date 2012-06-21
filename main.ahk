@@ -131,9 +131,9 @@ if begin != 0
 return
 
 ;----------------------------------------------------------------------
-; [Windows Key + d] Date paste
+; [Windows Key + 5] Date paste
 ;----------------------------------------------------------------------
-#d::
+#5::
 IniRead, INITIALS, %INI_FILE%, Timestamp, initials, NONE_VALUE
 if INITIALS = NONE_VALUE
 {
