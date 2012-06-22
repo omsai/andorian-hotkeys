@@ -58,7 +58,8 @@ Please report any issues you may encounter with other browsers.
     account first).
     After login enter your e-mail and name for Git.
 
-4.  [Clone this repository](github-windows://openRepo/https://github.com/omsai/andorian-hotkeys)
+4.  Login to your GitHub account on this webpage and 
+    [clone this repository](github-windows://openRepo/https://github.com/omsai/andorian-hotkeys)
 
 5.  Have the script startup automatically in Windows by
     making a shortcut to `main.ahk` in your Windows start menu > Startup folder
