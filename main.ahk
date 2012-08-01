@@ -146,8 +146,8 @@ if INITIALS = NONE_VALUE
   }
 }
 TimeVar := A_Now
-FormatTime, TimeVar, A_Now, %INITIALS% ddd MMM dd, yyyy
-Send %TimeVar%
+FormatTime, TimeVar, A_Now, ddd MMM dd, yyyy
+Send %INITIALS% %TimeVar%
 return
 
 ;----------------------------------------------------------------------
