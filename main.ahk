@@ -196,16 +196,16 @@ open_ticket(ticket)
 return
 
 ;----------------------------------------------------------------------
-; [Windows Key + a] Save attachments from Outlook to ticket folder
+; [Windows Key + a] Save attachments from Outlook to Desktop folder
 ;----------------------------------------------------------------------
 #a::
-ticket := get_ticket_number_from_outlook_subject()
-if ticket = %NONE_VALUE%
+contact_name := get_contact_name_from_outlook_subject()
+if contact_name = %NONE_VALUE%
 {
-    MsgBox,, Import ticket attachments, No ticket number found in clipboard or e-mail title
+    MsgBox,, Save Outlook attachments, No contact name found in e-mail title
     return
 }
-FileCreateDir, %A_Desktop%\%ticket%
+FileCreateDir, %A_Desktop%\%contact_name%
 ; attachment selection window
 Send !fna
 WinWait,Save All Attachments,,0.1,
@@ -229,7 +229,7 @@ else
         return
 }
 Send {home}
-clipboard = %A_Desktop%\%ticket%\
+clipboard = %A_Desktop%\%contact_name%\
 Send ^v{enter}
 ; exit hotscript if you get a file overwrite warning message
 WinWait,Microsoft Office Outlook,,0.1,
@@ -237,7 +237,4 @@ if !ErrorLevel
 {
     return
 }
-; TODO: add saved attachments to SalesLogix:
-;       open_ticket(ticket)
-;       loop add_attachment(file)
 return
