@@ -199,13 +199,25 @@ return
 ; [Windows Key + a] Save attachments from Outlook to Desktop folder
 ;----------------------------------------------------------------------
 #a::
+IniRead, OUTLOOK_ATTACH, %INI_FILE%, Outlook, attachments, NONE_VALUE
+if OUTLOOK_ATTACH = NONE_VALUE
+{
+  FileSelectFolder, OUTLOOK_ATTACH, %A_Desktop%,
+                  , Select folder to save Outlook attachments
+  IniWrite %OUTLOOK_ATTACH%, %INI_FILE%, Outlook, attachments
+  if ErrorLevel
+  {
+    MsgBox Error: Could not write %OUTLOOK_ATTACH% to %INI_FILE%
+    return
+  }
+}
 contact_name := get_contact_name_from_outlook_subject()
 if contact_name = %NONE_VALUE%
 {
     MsgBox,, Save Outlook attachments, No contact name found in e-mail title
     return
 }
-FileCreateDir, %A_Desktop%\%contact_name%
+FileCreateDir, %OUTLOOK_ATTACH%\%contact_name%
 ; attachment selection window
 Send !fna
 WinWait,Save All Attachments,,0.1,
@@ -229,7 +241,7 @@ else
         return
 }
 Send {home}
-clipboard = %A_Desktop%\%contact_name%\
+clipboard = %OUTLOOK_ATTACH%\%contact_name%\
 Send ^v{enter}
 ; exit hotscript if you get a file overwrite warning message
 WinWait,Microsoft Office Outlook,,0.1,
