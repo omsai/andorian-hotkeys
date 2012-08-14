@@ -4,7 +4,7 @@
 #s::
 Run \\ct-dc-01\home\Man Pack List & Loan Agreements\2012 LOAN AGREEMENTS
 Run \\ct-dc-01\home\Shipment Request Forms - completed
-Run \\balrog\msystems\ISO 9001 - Quality\FORMS\FM US SHIPMENT REQUEST FORM.doc
+Run \\balrog\msystems\ISO 9001 - Quality\FORMS\FM US Shipment Request Form.doc
 return
 
 ;----------------------------------------------------------------------
