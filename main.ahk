@@ -186,6 +186,7 @@ return
 ; [Windows Key + t] Ticket search from clipboard or Outlook e-mail title
 ;----------------------------------------------------------------------
 #t::
+Send ^c
 ticket := get_ticket_number_from_outlook_subject()
 if ticket = %NONE_VALUE%
 {
