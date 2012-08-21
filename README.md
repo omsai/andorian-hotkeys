@@ -30,6 +30,8 @@ Usage
 
 `⊞ Win`+`B` BOM search from highlighted selection
 
+`⊞ Win`+`Z` Bugzilla search from highlighted selection
+
 `⊞ Win`+`5` Paste your initials and today's date
 
 

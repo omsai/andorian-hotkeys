@@ -250,3 +250,13 @@ if !ErrorLevel
     return
 }
 return
+
+;----------------------------------------------------------------------
+; [Windows Key + z] Bugzilla search
+;----------------------------------------------------------------------
+#z::
+Send ^c
+found := RegExMatch(clipboard, "(\d+)", bug)
+if found
+  Run http://uk00083/show_bug.cgi?id=%bug1%
+return
