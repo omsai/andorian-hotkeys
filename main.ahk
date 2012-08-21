@@ -77,6 +77,51 @@ return
 ;----------------------------------------------------------------------
 #m::
 Send ^c
+wip_window_exists()
+{
+  WinWait, Andor (Live),,2
+  if ErrorLevel
+  {
+    ; if the RMA view is closed, also close the RMA menu window
+    ; to prevent double login
+    WinClose, Andor Technology
+    return 0
+  }
+  return 1
+}
+open_rma_in_existing_wip_window(close_existing_rma = 0)
+{
+  WinActivate, Andor (Live)
+  if close_existing_rma
+  {
+    Send {Escape}
+    WinWait, Andor (Live),,1
+    if ErrorLevel
+    {
+      WinWait, Andor Technology,, 1
+      WinActivate
+      Send {Enter}
+    }
+    WinWait, Andor (Live),,1
+    WinActivate
+  }
+  
+  begin := RegExMatch(clipboard, "R\d\d\d\d\d")
+  if begin != 0
+  {
+    rma := SubStr(clipboard, begin, 6)
+    Send %rma%{tab}
+    ; Prevent clipboard data from clobbering subsequent RMA searches
+    clipboard = ; clear clipboard
+  }
+  return begin
+}
+if wip_window_exists()
+{
+  open_rma_in_existing_wip_window(1)
+  return
+}
+
 ; FIXME: Login credentials are assumed to be  correct.  If login details
 ;        are wrong the user would need to edit the INI file.
 IniRead, RMA_USER, %INI_FILE%, RMA, username, NONE_VALUE
@@ -108,26 +153,16 @@ if ErrorLevel
 WinActivate
 Send %RMA_USER%{tab}%RMA_PASS%{tab}{Enter}
 
-WinWait, Andor Technology,,10
 if ErrorLevel
   return
 
 WinActivate
 Send {Down}{Enter}{Down}{Down}{Enter}
 
-WinWait, Andor (Live),,10
-if ErrorLevel
+if !wip_window_exists()
   return
 
-WinActivate, Andor (Live)
-begin := RegExMatch(clipboard, "R\d\d\d\d\d")
-if begin != 0
-{
-  rma := SubStr(clipboard, begin, 6)
-  Send %rma%{tab}
-  ; Prevent clipboard data from clobbering subsequent RMA searches
-  clipboard = ; clear clipboard
-}
+open_rma_in_existing_wip_window()
 return
 
 ;----------------------------------------------------------------------
