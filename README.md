@@ -76,3 +76,27 @@ In the same directory as main.ahk, create your ahk file and edit
 Contribute
 ----------
 Code and feature requests welcome.
+
+#### Emacs users
+
+You can use `ahk-mode.el` bundled with AutoHotKey.
+For the lazy here is an implementation of that file's install instructions:
+
+1.  Add this to your emacs init file, like `~/.emacs`
+```
+(add-to-list 'load-path "C:/Program Files/AutoHotkey/Extras/Editors/Emacs/")
+(setq ahk-syntax-directory "C:/Program Files/AutoHotkey/Extras/Editors/Syntax/")
+(add-to-list 'auto-mode-alist '("\\.ahk$" . ahk-mode))
+(autoload 'ahk-mode "ahk-mode")
+```
+
+2.  Compile `ahk-mode.el` by opening it in Emacs and in the top toolbar clicking:
+```
+Emacs-Lisp > Byte-compile This File
+```
+The file is located here
+```
+C:/Program Files/AutoHotkey//Extras/Editors/Emacs/ahk-mode.el
+```
+
+3.  Restart Emacs
