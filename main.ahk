@@ -79,15 +79,15 @@ return
 Send ^c
 wip_window_exists()
 {
-  WinWait, Andor (Live),,2
-  if ErrorLevel
+  IfWinExist, Andor (Live)
+    return 1
+  Else
   {
     ; if the RMA view is closed, also close the RMA menu window
     ; to prevent double login
     WinClose, Andor Technology
     return 0
   }
-  return 1
 }
 open_rma_in_existing_wip_window(close_existing_rma = 0)
 {
@@ -95,15 +95,17 @@ open_rma_in_existing_wip_window(close_existing_rma = 0)
   if close_existing_rma
   {
     Send {Escape}
-    WinWait, Andor (Live),,1
-    if ErrorLevel
-    {
-      WinWait, Andor Technology,, 1
+    ; if no RMA is active, this would close the Andor (Live) window,
+    ; so we need to reopen it
+    IfWinExist, Andor (Live)
       WinActivate
+    Else
+    {
+      WinActivate Andor Technology
       Send {Enter}
+      WinWait, Andor (Live),,10
+      WinActivate
     }
-    WinWait, Andor (Live),,1
-    WinActivate
   }
   
   begin := RegExMatch(clipboard, "R\d\d\d\d\d")
@@ -114,12 +116,12 @@ open_rma_in_existing_wip_window(close_existing_rma = 0)
     ; Prevent clipboard data from clobbering subsequent RMA searches
     clipboard = ; clear clipboard
   }
-  return begin
+  return 1
 }
 if wip_window_exists()
 {
-  open_rma_in_existing_wip_window(1)
-  return
+  if open_rma_in_existing_wip_window(1)
+    return
 }
 
 ; FIXME: Login credentials are assumed to be  correct.  If login details
@@ -159,7 +161,8 @@ if ErrorLevel
 WinActivate
 Send {Down}{Enter}{Down}{Down}{Enter}
 
-if !wip_window_exists()
+WinWait, Andor (Live),,10
+if ErrorLevel
   return
 
 open_rma_in_existing_wip_window()
@@ -291,7 +294,12 @@ return
 ; [Windows Key + z] Bugzilla search
 ;----------------------------------------------------------------------
 #z::
+clipboard = ; empty the clipboard
 Send ^c
+ClipWait, 2
+if ErrorLevel
+  return
+; the clipboard takes some time to update
 found := RegExMatch(clipboard, "(\d+)", bug)
 if found
   Run http://uk00083/show_bug.cgi?id=%bug1%
