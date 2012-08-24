@@ -9,8 +9,11 @@ NONE_VALUE := "NONE"   ; No script variable can be this value
 ; Libraries
 #Include lib\saleslogix.ahk
 
+if A_OSVersion = WIN_XP
+{
+  #Include *i window_manager.ahk
+}
 ; (Optional) Additional shortcuts which would not work for everyone
-#Include *i window_manager.ahk
 #Include *i usa.ahk
 #Include *i p.nanda.ahk
 
