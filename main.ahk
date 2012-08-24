@@ -7,6 +7,7 @@ INI_FILE := "ahk.ini"  ; Persistent script variables
 NONE_VALUE := "NONE"   ; No script variable can be this value
 
 ; Libraries
+#Include lib\common.ahk
 #Include lib\saleslogix.ahk
 
 if A_OSVersion = WIN_XP
@@ -80,7 +81,7 @@ return
 ; [Windows Key + m] Launch WIP RMA database
 ;----------------------------------------------------------------------
 #m::
-Send ^c
+copy_to_clipboard()
 open_live_rma_window()
 {
    WinActivate Andor Technology
@@ -120,7 +121,6 @@ open_rma_in_existing_wip_window(close_existing_rma = 0)
     rma := SubStr(clipboard, begin, 6)
     Send %rma%{tab}
     ; Prevent clipboard data from clobbering subsequent RMA searches
-    clipboard = ; clear clipboard
   }
   return 1
 }
@@ -226,22 +226,36 @@ return
 ; [Windows Key + o] Sales order search from clipboard
 ;----------------------------------------------------------------------
 #o::
-Send ^c
-Run http://intranet/cm.mccann/Sales Orders/
-
-WinWait, Sales Orders,,10
-if ErrorLevel
-  return
-WinActivate
-Send {tab}^v{tab}{Enter}
-clipboard = ; clear clipboard
-return
+  copy_to_clipboard()
+  
+  ; there's no native function to parse several regex matches, so one has to
+  ; reuse the `begin` position parameter to check the full string
+  begin = 1
+  While begin := RegExMatch(clipboard, "([MX]?\d{6}[\/]?\d?)"
+                            , match
+                            , begin + StrLen(match))
+  {
+    sales_order%A_Index% := match1
+    matches := A_Index
+  }
+  
+  ; open a new window for each match
+  Loop, %matches%
+  {
+    Run http://intranet/cm.mccann/Sales Orders/
+    Sleep, 500 ; wait for browser to clear the page title
+    WinWait, Sales Orders,,10
+    WinActivate
+    clipboard := sales_order%A_Index%
+    Send {Tab}^v{Tab}{Enter}
+  }
+  Return
 
 ;----------------------------------------------------------------------
 ; [Windows Key + b] BOM search from clipboard
 ;----------------------------------------------------------------------
 #b::
-Send ^c
+copy_to_clipboard()
 Run http://intranet/bomreport/
 
 WinWait, Shamrock Components,,20
@@ -251,14 +265,13 @@ WinActivate
 while (A_Cursor = "AppStarting")
   continue
 Send {tab}%clipboard%{tab}{Enter}
-clipboard = ; clear clipboard
 return
 
 ;----------------------------------------------------------------------
 ; [Windows Key + t] Ticket search from clipboard or Outlook e-mail title
 ;----------------------------------------------------------------------
 #t::
-Send ^c
+copy_to_clipboard()
 ticket := get_ticket_number_from_outlook_subject()
 if ticket = %NONE_VALUE%
 {
@@ -328,9 +341,7 @@ return
 ; [Windows Key + z] Bugzilla search
 ;----------------------------------------------------------------------
 #z::
-clipboard = ; empty the clipboard
-Send ^c
-ClipWait, 2
+copy_to_clipboard()  
 if ErrorLevel
   return
 ; the clipboard takes some time to update
