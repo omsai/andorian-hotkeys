@@ -81,6 +81,13 @@ return
 ;----------------------------------------------------------------------
 #m::
 Send ^c
+open_live_rma_window()
+{
+   WinActivate Andor Technology
+   Send {Enter}
+   WinWait, Andor (Live),,10
+   WinActivate
+}
 wip_window_exists()
 {
   IfWinExist, Andor (Live)
@@ -104,12 +111,7 @@ open_rma_in_existing_wip_window(close_existing_rma = 0)
     IfWinExist, Andor (Live)
       WinActivate
     Else
-    {
-      WinActivate Andor Technology
-      Send {Enter}
-      WinWait, Andor (Live),,10
-      WinActivate
-    }
+      open_live_rma_window()
   }
   
   begin := RegExMatch(clipboard, "R\d\d\d\d\d")
@@ -171,6 +173,34 @@ if ErrorLevel
 
 open_rma_in_existing_wip_window()
 return
+
+;----------------------------------------------------------------------
+; [Ctrl + S] Save WIP RMA record
+;----------------------------------------------------------------------
+#IfWinActive Andor (Live)
+^s::
+  clipboard =
+  ControlGetText, clipboard, ThunderRT6TextBox17 ; "RMA No" textbox
+  if clipboard !=
+  {
+    ControlClick, ThunderRT6CommandButton6 ; "CR-Accept" button
+    Send {Enter} ; since AHK click is too short for WIP GUI to register it
+
+    ; Wait till the "RMA No" text field is in focus again
+    Loop, 10
+    {
+      ControlGetFocus, control
+      if control = ThunderRT6TextBox17
+      {	
+	Send ^v{Tab}
+        Return
+      }
+      else
+	Sleep, 500
+    }
+  }
+  Return
+#IfWinActive ; turn off context sensitivity
 
 ;----------------------------------------------------------------------
 ; [Windows Key + 5] Date paste
