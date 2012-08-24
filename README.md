@@ -34,6 +34,14 @@ Usage
 
 `⊞ Win`+`5` Paste your initials and today's date
 
+`⊞ Win`+`←` Window: snap left
+
+`⊞ Win`+`→` Window: snap right
+
+`⊞ Win`+`↑` Window: toggle maximize
+
+`⊞ Win`+`↓` Window: minimize
+
 
 #### USA Hotkeys
 
