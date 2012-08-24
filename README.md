@@ -22,6 +22,8 @@ Usage
 
 `⊞ Win`+`M` Launch WIP RMA database (automatic login) and optionally opens RMA from highlighted selection
 
+`Ctrl`+`S` Save WIP RMA database record (local hotkey for WIP database)
+
 `⊞ Win`+`T` Open SalesLogix ticket from clipboard or Outlook e-mail title
 
 `⊞ Win`+`A` Save Outlook attachments to folder
