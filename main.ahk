@@ -10,6 +10,7 @@ NONE_VALUE := "NONE"   ; No script variable can be this value
 #Include lib\saleslogix.ahk
 
 ; (Optional) Additional shortcuts which would not work for everyone
+#Include *i window_manager.ahk
 #Include *i usa.ahk
 #Include *i p.nanda.ahk
 
