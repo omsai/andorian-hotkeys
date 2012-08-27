@@ -115,11 +115,11 @@ open_rma_in_existing_wip_window(close_existing_rma = 0)
       open_live_rma_window()
   }
   
-  begin := RegExMatch(clipboard, "R\d\d\d\d\d")
+  begin := RegExMatch(clipboard, "\d{5}")
   if begin != 0
   {
-    rma := SubStr(clipboard, begin, 6)
-    Send %rma%{tab}
+    rma := SubStr(clipboard, begin, 5)
+    Send R%rma%{tab}
     ; Prevent clipboard data from clobbering subsequent RMA searches
   }
   return 1
