@@ -203,6 +203,56 @@ return
 #IfWinActive ; turn off context sensitivity
 
 ;----------------------------------------------------------------------
+; [Ctrl + P] Open WIP RMA record in Microsoft Word for printing
+;----------------------------------------------------------------------
+#IfWinActive Andor (Live)
+^p::
+  ControlClick, ThunderRT6CommandButton1 ; "Returns Print" button
+  Send {Enter} ; since AHK click is too short for WIP GUI to register it
+  
+  get_rma_print_window()
+  {
+    ; Wait for untitled Print window
+    SetTitleMatchMode, Slow
+    WinWait,, 100`%, 10
+    if ErrorLevel
+      Return 0
+    WinActivate
+    Return 1
+  }
+  
+  get_rma_export_window()
+  {
+    WinWait, Export,, 1
+    If ErrorLevel
+      Return 0
+    WinActivate
+    Return 1
+  }
+  
+  if !get_rma_print_window()
+    Return    
+  Loop, 10 ; loop since there's no way to know if the button has loaded
+  {
+    if !get_rma_export_window()
+    {
+      ControlClick, X320 Y40 ; Export button is at 326, 41
+      Break
+    }
+  }
+  
+  Sleep, 500 ; sometimes the CSV window opens instead
+  Send {Tab 2}{End}{Tab}{Home}{Enter}
+  ; close export and print window
+  if get_rma_export_window()
+    Send {Esc}
+  Sleep, 2000 ; otherwise Alt+F4 below doesn't work
+  if get_rma_print_window()
+    Send !{F4}
+  Return
+#IfWinActive ; turn off context sensitivity
+
+;----------------------------------------------------------------------
 ; [Windows Key + 5] Date paste
 ;----------------------------------------------------------------------
 #5::
