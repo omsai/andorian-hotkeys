@@ -24,6 +24,8 @@ Usage
 
 `Ctrl`+`S` Save WIP RMA database record (local hotkey for WIP database)
 
+`Ctrl`+`P` Open WIP RMA database record in Microsoft Word for printing (local hotkey for WIP database)
+
 `⊞ Win`+`T` Open SalesLogix ticket from clipboard or Outlook e-mail title
 
 `⊞ Win`+`A` Save Outlook attachments to folder
