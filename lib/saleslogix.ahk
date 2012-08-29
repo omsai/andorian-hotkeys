@@ -78,7 +78,8 @@ _ignore_saleslogix_refresh()
 
 open_ticket(_ticket)
 {
-    WinWait,SalesLogix,,10,Personal
+    SetTitleMatchMode, RegEx
+    WinWait,SalesLogix,,10,(Server)|(Client)
     if ErrorLevel
         return
     WinActivate
