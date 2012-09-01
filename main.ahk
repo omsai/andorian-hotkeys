@@ -122,8 +122,12 @@ open_rma_in_existing_wip_window(close_existing_rma = 0)
     Else
       open_live_rma_window()
   }
-  
-  begin := RegExMatch(clipboard, "\d{5}")
+
+  begin := RegExMatch(clipboard, "R\d{5}")
+  if begin != 0
+    begin++  ; we don't want the R in the matched string
+  else  ; fallback to checking just digits
+    begin := RegExMatch(clipboard, "\d{5}")
   if begin != 0
   {
     rma := SubStr(clipboard, begin, 5)
