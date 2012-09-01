@@ -7,9 +7,9 @@ INI_FILE := "ahk.ini"  ; Persistent script variables
 NONE_VALUE := "NONE"   ; No script variable can be this value
 
 ; Libraries
+#Include lib\progress_bar.ahk
 #Include lib\common.ahk
 #Include lib\saleslogix.ahk
-
 if A_OSVersion = WIN_XP
 {
   #Include *i window_manager.ahk
@@ -22,15 +22,22 @@ if A_OSVersion = WIN_XP
 ; [Windows Key + w] List RMA report in web browser
 ;----------------------------------------------------------------------
 #w::
+create_progress_bar("RMA report")
+add_progress_step("Reading locale")
+add_progress_step("Opening default report")
+add_progress_step("Getting local report")
+step_progress_bar()
 IniRead, REGION, %INI_FILE%, RMA, region, NONE_VALUE
 RMAShowReport() {
   RMA_BROWSER_TITLE = RMA Report - Google Chrome
+  step_progress_bar()
   Run http://intranet/scripts/wip/rma.asp
-  WinWait %RMA_BROWSER_TITLE%,,20
+  WinWait %RMA_BROWSER_TITLE%,,60
   if ErrorLevel
-  return
+    Goto, End_hotkey
   Global REGION
   WinActivate
+  step_progress_bar()
   Send {Tab}{Tab}{Enter}  ; Click "Regional Search"
   if REGION = AndorUK
   {
@@ -50,7 +57,7 @@ RMAShowReport() {
   }
   Send +{Tab}{Down}{Down}  ; Select status "All"
   Send {Tab}{Tab}{Enter}   ; Click "Go"
-  return
+  Return
 }
 if REGION = NONE_VALUE
 {
@@ -58,7 +65,7 @@ if REGION = NONE_VALUE
   Gui, Add, DropDownList, vREGION, AndorUS||AndorUK|AndorJapan|All
   Gui, Add, Button, Default, OK
   Gui, Show
-  return
+  Goto, end_hotkey
   
   GuiClose:
   ButtonOK:
@@ -71,16 +78,17 @@ if REGION = NONE_VALUE
     exit
   }
   RMAShowReport()
-  return
+  Goto, end_hotkey
 }
 ; Region was already present in the INI_FILE
 RMAShowReport()
-return
+Goto, end_hotkey
 
 ;----------------------------------------------------------------------
 ; [Windows Key + m] Launch WIP RMA database
 ;----------------------------------------------------------------------
 #m::
+create_progress_bar("Open RMA record")
 copy_to_clipboard()
 open_live_rma_window()
 {
@@ -92,13 +100,13 @@ open_live_rma_window()
 wip_window_exists()
 {
   IfWinExist, Andor (Live)
-    return 1
+    Return 1
   Else
   {
     ; if the RMA view is closed, also close the RMA menu window
     ; to prevent double login
     WinClose, Andor Technology
-    return 0
+    Return 0
   }
 }
 open_rma_in_existing_wip_window(close_existing_rma = 0)
@@ -122,13 +130,17 @@ open_rma_in_existing_wip_window(close_existing_rma = 0)
     Send R%rma%{tab}
     ; Prevent clipboard data from clobbering subsequent RMA searches
   }
-  return 1
+  Return 1
 }
 if wip_window_exists()
 {
   if open_rma_in_existing_wip_window(1)
-    return
+    Goto, end_hotkey
 }
+add_progress_step("Logging into database")
+add_progress_step("Opening WIP window")
+add_progress_step("Searching RMA record")
+step_progress_bar()
 
 ; FIXME: Login credentials are assumed to be  correct.  If login details
 ;        are wrong the user would need to edit the INI file.
@@ -140,7 +152,7 @@ if RMA_USER = NONE_VALUE
   if ErrorLevel
   {
     MsgBox Error: Could not write %RMA_USER% to %INI_FILE%
-    return
+    Goto, end_hotkey
   }
 }
 IniRead, RMA_PASS, %INI_FILE%, RMA, password, NONE_VALUE
@@ -151,38 +163,45 @@ if RMA_PASS = NONE_VALUE
   if ErrorLevel
   {
     MsgBox Error: Could not write your password to %INI_FILE%
-    return
+    Goto, end_hotkey
   }
 }
 Run C:\vb6\Andor\Andor.exe
 WinWait, Login,,20
 if ErrorLevel
-  return
+    Goto, end_hotkey
 WinActivate
 Send %RMA_USER%{tab}%RMA_PASS%{tab}{Enter}
 
 if ErrorLevel
-  return
+  Goto, end_hotkey
 
+step_progress_bar()
 WinActivate
 Send {Down}{Enter}{Down}{Down}{Enter}
 
 WinWait, Andor (Live),,10
 if ErrorLevel
-  return
+  Goto, end_hotkey
 
+step_progress_bar()
 open_rma_in_existing_wip_window()
-return
+Goto, end_hotkey
 
 ;----------------------------------------------------------------------
 ; [Ctrl + S] Save WIP RMA record
 ;----------------------------------------------------------------------
 #IfWinActive Andor (Live)
 ^s::
+  create_progress_bar("Save RMA record")
+  add_progress_step("Extracting RMA number")
+  add_progress_step("Saving RMA")
+  add_progress_step("Reopening RMA")
   clipboard =
   ControlGetText, clipboard, ThunderRT6TextBox17 ; "RMA No" textbox
   if clipboard !=
   {
+    step_progress_bar()
     ControlClick, ThunderRT6CommandButton6 ; "CR-Accept" button
     Send {Enter} ; since AHK click is too short for WIP GUI to register it
 
@@ -192,14 +211,15 @@ return
       ControlGetFocus, control
       if control = ThunderRT6TextBox17
       {	
+	step_progress_bar()
 	Send ^v{Tab}
-        Return
+        Goto, End_hotkey
       }
       else
 	Sleep, 500
     }
   }
-  Return
+  Goto, End_hotkey
 #IfWinActive ; turn off context sensitivity
 
 ;----------------------------------------------------------------------
@@ -207,6 +227,11 @@ return
 ;----------------------------------------------------------------------
 #IfWinActive Andor (Live)
 ^p::
+  create_progress_bar("Create RMA report")
+  add_progress_step("Clicking 'Returns Print'")
+  add_progress_step("Exporting to Word")
+  add_progress_step("Closing 'Returns Print'")
+  step_progress_bar()
   ControlClick, ThunderRT6CommandButton1 ; "Returns Print" button
   Send {Enter} ; since AHK click is too short for WIP GUI to register it
   
@@ -231,7 +256,8 @@ return
   }
   
   if !get_rma_print_window()
-    Return    
+    Goto, End_hotkey
+  step_progress_bar()
   Loop, 10 ; loop since there's no way to know if the button has loaded
   {
     if !get_rma_export_window()
@@ -244,18 +270,20 @@ return
   Sleep, 500 ; sometimes the CSV window opens instead
   Send {Tab 2}{End}{Tab}{Home}{Enter}
   ; close export and print window
+  step_progress_bar()
   if get_rma_export_window()
     Send {Esc}
   Sleep, 2000 ; otherwise Alt+F4 below doesn't work
   if get_rma_print_window()
     Send !{F4}
-  Return
+  Goto, End_hotkey
 #IfWinActive ; turn off context sensitivity
 
 ;----------------------------------------------------------------------
 ; [Windows Key + 5] Date paste
 ;----------------------------------------------------------------------
 #5::
+create_progress_bar("Date stamp")
 IniRead, INITIALS, %INI_FILE%, Timestamp, initials, NONE_VALUE
 if INITIALS = NONE_VALUE
 {
@@ -264,18 +292,19 @@ if INITIALS = NONE_VALUE
   if ErrorLevel
   {
     MsgBox Error: Could not write %INITIALS% to %INI_FILE%
-    return
+    Goto, end_hotkey
   }
 }
 TimeVar := A_Now
 FormatTime, TimeVar, A_Now, ddd MMM dd, yyyy
 Send %INITIALS% %TimeVar%
-return
+Goto, end_hotkey
 
 ;----------------------------------------------------------------------
 ; [Windows Key + o] Sales order search from clipboard
 ;----------------------------------------------------------------------
 #o::
+  create_progress_bar("Sales Order search")
   copy_to_clipboard()
   
   ; there's no native function to parse several regex matches, so one has to
@@ -288,53 +317,74 @@ return
     sales_order%A_Index% := match1
     matches := A_Index
   }
+  Loop, %matches%
+  {
+    add_progress_step("Opening web page")
+    add_progress_step("Querying sales order")
+  }
   
   ; open a new window for each match
   Loop, %matches%
   {
+    step_progress_bar()
     Run http://intranet/cm.mccann/Sales Orders/
+    step_progress_bar()
     Sleep, 500 ; wait for browser to clear the page title
     WinWait, Sales Orders,,10
     WinActivate
     clipboard := sales_order%A_Index%
     Send {Tab}^v{Tab}{Enter}
   }
-  Return
+    Goto, End_hotkey
 
 ;----------------------------------------------------------------------
 ; [Windows Key + b] BOM search from clipboard
 ;----------------------------------------------------------------------
 #b::
+create_progress_bar("BOM search")
+add_progress_step("Opening web page")
+add_progress_step("Querying part number")
 copy_to_clipboard()
+step_progress_bar()
 Run http://intranet/bomreport/
 
-WinWait, Shamrock Components,,20
+WinWait, Shamrock Components,,40
 if ErrorLevel
-  return
+  Goto, end_hotkey
 WinActivate
 while (A_Cursor = "AppStarting")
   continue
+step_progress_bar()
 Send {tab}%clipboard%{tab}{Enter}
-return
+Goto, end_hotkey
 
 ;----------------------------------------------------------------------
 ; [Windows Key + t] Ticket search from clipboard or Outlook e-mail title
 ;----------------------------------------------------------------------
 #t::
+create_progress_bar("Ticket search")
+add_progress_step("Extracting Ticket ID")
+add_progress_step("Opening in SalesLogix")
 copy_to_clipboard()
+step_progress_bar()
 ticket := get_ticket_number_from_outlook_subject()
 if ticket = %NONE_VALUE%
 {
     MsgBox,, Ticket search, No ticket number found in clipboard or e-mail title
-    return
+    Goto, end_hotkey
 }
+step_progress_bar()
 open_ticket(ticket)
-return
+Goto, end_hotkey
 
 ;----------------------------------------------------------------------
 ; [Windows Key + a] Save attachments from Outlook to Desktop folder
 ;----------------------------------------------------------------------
 #a::
+create_progress_bar("Save e-mail attachments")
+add_progress_step("Creating folder")
+add_progress_step("Getting attachments")
+add_progress_step("Saving attachments")
 IniRead, OUTLOOK_ATTACH, %INI_FILE%, Outlook, attachments, NONE_VALUE
 if OUTLOOK_ATTACH = NONE_VALUE
 {
@@ -344,19 +394,21 @@ if OUTLOOK_ATTACH = NONE_VALUE
   if ErrorLevel
   {
     MsgBox Error: Could not write %OUTLOOK_ATTACH% to %INI_FILE%
-    return
+    Goto, end_hotkey
   }
 }
 contact_name := get_contact_name_from_outlook_subject()
 if contact_name = %NONE_VALUE%
 {
     MsgBox,, Save Outlook attachments, No contact name found in e-mail title
-    return
+    Goto, end_hotkey
 }
+step_progress_bar()
 FileCreateDir, %OUTLOOK_ATTACH%\%contact_name%
 ; attachment selection window
+step_progress_bar()
 Send !fna
-WinWait,Save All Attachments,,0.1,
+WinWait,Save All Attachments,,10,
 only_one_attachment := 0
 if ErrorLevel
 {
@@ -365,7 +417,7 @@ if ErrorLevel
     Send !fn{enter}
     WinWait,Save Attachment,,0.1,
     if ErrorLevel
-        return
+        Goto, end_hotkey
 }
 else
 {
@@ -374,8 +426,9 @@ else
     ; file save dialog
     WinWait,Save All Attachments,,0.1,
     if ErrorLevel
-        return
+        Goto, end_hotkey
 }
+step_progress_bar()
 Send {home}
 clipboard = %OUTLOOK_ATTACH%\%contact_name%\
 Send ^v{enter}
@@ -383,19 +436,31 @@ Send ^v{enter}
 WinWait,Microsoft Office Outlook,,0.1,
 if !ErrorLevel
 {
-    return
+    Goto, end_hotkey
 }
-return
+Goto, end_hotkey
 
 ;----------------------------------------------------------------------
 ; [Windows Key + z] Bugzilla search
 ;----------------------------------------------------------------------
 #z::
+create_progress_bar("Bugzilla search")
+add_progress_step("Reading bug number from selection")
+add_progress_step("Opening web link")
 copy_to_clipboard()  
+step_progress_bar()
 if ErrorLevel
-  return
+  Goto, end_hotkey
 ; the clipboard takes some time to update
 found := RegExMatch(clipboard, "(\d+)", bug)
 if found
+{
+  step_progress_bar()
   Run http://uk00083/show_bug.cgi?id=%bug1%
-return
+}
+Goto, end_hotkey
+
+end_hotkey_with_error:
+end_hotkey:
+kill_progress_bar()
+Return

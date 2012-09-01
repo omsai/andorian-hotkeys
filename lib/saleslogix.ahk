@@ -84,14 +84,12 @@ open_ticket(_ticket)
         return
     WinActivate
     _ignore_saleslogix_refresh()
-    Send !ltt%_ticket%{tab}{enter}
+    Send !l
+    Sleep, 500  ; sometimes the menu doesn't open in time
+    Send tt%_ticket%{tab}{enter}
     WinWait, Lookup Ticket,,10
     if ErrorLevel
         return
     WinActivate
     Send !o
-    ; wait for ticket to be actually open
-    WinWait,Sage SalesLogix - [Ticket: %_ticket%],,10
-    if ErrorLevel
-        return
 }
