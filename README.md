@@ -22,9 +22,9 @@ Usage
 
 `⊞ Win`+`M` Launch WIP RMA database (automatic login) and optionally opens RMA from highlighted selection
 
-`Ctrl`+`S` Save WIP RMA database record (local hotkey for WIP database)
+`Ctrl`+`S` (Local hotkey: WIP RMA database) Save WIP record
 
-`Ctrl`+`P` Open WIP RMA database record in Microsoft Word for printing (local hotkey for WIP database)
+`Ctrl`+`P` (Local hotkey: WIP RMA database) Open record in Microsoft Word for printing
 
 `⊞ Win`+`T` Open SalesLogix ticket from clipboard or Outlook e-mail title
 
@@ -37,6 +37,8 @@ Usage
 `⊞ Win`+`Z` Bugzilla search from highlighted selection
 
 `⊞ Win`+`5` Paste your initials and today's date
+
+`⊞ Win`+`N` Launch plain text editor
 
 `⊞ Win`+`←` Window: snap left
 

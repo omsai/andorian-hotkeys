@@ -382,6 +382,23 @@ open_ticket(ticket)
 Goto, end_hotkey
 
 ;----------------------------------------------------------------------
+; [Windows Key + n] Text Editor
+;----------------------------------------------------------------------
+#n::
+create_progress_bar("Launch Text Editor")
+ErrorLevel = ERROR
+; Editor preference in descending order
+emacs := A_ProgramFiles . "\ErgoEmacs\ErgoEmacs.exe"
+editors = %emacs%,notepad++,notepad
+Loop, parse, editors, `,
+{
+  Run, %A_LoopField%, %A_Desktop%, UseErrorLevel
+  if ErrorLevel = 0
+    Goto, end_hotkey
+}
+Goto, end_hotkey_with_error
+
+;----------------------------------------------------------------------
 ; [Windows Key + a] Save attachments from Outlook to Desktop folder
 ;----------------------------------------------------------------------
 #a::
