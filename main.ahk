@@ -15,7 +15,6 @@ if A_OSVersion = WIN_XP
   #Include *i window_manager.ahk
 }
 ; (Optional) Additional shortcuts which would not work for everyone
-#Include *i usa.ahk
 #Include *i p.nanda.ahk
 
 ;----------------------------------------------------------------------
@@ -32,9 +31,12 @@ RMAShowReport() {
   RMA_BROWSER_TITLE = RMA Report - Google Chrome
   step_progress_bar()
   Run http://intranet/scripts/wip/rma.asp
-  WinWait %RMA_BROWSER_TITLE%,,60
+  WinWait %RMA_BROWSER_TITLE%,,120
   if ErrorLevel
-    Goto, End_hotkey
+  {
+    progress_error(A_LineNumber, "Browser timeout")
+    Goto, end_hotkey_with_error
+  }
   Global REGION
   WinActivate
   step_progress_bar()
@@ -65,9 +67,7 @@ if REGION = NONE_VALUE
   Gui, Add, DropDownList, vREGION, AndorUS||AndorUK|AndorJapan|All
   Gui, Add, Button, Default, OK
   Gui, Show
-  Goto, end_hotkey
   
-  GuiClose:
   ButtonOK:
   Gui, Submit
   ; MsgBox You entered %REGION%
@@ -173,12 +173,18 @@ if RMA_PASS = NONE_VALUE
 Run C:\vb6\Andor\Andor.exe
 WinWait, Login,,20
 if ErrorLevel
-    Goto, end_hotkey
+{
+  progress_error(A_LineNumber)
+  Goto, end_hotkey
+}
 WinActivate
 Send %RMA_USER%{tab}%RMA_PASS%{tab}{Enter}
 
 if ErrorLevel
+{
+  progress_error(A_LineNumber)
   Goto, end_hotkey
+}
 
 step_progress_bar()
 WinActivate
@@ -186,7 +192,10 @@ Send {Down}{Enter}{Down}{Down}{Enter}
 
 WinWait, Andor (Live),,10
 if ErrorLevel
+{
+  progress_error(A_LineNumber)
   Goto, end_hotkey
+}
 
 step_progress_bar()
 open_rma_in_existing_wip_window()
@@ -239,35 +248,23 @@ Goto, end_hotkey
   ControlClick, ThunderRT6CommandButton1 ; "Returns Print" button
   Send {Enter} ; since AHK click is too short for WIP GUI to register it
   
-  get_rma_print_window()
+  WinWait,, 100`%, 10
+  IfWinNotExist
   {
-    ; Wait for untitled Print window
-    SetTitleMatchMode, Slow
-    WinWait,, 100`%, 10
-    if ErrorLevel
-      Return 0
-    WinActivate
-    Return 1
+    Goto, end_hotkey
   }
-  
-  get_rma_export_window()
-  {
-    WinWait, Export,, 1
-    If ErrorLevel
-      Return 0
-    WinActivate
-    Return 1
-  }
-  
-  if !get_rma_print_window()
-    Goto, End_hotkey
   step_progress_bar()
-  Loop, 10 ; loop since there's no way to know if the button has loaded
+  Loop, 10 ; loop since there's no way to know if the button has been clicked
   {
-    if !get_rma_export_window()
+    Sleep, 500
+    IfWinExist, Export
+    {
+      WinActivate
+      Break
+    }
+    Else
     {
       ControlClick, X320 Y40 ; Export button is at 326, 41
-      Break
     }
   }
   
@@ -275,13 +272,20 @@ Goto, end_hotkey
   Send {Tab 2}{End}{Tab}{Home}{Enter}
   ; close export and print window
   step_progress_bar()
-  if get_rma_export_window()
+  WinWaitClose, Exporting Records,, 20
+  IfWinExist, Export
+  {
+    WinActivate
     Send {Esc}
+  }
   Sleep, 2000 ; otherwise Alt+F4 below doesn't work
-  if get_rma_print_window()
+  IfWinExist,, 100`%
+  {
+    WinActivate
     Send !{F4}
-  Goto, End_hotkey
+  }
 #IfWinActive ; turn off context sensitivity
+Goto, end_hotkey
 
 ;----------------------------------------------------------------------
 ; [Windows Key + 5] Date paste
@@ -354,7 +358,10 @@ Run http://intranet/bomreport/
 
 WinWait, Shamrock Components,,40
 if ErrorLevel
+{
+  progress_error(A_LineNumber)
   Goto, end_hotkey
+}
 WinActivate
 while (A_Cursor = "AppStarting")
   continue
@@ -382,6 +389,47 @@ open_ticket(ticket)
 Goto, end_hotkey
 
 ;----------------------------------------------------------------------
+; [Ctrl + x] Ticket Activity classification
+;----------------------------------------------------------------------
+#IfWinActive Sage SalesLogix
+!x::
+Gui, Add, Radio, vSENT Group Checked, &Sent E-Mail
+Gui, Add, Radio,, &Received E-Mail
+Gui, Add, Radio, vCLASS Group Checked, 1-&Customer
+Gui, Add, Radio,, 5-&Internal
+Gui, Add, Button, Default gapply_classification, OK
+Gui, Show
+#IfWinActive
+Return
+
+apply_classification:
+Gui, Submit
+WinActivate, Sage SalesLogix
+Send {AppsKey}o
+If SENT = 1
+{
+  activity = Sent E-Mail
+} Else {
+  activity = Received E-Mail
+}
+If CLASS = 1
+{
+  access = 1-Customer
+} Else {
+  access = 5-Internal
+}
+WinWait, Edit Ticket Activity,, 5
+Clipboard := activity
+Send ^v
+Sleep, 200
+Clipboard := access
+Send {Tab}^v{Tab}
+Sleep, 200
+Send !o
+Gui, Destroy
+Return
+
+;----------------------------------------------------------------------
 ; [Windows Key + n] Text Editor
 ;----------------------------------------------------------------------
 #n::
@@ -396,6 +444,8 @@ Loop, parse, editors, `,
   if ErrorLevel = 0
     Goto, end_hotkey
 }
+
+progress_error(A_LineNumber)
 Goto, end_hotkey_with_error
 
 ;----------------------------------------------------------------------
@@ -436,18 +486,24 @@ if ErrorLevel
     ; only one attachment
     only_one_attachment := 1
     Send !fn{enter}
-    WinWait,Save Attachment,,0.1,
+    WinWait,Save Attachment,,0.1
     if ErrorLevel
-        Goto, end_hotkey
+    {
+      progress_error(A_LineNumber)
+      Goto, end_hotkey_with_error
+    }
 }
 else
 {
-    WinActivate
-    Send {enter}
-    ; file save dialog
-    WinWait,Save All Attachments,,0.1,
-    if ErrorLevel
-        Goto, end_hotkey
+  WinActivate
+  Send {enter}
+  ; file save dialog
+  WinWait,Save All Attachments,,0.1
+  if ErrorLevel
+  {
+    progress_error(A_LineNumber)
+    Goto, end_hotkey_with_error
+  }
 }
 step_progress_bar()
 Send {home}
@@ -457,9 +513,10 @@ Send ^v{enter}
 WinWait,Microsoft Office Outlook,,0.1,
 if !ErrorLevel
 {
-    Goto, end_hotkey
+  Goto, end_hotkey
 }
-Goto, end_hotkey
+progress_error(A_LineNumber)
+Goto, end_hotkey_with_error
 
 ;----------------------------------------------------------------------
 ; [Windows Key + z] Bugzilla search
@@ -470,16 +527,149 @@ add_progress_step("Reading bug number from selection")
 add_progress_step("Opening web link")
 copy_to_clipboard()  
 step_progress_bar()
-if ErrorLevel
-  Goto, end_hotkey
-; the clipboard takes some time to update
 found := RegExMatch(clipboard, "(\d+)", bug)
 if found
 {
   step_progress_bar()
-  Run http://uk00083/show_bug.cgi?id=%bug1%
+  Run http://be-qa-01/show_bug.cgi?id=%bug1%
 }
 Goto, end_hotkey
+
+;----------------------------------------------------------------------
+; [Windows Key + /] Help
+;----------------------------------------------------------------------
+#/::
+Gui +AlwaysOnTop +ToolWindow
+FileRead, readme, README.md
+If ErrorLevel
+{
+  Gui, Add, Text,,Error: unable to open README file
+}
+Else
+{
+  begin := RegexMatch(readme, "Usage\r*\n*---[-]*")
+  end := RegexMatch(readme, "\r*\n*Installation\r*\n*---[-]*", "", begin + 20)
+  shortcuts := SubStr(readme, begin, end - begin)
+  Gui, Add, Text,,%shortcuts%
+}
+Gui, Show,, Keyboard Shortcuts
+;WinSet, Transparent, 150
+Return
+
+
+;; Begin USA hotkeys
+RegRead, time_zone, HKEY_LOCAL_MACHINE
+  , System\CurrentControlSet\Control\TimeZoneInformation, Standard
+If %time_zone% = "Eastern Standard Time"
+{
+;----------------------------------------------------------------------
+; [Windows Key + s] Open Shipment form, Shipped and Loans folders
+;----------------------------------------------------------------------
+#s::
+create_progress_bar("Shipping form and folders")
+Run \\ct-dc-01\home\Man Pack List & Loan Agreements\2012 LOAN AGREEMENTS
+Run \\ct-dc-01\home\Shipment Request Forms - completed
+Run \\balrog\msystems\ISO 9001 - Quality\FORMS\FM US Shipment Request Form.doc
+Goto, end_hotkey
+
+;----------------------------------------------------------------------
+; [Windows Key + p] Launch US Sales Plan
+;----------------------------------------------------------------------
+#p::
+create_progress_bar("Launch US Sales Plan")
+Run, \\ct-dc-01\home\Common\Sales Plan\U.S. Sales Plan.xls
+SetTitleMatchMode Regex
+WinWait, (Password|File in Use),, 10 ; or file in use
+If ErrorLevel
+{
+  ; Kludge: cannot use Goto, Label in the USA hotkeys block
+  kill_progress_bar()
+  Return
+}
+Send !r
+kill_progress_bar()
+Return
+
+;----------------------------------------------------------------------
+; [Windows Key + i] Fill out BOM descriptions in loan agreement
+;----------------------------------------------------------------------
+#i::
+create_progress_bar("Fill Loan Agreement")
+; clear variables
+description = 
+bom_window_loaded = 0
+MyLabel:
+Send ^c
+; break repeat loop if nothing new copied
+if clipboard = %description%
+{
+  kill_progress_bar()
+  Return
+}
+
+if not bom_window_loaded
+{
+    Run http://intranet/bomreport/
+}
+WinWait, Shamrock Components,,20
+if ErrorLevel
+{
+  kill_progress_bar()
+  Return
+}
+
+; Select product code 
+WinActivate
+; focus on location bar
+if bom_window_loaded
+{
+    Send {tab}
+}
+while (A_Cursor = "AppStarting")
+    continue
+
+; Display detail view
+Send {tab}%clipboard%{tab}{Enter}
+Sleep,1000
+while (A_Cursor = "AppStarting")
+    continue
+
+; View source
+Send {tab}{AppsKey}
+Send {Down 10}{Enter}
+Sleep,100
+while (A_Cursor = "AppStarting")
+    continue
+
+Send {tab}^a^c
+Sleep,100 ; Wait for clipboard to process
+begin := RegExMatch(clipboard, "<h3>(.*)</h3>", raw_description)
+StringMid, description, raw_description, 5, StrLen(raw_description) - 9
+if begin != 0
+{
+    clipboard = %description%
+    Send ^w!{tab}
+    Sleep,100 ; Wait for Word to be active
+    Send {tab}^v
+}
+else
+{
+    MsgBox RegEx failed: begin = %begin%
+    kill_progress_bar()
+    Return
+}
+Send {tab 2}
+bom_window_loaded = 1
+; delay for Word's smart paste
+Sleep, 500
+Goto, MyLabel
+
+}  ;; End USA hotkeys
+
+
+GuiEscape:
+Gui, Destroy
+Return
 
 end_hotkey_with_error:
 end_hotkey:

@@ -30,3 +30,19 @@ step_progress_bar()
   local _step_description := step%current_step%
   Progress, %_bar_position%, %_step_description%...
 }
+
+progress_error(_line_number, _message="")
+{
+  global
+  local _step_description := step%current_step%
+  if _message = ""
+  {
+    local _step_description += "`nError on line %_line_number%"
+  }
+  else
+  {
+    local _step_description += "`nError: %_line_number%: %_message%"
+  }
+  Progress, CWFF0000, %step_description%
+  Sleep, 10000
+}
