@@ -318,7 +318,7 @@ Goto, end_hotkey
   ; there's no native function to parse several regex matches, so one has to
   ; reuse the `begin` position parameter to check the full string
   begin = 1
-  While begin := RegExMatch(clipboard, "([MXu]?\d{6}[\/]?\d?)"
+  While begin := RegExMatch(clipboard, "(([MX]?\d{6})|(u\d{5,6})[\/]?\d?)"
                             , match
                             , begin + StrLen(match))
   {
