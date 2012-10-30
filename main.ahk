@@ -599,9 +599,9 @@ create_progress_bar("Fill Loan Agreement")
 description = 
 bom_window_loaded = 0
 MyLabel:
-Send ^c
-; break repeat loop if nothing new copied
-if clipboard = %description%
+copy_to_clipboard()
+; break repeat loop if nothing copied
+if clipboard =
 {
   kill_progress_bar()
   Return
@@ -634,34 +634,28 @@ Sleep,1000
 while (A_Cursor = "AppStarting")
     continue
 
-; View source
-Send {tab}{AppsKey}
-Send {Down 10}{Enter}
-Sleep,100
-while (A_Cursor = "AppStarting")
-    continue
-
-Send {tab}^a^c
-Sleep,100 ; Wait for clipboard to process
-begin := RegExMatch(clipboard, "<h3>(.*)</h3>", raw_description)
-StringMid, description, raw_description, 5, StrLen(raw_description) - 9
-if begin != 0
+; Copy description
+Send {tab}^a
+copy_to_clipboard()
+end := InStr(clipboard, "[Print]")
+if end != 0
 {
+    StringLeft, description, clipboard, end-1
     clipboard = %description%
-    Send ^w!{tab}
+    ; Remove all CR+LF's from the clipboard contents:
+    StringReplace, clipboard, clipboard, `r`n, , All
+    Send !{tab}
     Sleep,100 ; Wait for Word to be active
     Send {tab}^v
 }
 else
 {
-    MsgBox RegEx failed: begin = %begin%
+    MsgBox InStr failed to find [Print]
     kill_progress_bar()
     Return
 }
 Send {tab 2}
 bom_window_loaded = 1
-; delay for Word's smart paste
-Sleep, 500
 Goto, MyLabel
 
 }  ;; End USA hotkeys
