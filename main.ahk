@@ -511,7 +511,7 @@ clipboard = %OUTLOOK_ATTACH%\%contact_name%\
 Send ^v{enter}
 ; exit hotscript if you get a file overwrite warning message
 WinWait,Microsoft Office Outlook,,0.1,
-if !ErrorLevel
+if ErrorLevel
 {
   Goto, end_hotkey
 }
