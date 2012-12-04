@@ -566,11 +566,11 @@ If %time_zone% = "Eastern Standard Time"
 ; [Windows Key + s] Open Shipment form, Shipped and Loans folders
 ;----------------------------------------------------------------------
 #s::
-create_progress_bar("Shipping form and folders")
+create_progress_bar("Shipping form and loan folder")
 Run \\ct-dc-01\home\Man Pack List & Loan Agreements\2012 LOAN AGREEMENTS
-Run \\ct-dc-01\home\Shipment Request Forms - completed
-Run \\balrog\msystems\ISO 9001 - Quality\FORMS\FM US Shipment Request Form.doc
-Goto, end_hotkey
+Run \\be-fp-01\msystems\ISO 9001 - Quality\FORMS\FM US Shipment Request Form.doc
+kill_progress_bar()
+Return
 
 ;----------------------------------------------------------------------
 ; [Windows Key + p] Launch US Sales Plan
