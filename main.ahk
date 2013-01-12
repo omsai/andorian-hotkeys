@@ -567,7 +567,9 @@ If %time_zone% = "Eastern Standard Time"
 ;----------------------------------------------------------------------
 #s::
 create_progress_bar("Shipping form and loan folder")
-Run \\ct-dc-01\home\Man Pack List & Loan Agreements\2012 LOAN AGREEMENTS
+TimeVar := A_Now
+FormatTime, TimeVar, A_Now, yyyy
+Run \\ct-dc-01\home\Man Pack List & Loan Agreements\%TimeVar% LOAN AGREEMENTS
 Run \\be-fp-01\msystems\ISO 9001 - Quality\FORMS\FM US Shipment Request Form.doc
 kill_progress_bar()
 Return
