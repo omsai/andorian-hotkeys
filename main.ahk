@@ -35,7 +35,7 @@ RMAShowReport() {
   if ErrorLevel
   {
     progress_error(A_LineNumber, "Browser timeout")
-    Goto, end_hotkey_with_error
+    Gosub, end_hotkey_with_error
   }
   Global REGION
   WinActivate
