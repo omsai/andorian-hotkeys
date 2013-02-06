@@ -513,6 +513,7 @@ Send ^v{enter}
 WinWait,Microsoft Office Outlook,,0.1,
 if ErrorLevel
 {
+  Run %clipboard%
   Goto, end_hotkey
 }
 progress_error(A_LineNumber)
