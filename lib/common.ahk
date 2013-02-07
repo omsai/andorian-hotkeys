@@ -9,6 +9,9 @@ copy_to_clipboard()
   ClipWait, 2
 }
 
+get_legal_filename(string) {
+  return RegExReplace(string, "[<>:\/\\\|\?\*]", "_")
+}
 
 get_contact_name_from_outlook_subject()
 {
@@ -34,7 +37,7 @@ get_contact_name_from_outlook_subject()
             if _offset = 0
             {
                 ;MsgBox DEBUG: A_LoopField = %A_LoopField%
-                return A_LoopField
+                return get_legal_filename(A_LoopField)
             }
             else
                 _offset := _offset - 1
