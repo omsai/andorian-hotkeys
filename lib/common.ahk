@@ -9,6 +9,12 @@ copy_to_clipboard()
   ClipWait, 2
 }
 
+focus_on_browser_page()
+{
+  ; Chrome
+  Send ^l^!t{tab}
+}
+
 get_legal_filename(string) {
   return RegExReplace(string, "[<>:\/\\\|\?\*]", "_")
 }

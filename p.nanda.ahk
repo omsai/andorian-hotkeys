@@ -6,7 +6,7 @@
 ;----------------------------------------------------------------------
 #IfWinActive Andor > decontamination
 #f::
-  Send ^l{Tab}
+  focus_on_browser_page()
   Send Pariksheet Nanda{Tab}
   Send Andor Technology{Tab}
   Send 8602909211{Tab}
