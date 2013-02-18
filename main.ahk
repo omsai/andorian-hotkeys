@@ -479,45 +479,30 @@ FileCreateDir, %OUTLOOK_ATTACH%\%contact_name%
 ; attachment selection window
 step_progress_bar()
 Send !fna
-WinWait,Save All Attachments,,10,
-only_one_attachment := 0
-if ErrorLevel
-{
-    ; only one attachment
-    only_one_attachment := 1
-    Send !fn{enter}
-    WinWait,Save Attachment,,0.1
-    if ErrorLevel
-    {
-      progress_error(A_LineNumber)
-      Goto, end_hotkey_with_error
-    }
-}
-else
-{
-  WinActivate
-  Send {enter}
-  ; file save dialog
-  WinWait,Save All Attachments,,0.1
-  if ErrorLevel
-  {
-    progress_error(A_LineNumber)
-    Goto, end_hotkey_with_error
-  }
-}
+WinWait,Save All Attachments,,1
+Send {enter}
+WinWait,Save Attachment,,0.1
 step_progress_bar()
 Send {home}
 clipboard = %OUTLOOK_ATTACH%\%contact_name%\
 Send ^v{enter}
-; exit hotscript if you get a file overwrite warning message
-WinWait,Microsoft Office Outlook,,0.1,
-if ErrorLevel
+; force overwrite on seeing a file overwrite warning message
+overwrite = 1;
+while overwrite
 {
-  Run %clipboard%
-  Goto, end_hotkey
+  WinWait,Microsoft Office Outlook,,2
+  If ErrorLevel
+  {
+    overwrite = 0
+  }
+  Else
+  {
+    WinActivate
+    Send !y
+  }
 }
-progress_error(A_LineNumber)
-Goto, end_hotkey_with_error
+Run %clipboard%
+Goto, end_hotkey
 
 ;----------------------------------------------------------------------
 ; [Windows Key + z] Bugzilla search
