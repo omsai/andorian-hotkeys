@@ -12,7 +12,7 @@ copy_to_clipboard()
 focus_on_browser_page()
 {
   ; Chrome
-  Send ^l^!t{tab}
+  Send ^l{tab}
 }
 
 get_legal_filename(string) {
