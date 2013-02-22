@@ -84,9 +84,8 @@ open_ticket(_ticket)
         return
     WinActivate
     _ignore_saleslogix_refresh()
-    Send !l
-    Sleep, 500  ; sometimes the menu doesn't open in time
-    Send tt%_ticket%{tab}{enter}
+    WinMenuSelectItem,,,Lookup,Tickets,Ticket ID
+    Send %_ticket%{tab}{enter}
     WinWait, Lookup Ticket,,10
     if ErrorLevel
         return
