@@ -585,7 +585,6 @@ Return
 create_progress_bar("Fill Loan Agreement")
 ; clear variables
 description = 
-bom_window_loaded = 0
 MyLabel:
 copy_to_clipboard()
 ; break repeat loop if nothing copied
@@ -595,29 +594,26 @@ if clipboard =
   Return
 }
 
-if not bom_window_loaded
-{
-    Run http://intranet/bomreport/
-}
+; focus on BOM window
+IfWinNotExist, Shamrock Components
+  Run http://intranet/bomreport/
 WinWait, Shamrock Components,,20
 if ErrorLevel
 {
   kill_progress_bar()
   Return
 }
-
-; Select product code 
 WinActivate
-; focus on location bar
-if bom_window_loaded
-{
-    Send {tab}
-}
+
+; focus on product code
 while (A_Cursor = "AppStarting")
     continue
+Sleep,1000
+focus_on_browser_page()
+Send {tab}
 
 ; Display detail view
-Send {tab}%clipboard%{tab}{Enter}
+Send %clipboard%{tab}{Enter}
 Sleep,1000
 while (A_Cursor = "AppStarting")
     continue
@@ -626,6 +622,7 @@ while (A_Cursor = "AppStarting")
 Send {tab}^a
 copy_to_clipboard()
 end := InStr(clipboard, "[Print]")
+Send {tab 7} ; clear web page element focus
 if end != 0
 {
     StringLeft, description, clipboard, end-1
@@ -642,8 +639,7 @@ else
     kill_progress_bar()
     Return
 }
-Send {tab 2}
-bom_window_loaded = 1
+Send {tab 2} ; focus on next Word table field
 Goto, MyLabel
 
 }  ;; End USA hotkeys
