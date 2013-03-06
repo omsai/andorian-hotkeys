@@ -81,7 +81,7 @@ Please report any issues you may encounter with other browsers.
     making a shortcut to `main.ahk` in your Windows start menu > Startup folder
 
 6.  Create the SLX auto-login shortcut by right-clicking on `SalesLogix-Login`
-    and pinning it to the Taskbar (or Start Menu)
+    and pinning it to the Start Menu
 
 
 Create your own hotkeys
