@@ -2,13 +2,9 @@
 #NoEnv ; performance and compatibility
 SetWorkingDir %A_ScriptDir%  ; consistent starting directory.
 
-; Configuration saving
-INI_FILE := "ahk.ini"  ; Persistent script variables
-NONE_VALUE := "NONE"   ; No script variable can be this value
-
 ; Libraries
-#Include lib\progress_bar.ahk
 #Include lib\common.ahk
+#Include lib\progress_bar.ahk
 #Include lib\saleslogix.ahk
 if A_OSVersion = WIN_XP
 {
@@ -436,7 +432,7 @@ Return
 create_progress_bar("Launch Text Editor")
 ErrorLevel = ERROR
 ; Editor preference in descending order
-emacs := A_ProgramFiles . "\ErgoEmacs\ErgoEmacs.exe"
+emacs := A_ProgramFilesX86 . "\ErgoEmacs\ErgoEmacs.exe"
 editors = %emacs%,notepad++,notepad
 Loop, parse, editors, `,
 {

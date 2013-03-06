@@ -80,6 +80,9 @@ Please report any issues you may encounter with other browsers.
 5.  Have the script startup automatically in Windows by
     making a shortcut to `main.ahk` in your Windows start menu > Startup folder
 
+6.  Create the SLX auto-login shortcut by right-clicking on `SalesLogix-Login`
+    and pinning it to the Taskbar (or Start Menu)
+
 
 Create your own hotkeys
 -----------------------

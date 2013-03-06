@@ -1,3 +1,16 @@
+; Configuration saving
+INI_FILE := "ahk.ini"  ; Persistent script variables
+NONE_VALUE := "NONE"   ; No script variable can be this value
+
+; Windows 7 compatibility
+if %A_Is64bitOS%
+{
+  A_ProgramFilesX86 := A_ProgramFiles . " (x86)"
+}
+else {
+  A_ProgramFilesX86 := A_ProgramFiles
+}
+
 ; Name all function variables with leading underscore
 ; to avoid local variable error messages
 
