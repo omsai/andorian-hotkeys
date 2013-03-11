@@ -6,10 +6,6 @@ SetWorkingDir %A_ScriptDir%  ; consistent starting directory.
 #Include lib\common.ahk
 #Include lib\progress_bar.ahk
 #Include lib\saleslogix.ahk
-if A_OSVersion = WIN_XP
-{
-  #Include *i window_manager.ahk
-}
 ; (Optional) Additional shortcuts which would not work for everyone
 #Include *i p.nanda.ahk
 
