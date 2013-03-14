@@ -62,38 +62,29 @@ get_contact_email_from_outlook_subject()
 
 get_ticket_number_from_outlook_subject()
 {
-    global SetTitleMatchMode
-    SetTitleMatchMode, Slow
-    SetTitleMatchMode, 2
+  ; Check clipboard
+  _begin := RegExMatch(clipboard, "\d\d\d\-\d\d\-\d\d\d\d\d\d")
+  if (_begin != 0)
+  {
+    _ticket := SubStr(clipboard, _begin, 13)
+    ; Prevent this clipboard data from clobbering subsequent Outlook subject
+    ; selections
+    clipboard = ; clear clipboard
+    return _ticket
+  }
     
-    ; Check clipboard
-    _begin := RegExMatch(clipboard, "\d\d\d\-\d\d\-\d\d\d\d\d\d")
-    if _begin != 0
-    {
-        _ticket := SubStr(clipboard, _begin, 13)
-        ;MsgBox %_ticket%
-        ; Prevent this clipboard data from clobbering subsequent Outlook subject
-        ; selections
-        clipboard = ; clear clipboard
-        return _ticket
-    }
-    
-    ; Check highlighted Outlook e-mail title for _ticket number
-    WinGetText, text, Microsoft Outlook
-    ;MsgBox DEBUG: %text%
-    Loop, Parse, text, `n, `r ; parses variable text by newline
-    {
-        _subject := A_LoopField
-        ;MsgBox DEBUG: %subject%
-        _begin := RegExMatch(_subject, "\d\d\d\-\d\d\-\d\d\d\d\d\d")
-        if _begin != 0
-        {
-            _ticket := SubStr(_subject, _begin, 13)
-            ;MsgBox %_ticket%
-            return _ticket
-        }
-    }
-    
-    global NONE_VALUE
-    return NONE_VALUE ; No match found
+  ; Check highlighted Outlook e-mail title for _ticket number
+  _MailItems := ComObjActive("Outlook.Application").ActiveExplorer.Selection
+  _MailItem := _MailItems.Item(1)
+  _subject := _MailItem.Subject
+  _begin := RegExMatch(_subject, "\d\d\d\-\d\d\-\d\d\d\d\d\d")
+  if (_begin != 0)
+  {
+    _ticket := SubStr(_subject, _begin, 13)
+    ;MsgBox %_ticket%
+    return _ticket
+  }
+
+  global NONE_VALUE
+  return NONE_VALUE ; No match found
 }
