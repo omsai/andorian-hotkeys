@@ -34,32 +34,63 @@ get_legal_filename(string) {
 
 get_contact_name_from_outlook_subject()
 {
+  _MailItems := ComObjActive("Outlook.Application").ActiveExplorer.Selection
+  _MailItem := _MailItems.Item(1)
+  _contact_name := _MailItem.SenderName
+  if (_contact_name = "")
+  {
+    global NONE_VALUE
+    return NONE_VALUE ; No match found
+  }
+  else
+    return _contact_name
+}
+
+get_contact_email_from_outlook_subject()
+{
+  _MailItems := ComObjActive("Outlook.Application").ActiveExplorer.Selection
+  _MailItem := _MailItems.Item(1)
+  _contact_email := _MailItem.SenderEmailAddress
+  if (_contact_email = "")
+  {
+    global NONE_VALUE
+    return NONE_VALUE ; No match found
+  }
+  else
+    return _contact_email
+}
+
+get_ticket_number_from_outlook_subject()
+{
     global SetTitleMatchMode
     SetTitleMatchMode, Slow
     SetTitleMatchMode, 2
     
-    _match = From
-    _offset = 1
+    ; Check clipboard
+    _begin := RegExMatch(clipboard, "\d\d\d\-\d\d\-\d\d\d\d\d\d")
+    if _begin != 0
+    {
+        _ticket := SubStr(clipboard, _begin, 13)
+        ;MsgBox %_ticket%
+        ; Prevent this clipboard data from clobbering subsequent Outlook subject
+        ; selections
+        clipboard = ; clear clipboard
+        return _ticket
+    }
     
-    ; Check highlighted Outlook e-mail title for _contact_name
+    ; Check highlighted Outlook e-mail title for _ticket number
     WinGetText, text, Microsoft Outlook
     ;MsgBox DEBUG: %text%
-    _found = 0
     Loop, Parse, text, `n, `r ; parses variable text by newline
     {
-        if A_LoopField = %_match%
+        _subject := A_LoopField
+        ;MsgBox DEBUG: %subject%
+        _begin := RegExMatch(_subject, "\d\d\d\-\d\d\-\d\d\d\d\d\d")
+        if _begin != 0
         {
-            _found = 1
-        }
-        if _found = 1
-        {
-            if _offset = 0
-            {
-                ;MsgBox DEBUG: A_LoopField = %A_LoopField%
-                return get_legal_filename(A_LoopField)
-            }
-            else
-                _offset := _offset - 1
+            _ticket := SubStr(_subject, _begin, 13)
+            ;MsgBox %_ticket%
+            return _ticket
         }
     }
     

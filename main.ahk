@@ -367,14 +367,30 @@ Goto, end_hotkey
 #t::
 create_progress_bar("Ticket search")
 add_progress_step("Extracting Ticket ID")
-add_progress_step("Opening in SalesLogix")
+add_progress_step("Opening ticket in SalesLogix")
+add_progress_step("Opening contact in SalesLogix")
 copy_to_clipboard()
 step_progress_bar()
 ticket := get_ticket_number_from_outlook_subject()
 if ticket = %NONE_VALUE%
 {
+  ; Open contact if no ticket number found, so that a new ticket can
+  ; be created.
+  step_progress_bar()
+  step_progress_bar()
+
+  contact_email := get_contact_email_from_outlook_subject()
+  
+  if contact_email = %NONE_VALUE%
+  {
     MsgBox,, Ticket search, No ticket number found in clipboard or e-mail title
     Goto, end_hotkey
+  }
+  else
+  {
+    open_contact_by_email(contact_email)
+    Goto, end_hotkey
+  }
 }
 step_progress_bar()
 open_ticket(ticket)

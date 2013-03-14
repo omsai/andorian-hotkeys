@@ -2,45 +2,6 @@
 ; to avoid local variable error messages
 
 
-get_ticket_number_from_outlook_subject()
-{
-    global SetTitleMatchMode
-    SetTitleMatchMode, Slow
-    SetTitleMatchMode, 2
-    
-    ; Check clipboard
-    _begin := RegExMatch(clipboard, "\d\d\d\-\d\d\-\d\d\d\d\d\d")
-    if _begin != 0
-    {
-        _ticket := SubStr(clipboard, _begin, 13)
-        ;MsgBox %_ticket%
-        ; Prevent this clipboard data from clobbering subsequent Outlook subject
-        ; selections
-        clipboard = ; clear clipboard
-        return _ticket
-    }
-    
-    ; Check highlighted Outlook e-mail title for _ticket number
-    WinGetText, text, Microsoft Outlook
-    ;MsgBox DEBUG: %text%
-    Loop, Parse, text, `n, `r ; parses variable text by newline
-    {
-        _subject := A_LoopField
-        ;MsgBox DEBUG: %subject%
-        _begin := RegExMatch(_subject, "\d\d\d\-\d\d\-\d\d\d\d\d\d")
-        if _begin != 0
-        {
-            _ticket := SubStr(_subject, _begin, 13)
-            ;MsgBox %_ticket%
-            return _ticket
-        }
-    }
-    
-    global NONE_VALUE
-    return NONE_VALUE ; No match found
-}
-
-
 _ignore_saleslogix_refresh()
 {
     ; Allows refresh from the Modal Window prompt:
@@ -87,6 +48,24 @@ open_ticket(_ticket)
     WinMenuSelectItem,,,Lookup,Tickets,Ticket ID
     Send %_ticket%{tab}{enter}
     WinWait, Lookup Ticket,,10
+    if ErrorLevel
+        return
+    WinActivate
+    Send !o
+}
+
+
+open_contact_by_email(_email)
+{
+    SetTitleMatchMode, RegEx
+    WinWait,SalesLogix,,10,(Server)|(Client)
+    if ErrorLevel
+        return
+    WinActivate
+    _ignore_saleslogix_refresh()
+    WinMenuSelectItem,,,Lookup,Contacts,E-mail
+    Send %_email%{tab}{enter}
+    WinWait, Lookup Contact,,10
     if ErrorLevel
         return
     WinActivate
