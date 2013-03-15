@@ -40,14 +40,6 @@ Usage
 
 `⊞ Win`+`N` Launch plain text editor
 
-`⊞ Win`+`←` Window: snap left
-
-`⊞ Win`+`→` Window: snap right
-
-`⊞ Win`+`↑` Window: toggle maximize
-
-`⊞ Win`+`↓` Window: minimize
-
 
 #### USA Hotkeys
 
