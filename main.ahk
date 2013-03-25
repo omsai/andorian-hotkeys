@@ -208,7 +208,6 @@ Goto, end_hotkey
   {
     step_progress_bar()
     ControlClick, ThunderRT6CommandButton6 ; "CR-Accept" button
-    Send {Enter} ; since AHK click is too short for WIP GUI to register it
 
     ; Wait till the "RMA No" text field is in focus again
     Loop, 10
