@@ -574,7 +574,7 @@ Return
 create_progress_bar("Launch US Sales Plan")
 Run, \\ct-dc-01\home\Common\Sales Plan\U.S. Sales Plan.xls
 SetTitleMatchMode Regex
-WinWait, (Password|File in Use),, 10 ; or file in use
+WinWait, (Password|File in Use),, 20 ; or file in use
 If ErrorLevel
 {
   ; Kludge: cannot use Goto, Label in the USA hotkeys block
