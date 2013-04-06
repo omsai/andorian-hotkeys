@@ -1,6 +1,30 @@
 ﻿; Name all function variables with leading underscore
 ; to avoid local variable error messages
 
+_unminimize_saleslogix_window()
+{
+    ; Returns 1 if SalesLogix window exists and is unminimized or 0 if
+    ; the window does not exist.
+
+    ; When SalesLogix is minimized, it's title is "SalesLogix" and
+    ; when it's restored it's title is "Sage SalesLogix -".
+    WinGet,_min_max,MinMax,SalesLogix
+    If _min_max = -1
+    {
+        WinRestore,SalesLogix
+	; WinRestore doesn't block execution until Window is
+	; restored, so we have to delay till retore happens manually.
+	WinGet,_min_max,MinMax,Sage SalesLogix -
+	Return 1
+    }
+    WinGet,_min_max,MinMax,Sage SalesLogix -
+    If _min_max =
+    {
+        MsgBox, Error: No SalesLogix window found.  Is it open?
+        Return 0
+    }
+    Return 1
+}
 
 _ignore_saleslogix_refresh()
 {
@@ -39,6 +63,8 @@ _ignore_saleslogix_refresh()
 
 open_ticket(_ticket)
 {
+    If ! _unminimize_saleslogix_window()
+      return
     SetTitleMatchMode, RegEx
     WinWait,SalesLogix,,10,(Server)|(Client)
     if ErrorLevel
@@ -57,6 +83,8 @@ open_ticket(_ticket)
 
 open_contact_by_email(_email)
 {
+    If ! _unminimize_saleslogix_window()
+      return
     SetTitleMatchMode, RegEx
     WinWait,SalesLogix,,10,(Server)|(Client)
     if ErrorLevel
