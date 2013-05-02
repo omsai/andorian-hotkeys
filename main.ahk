@@ -615,7 +615,7 @@ WinActivate
 ; focus on product code
 while (A_Cursor = "AppStarting")
     continue
-Sleep,1000
+Sleep,400
 focus_on_browser_page()
 ; Send {tab}			; commented out since it breaks in
 				; Google Chrome 26.0.1410.64 m
