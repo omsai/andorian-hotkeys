@@ -9,15 +9,16 @@ _unminimize_saleslogix_window()
     ; When SalesLogix is minimized, it's title is "SalesLogix" and
     ; when it's restored it's title is "Sage SalesLogix -".
     WinGet,_min_max,MinMax,SalesLogix
+    SetTitleMatchMode, RegEx
     If _min_max = -1
     {
         WinRestore,SalesLogix
 	; WinRestore doesn't block execution until Window is
 	; restored, so we have to delay till retore happens manually.
-	WinGet,_min_max,MinMax,Sage SalesLogix -
+	WinGet,_min_max,MinMax,Sage SalesLogix,,(Server)|(Client)
 	Return 1
     }
-    WinGet,_min_max,MinMax,Sage SalesLogix -
+    WinGet,_min_max,MinMax,Sage SalesLogix,,(Server)|(Client)
     If _min_max =
     {
         MsgBox, Error: No SalesLogix window found.  Is it open?
