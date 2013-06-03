@@ -600,6 +600,7 @@ if clipboard =
   kill_progress_bar()
   Return
 }
+Progress,,Lookup "%clipboard%"
 
 ; focus on BOM window
 IfWinNotExist, Shamrock Components
@@ -617,8 +618,8 @@ while (A_Cursor = "AppStarting")
     continue
 Sleep,400
 focus_on_browser_page()
-; Send {tab}			; commented out since it breaks in
-				; Google Chrome 26.0.1410.64 m
+Click 10, 105			; fix for Chromium issue# 181144
+Send {tab}			
 ; Display detail view
 Send %clipboard%{tab}{Enter}
 Sleep,1000
