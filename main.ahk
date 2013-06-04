@@ -572,16 +572,7 @@ Return
 ;----------------------------------------------------------------------
 #p::
 create_progress_bar("Launch US Sales Plan")
-Run, \\ct-dc-01\home\Common\Sales Plan\U.S. Sales Plan.xls
-SetTitleMatchMode Regex
-WinWait, (Password|File in Use),, 20 ; or file in use
-If ErrorLevel
-{
-  ; Kludge: cannot use Goto, Label in the USA hotkeys block
-  kill_progress_bar()
-  Return
-}
-Send !r
+Run, excel.exe /r "\\ct-dc-01\home\Common\Sales Plan\Orders Query - Open & Closed.xls"
 kill_progress_bar()
 Return
 
