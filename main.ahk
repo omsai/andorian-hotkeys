@@ -318,7 +318,6 @@ Goto, end_hotkey
   }
   Loop, %matches%
   {
-    add_progress_step("Opening web page")
     add_progress_step("Querying sales order")
   }
   
@@ -326,13 +325,8 @@ Goto, end_hotkey
   Loop, %matches%
   {
     step_progress_bar()
-    Run http://intranet/cm.mccann/Sales Orders/
-    step_progress_bar()
-    Sleep, 500 ; wait for browser to clear the page title
-    WinWait, Sales Orders,,10
-    WinActivate
-    clipboard := sales_order%A_Index%
-    Send {Tab}^v{Tab}{Enter}
+    order := sales_order%A_Index%
+    Run http://intranet/cm.mccann/Sales Orders/dbSearch.asp?order_no=%order%
   }
     Goto, End_hotkey
 
