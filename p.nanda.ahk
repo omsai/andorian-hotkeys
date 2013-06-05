@@ -6,6 +6,7 @@
 ;----------------------------------------------------------------------
 #IfWinActive Andor > decontamination
 #f::
+  SetKeyDelay, -1
   focus_on_browser_page()
   Send Pariksheet Nanda{Tab}
   Send Andor Technology{Tab}
@@ -19,5 +20,6 @@
     Send {Down}{Tab}
   }
   Send {Tab}{Space}
+  SetKeyDelay, 10		; reset to default value
   Return
 #IfWinActive ; turn off context sensitivity

@@ -123,7 +123,9 @@ open_rma_in_existing_wip_window(close_existing_rma = 0)
   if begin != 0
   {
     rma := SubStr(clipboard, begin, 5)
+    SetKeyDelay, -1
     Send R%rma%{tab}
+    SetKeyDelay, 10		; reset to default value
     ; Prevent clipboard data from clobbering subsequent RMA searches
   }
   Return 1
@@ -170,7 +172,9 @@ if ErrorLevel
   Goto, end_hotkey
 }
 WinActivate
+SetKeyDelay, -1
 Send %RMA_USER%{tab}%RMA_PASS%{tab}{Enter}
+SetKeyDelay, 10			; reset to default value
 
 if ErrorLevel
 {
@@ -296,7 +300,9 @@ if INITIALS = NONE_VALUE
 }
 TimeVar := A_Now
 FormatTime, TimeVar, A_Now, ddd MMM dd, yyyy
+SetKeyDelay, -1
 Send %INITIALS% %TimeVar%
+SetKeyDelay, 10			; reset to default value
 Goto, end_hotkey
 
 ;----------------------------------------------------------------------
@@ -419,13 +425,15 @@ If CLASS = 1
 } Else {
   access = 5-Internal
 }
+SetKeyDelay, -1
 WinWait, Edit Ticket Activity,, 5
-Clipboard := activity
-Send ^v
-Sleep, 200
-Clipboard := access
-Send {Tab}^v{Tab}
-Sleep, 200
+Send %activity%
+Sleep, 300
+Send {Tab}%access%
+Sleep, 300
+Send {Tab}
+Sleep, 300
+SetKeyDelay, 10			; reset to default value
 Send !o
 Gui, Destroy
 Return
@@ -485,8 +493,9 @@ Send {enter}
 WinWait,Save Attachment,,0.1
 step_progress_bar()
 Send {home}
-clipboard = %OUTLOOK_ATTACH%\%contact_name%\
-Send ^v{enter}
+SetKeyDelay, -1
+Send %OUTLOOK_ATTACH%\%contact_name%\{enter}
+SetKeyDelay, 10			; reset to default value
 ; force overwrite on seeing a file overwrite warning message
 overwrite = 1;
 while overwrite
