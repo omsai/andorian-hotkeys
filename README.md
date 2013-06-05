@@ -49,7 +49,7 @@ Usage
 
 `⊞ Win`+`I` Fill out BOM descriptions in loan agreement
 
-`⊞ Win`+`Q` Import folder of multi-tiff data into iQ
+`Ctrl`+`E` (Local hotkey: Outlook) Archive e-mail in shared inbox
 
 
 Installation
