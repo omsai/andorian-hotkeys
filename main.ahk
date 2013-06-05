@@ -644,6 +644,21 @@ else
 Send {tab 2} ; focus on next Word table field
 Goto, MyLabel
 
+;----------------------------------------------------------------------
+; [Ctrl + e] Archive Shared Inbox E-mail to "Old Inbox" folder
+;----------------------------------------------------------------------
+#IfWinActive us_microscopy_support - Inbox in Mailbox - us_microscopy_support - Microsoft Outlook
+^e::
+Outlook := ComObjActive("Outlook.Application")
+MailItems := Outlook.ActiveExplorer.Selection
+MailItem := MailItems.Item(1)
+Namespace := Outlook.GetNamespace("MAPI")
+SharedInbox := Namespace.GetFolderFromID(MailItem.Parent.EntryID)
+OldInbox := SharedInbox.Folders("Old Inbox")
+MailItem.Move(OldInbox)
+#IfWinActive
+return
+
 }  ;; End USA hotkeys
 
 
