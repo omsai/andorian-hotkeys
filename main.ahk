@@ -611,6 +611,9 @@ Loop, %count%
 {
     add_progress_step("Moving E-mail " . A_Index . " of " . count)
 }
+; Yes, I know each iteration of this loop is hideously slow. The
+; problem is Outlook 2007 doesn't have the 2010 conversation API
+; necessary to handle the conversation headers.
 Loop, %count%
 {
      step_progress_bar()
