@@ -649,6 +649,9 @@ Goto, MyLabel
 ;----------------------------------------------------------------------
 #IfWinActive us_microscopy_support - Inbox in Mailbox - us_microscopy_support - Microsoft Outlook
 ^e::
+create_progress_bar("Archive E-mails to 'Old Inbox' folder")
+add_progress_step("Locking onto Outlook COM objects")
+step_progress_bar()
 Outlook := ComObjActive("Outlook.Application")
 MailItems := Outlook.ActiveExplorer.Selection
 MailItem := MailItems.Item(1)
@@ -658,13 +661,19 @@ OldInbox := SharedInbox.Folders("Old Inbox")
 count := MailItems.Count
 Loop, %count%
 {
+    add_progress_step("Moving E-mail " . A_Index . " of " . count)
+}
+Loop, %count%
+{
+     step_progress_bar()
      global MailItems
      global OldInbox
      MailItem := MailItems.Item(A_Index)
      MailItem.Move(OldInbox)
 }
 #IfWinActive
-return
+kill_progress_bar()
+Return
 
 }  ;; End USA hotkeys
 
