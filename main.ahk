@@ -299,7 +299,7 @@ if INITIALS = NONE_VALUE
   }
 }
 TimeVar := A_Now
-FormatTime, TimeVar, A_Now, ddd MMM dd, yyyy
+FormatTime, TimeVar, A_Now, yyyy-MM-dd
 SetKeyDelay, -1
 Send %INITIALS% %TimeVar%{Enter}
 SetKeyDelay, 10			; reset to default value
