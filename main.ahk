@@ -655,7 +655,14 @@ MailItem := MailItems.Item(1)
 Namespace := Outlook.GetNamespace("MAPI")
 SharedInbox := Namespace.GetFolderFromID(MailItem.Parent.EntryID)
 OldInbox := SharedInbox.Folders("Old Inbox")
-MailItem.Move(OldInbox)
+count := MailItems.Count
+Loop, %count%
+{
+     global MailItems
+     global OldInbox
+     MailItem := MailItems.Item(A_Index)
+     MailItem.Move(OldInbox)
+}
 #IfWinActive
 return
 
