@@ -356,6 +356,7 @@ if ErrorLevel
   Goto, end_hotkey
 }
 WinActivate
+MouseMove 10, 105
 while (A_Cursor = "AppStarting")
   continue
 step_progress_bar()
@@ -555,6 +556,7 @@ if ErrorLevel
 WinActivate
 
 ; focus on product code
+MouseMove 10, 105
 while (A_Cursor = "AppStarting")
     continue
 Sleep,400
@@ -564,6 +566,7 @@ Send {tab}
 ; Display detail view
 Send %clipboard%{tab}{Enter}
 Sleep,1000
+MouseMove 10, 105
 while (A_Cursor = "AppStarting")
     continue
 
