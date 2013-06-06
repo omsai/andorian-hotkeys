@@ -74,7 +74,7 @@ open_ticket(_ticket)
     _ignore_saleslogix_refresh()
     WinMenuSelectItem,,,Lookup,Tickets,Ticket ID
     SetKeyDelay, -1
-    Send %_ticket%{tab}{enter}
+    Send %_ticket%
     SetKeyDelay, 10		; reset to default value
     WinWait, Lookup Ticket,,10
     if ErrorLevel
