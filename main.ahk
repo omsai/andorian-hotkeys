@@ -458,63 +458,6 @@ progress_error(A_LineNumber)
 Goto, end_hotkey_with_error
 
 ;----------------------------------------------------------------------
-; [Windows Key + a] Save attachments from Outlook to Desktop folder
-;----------------------------------------------------------------------
-#a::
-create_progress_bar("Save e-mail attachments")
-add_progress_step("Creating folder")
-add_progress_step("Getting attachments")
-add_progress_step("Saving attachments")
-IniRead, OUTLOOK_ATTACH, %INI_FILE%, Outlook, attachments, NONE_VALUE
-if OUTLOOK_ATTACH = NONE_VALUE
-{
-  FileSelectFolder, OUTLOOK_ATTACH, %A_Desktop%,
-                  , Select folder to save Outlook attachments
-  IniWrite %OUTLOOK_ATTACH%, %INI_FILE%, Outlook, attachments
-  if ErrorLevel
-  {
-    MsgBox Error: Could not write %OUTLOOK_ATTACH% to %INI_FILE%
-    Goto, end_hotkey
-  }
-}
-contact_name := get_contact_name_from_outlook_subject()
-if contact_name = %NONE_VALUE%
-{
-    MsgBox,, Save Outlook attachments, No contact name found in e-mail title
-    Goto, end_hotkey
-}
-step_progress_bar()
-FileCreateDir, %OUTLOOK_ATTACH%\%contact_name%
-; attachment selection window
-step_progress_bar()
-Send !fna
-WinWait,Save All Attachments,,1
-Send {enter}
-WinWait,Save Attachment,,0.1
-step_progress_bar()
-Send {home}
-SetKeyDelay, -1
-Send %OUTLOOK_ATTACH%\%contact_name%\{enter}
-SetKeyDelay, 10			; reset to default value
-; force overwrite on seeing a file overwrite warning message
-overwrite = 1;
-while overwrite
-{
-  WinWait,Microsoft Office Outlook,,2
-  If ErrorLevel
-  {
-    overwrite = 0
-  }
-  Else
-  {
-    WinActivate
-    Send !y
-  }
-}
-Run %clipboard%
-Goto, end_hotkey
-
-;----------------------------------------------------------------------
 ; [Windows Key + z] Bugzilla search
 ;----------------------------------------------------------------------
 #z::
