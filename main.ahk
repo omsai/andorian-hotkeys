@@ -478,7 +478,6 @@ Goto, end_hotkey
 ; [Windows Key + /] Help
 ;----------------------------------------------------------------------
 #/::
-Gui +AlwaysOnTop +ToolWindow
 FileRead, readme, README.md
 If ErrorLevel
 {
