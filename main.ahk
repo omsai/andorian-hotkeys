@@ -208,6 +208,7 @@ Goto, end_hotkey
   add_progress_step("Reopening RMA")
   clipboard =
   ControlGetText, clipboard, ThunderRT6TextBox17 ; "RMA No" textbox
+  ClipWait, 3
   if clipboard !=
   {
     step_progress_bar()
