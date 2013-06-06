@@ -489,7 +489,9 @@ Else
   begin := RegexMatch(readme, "Usage\r*\n*---[-]*")
   end := RegexMatch(readme, "\r*\n*Installation\r*\n*---[-]*", "", begin + 20)
   shortcuts := SubStr(readme, begin, end - begin)
-  Gui, Add, Text,,%shortcuts%
+  ; Remove Windows characters since they don't render properly.
+  new_shortcuts := RegexReplace(shortcuts, ".*Win", "``Win")
+  Gui, Add, Text,,%new_shortcuts%
 }
 Gui, Show,, Keyboard Shortcuts
 ;WinSet, Transparent, 150
