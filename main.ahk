@@ -345,6 +345,7 @@ create_progress_bar("BOM search")
 add_progress_step("Opening web page")
 add_progress_step("Querying part number")
 copy_to_clipboard()
+clipboard := RegexReplace(clipboard, "[[:blank:]]") ; remove tabs and spaces
 step_progress_bar()
 Run http://intranet/bomreport/
 
@@ -539,6 +540,7 @@ if clipboard =
   kill_progress_bar()
   Return
 }
+clipboard := RegexReplace(clipboard, "[[:blank:]]") ; remove tabs and spaces
 Progress,,Lookup "%clipboard%"
 
 ; focus on BOM window
