@@ -650,7 +650,10 @@ Goto, MyLabel
 #IfWinActive us_microscopy_support - Inbox in Mailbox - us_microscopy_support - Microsoft Outlook
 ^e::
 create_progress_bar("Archive E-mails to 'Old Inbox' folder")
+add_progress_step("Mark as read")
 add_progress_step("Locking onto Outlook COM objects")
+step_progress_bar()
+Send ^q
 step_progress_bar()
 Outlook := ComObjActive("Outlook.Application")
 MailItems := Outlook.ActiveExplorer.Selection
