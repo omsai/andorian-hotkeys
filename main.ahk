@@ -55,6 +55,7 @@ RMAShowReport() {
 }
 if REGION = NONE_VALUE
 {
+  Gui, Destroy
   Gui, Add, Text,, Select your region:
   Gui, Add, DropDownList, vREGION, AndorUS||AndorUK|AndorJapan|All
   Gui, Add, Button, Default, OK
@@ -404,6 +405,7 @@ Goto, end_hotkey
 ;----------------------------------------------------------------------
 #IfWinActive Sage SalesLogix
 !x::
+Gui, Destroy
 Gui, Add, Radio, vSENT Group Checked, &Sent E-Mail
 Gui, Add, Radio,, &Received E-Mail
 Gui, Add, Radio, vCLASS Group Checked, 1-&Customer
@@ -482,6 +484,7 @@ Goto, end_hotkey
 ; [Windows Key + /] Help
 ;----------------------------------------------------------------------
 #/::
+Gui, Destroy
 FileRead, readme, README.md
 If ErrorLevel
 {
@@ -634,6 +637,9 @@ Return
 
 }  ;; End USA hotkeys
 
+GuiClose:
+Gui, Destroy
+Return
 
 GuiEscape:
 Gui, Destroy
