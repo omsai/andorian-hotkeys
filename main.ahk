@@ -212,6 +212,7 @@ Goto, end_hotkey
   if clipboard !=
   {
     step_progress_bar()
+    Progress,,Saving RMA %clipboard%
     ControlClick, ThunderRT6CommandButton6 ; "CR-Accept" button
 
     ; Wait till the "RMA No" text field is in focus again
