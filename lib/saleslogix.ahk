@@ -43,21 +43,30 @@ _ignore_saleslogix_refresh()
     ; Ignore ErrorLevel from WinWait ... No prompt Window, so nothing to do
     if !ErrorLevel
     {
+        Progress,,Waiting for refresh to complete
         WinActivate
         Send !y
-        ; Kludge: wait for SLX refresh to complete before finding _ticket.
-        ;         Otherwise sending keystrokes while the main toolbar reloads
-        ;         creates an access violation and SLX has to be restarted.
-        SetTitleMatchMode, 1
-        SetTitleMatchMode, Fast
+        ; One has to wait for SLX refresh to complete before finding
+	;  _ticket. Otherwise sending keystrokes while the main
+	; toolbar reloads creates an access violation and SLX has to
+	; be restarted.
+	Sleep,4000
         _counter = 10
-        WinWait,Sage SalesLogix -,,5
+	; Wait for the menu bar to reappear
+	SetTitleMatchMode, 1
+	SetTitleMatchMode, Fast
+	WinWait,Sage SalesLogix -,,5
+	WinActivate
+	WinMenuSelectItem,,,Edit,Copy Link to Clipboard
         while ( ErrorLevel &&  _counter > 0 )
         {
-            WinWait,Sage SalesLogix -,,2
             _counter--
+	    WinWait,Sage SalesLogix -,,5
+	    WinActivate
+	    WinMenuSelectItem,,,Edit,Copy Link to Clipboard
+	    Sleep,2000
         }
-        Sleep,4000
+        Progress,,Opening ticket in SalesLogix
     }
 }
 
