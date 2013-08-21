@@ -50,14 +50,22 @@ get_contact_email_from_outlook_subject()
 {
   _MailItems := ComObjActive("Outlook.Application").ActiveExplorer.Selection
   _MailItem := _MailItems.Item(1)
+  _contact_type := _MailItem.SenderEmailType
   _contact_email := _MailItem.SenderEmailAddress
-  if (_contact_email = "")
+  if (_contact_type = "EX")
   {
-    global NONE_VALUE
-    return NONE_VALUE ; No match found
+    _Recipient := _MailItem.Application.Session.CreateRecipient(_MailItem.SenderEmailAddress)
+    _contact_alias := _Recipient.AddressEntry.GetExchangeUser().Alias
+    _contact_email = %_contact_alias%@andor.com
   }
-  else
-    return _contact_email
+  else {
+    if (_contact_email = "")
+    {
+      global NONE_VALUE
+      _contact_email := NONE_VALUE ; No match found
+    }
+  }
+  return _contact_email
 }
 
 get_ticket_number_from_outlook_subject()
