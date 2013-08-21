@@ -32,6 +32,22 @@ get_legal_filename(string) {
   return RegExReplace(string, "[<>:\/\\\|\?\*]", "_")
 }
 
+strip_illegal_characters(string) {
+  return RegExReplace(string, "[<>:\/\\\|\?\*]", "_")
+}
+
+get_email_from_clipboard()
+{
+  copy_to_clipboard()
+  RegExMatch(clipboard, "i)[A-Z0-9._+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}", _match)
+  if (_match != "")
+    return _match
+  else {
+    global NONE_VALUE
+    return NONE_VALUE
+  }
+}
+
 get_contact_name_from_outlook_subject()
 {
   _MailItems := ComObjActive("Outlook.Application").ActiveExplorer.Selection

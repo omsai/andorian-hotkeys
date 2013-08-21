@@ -383,7 +383,10 @@ if ticket = %NONE_VALUE%
   step_progress_bar()
   step_progress_bar()
 
-  contact_email := get_contact_email_from_outlook_subject()
+  contact_email := get_email_from_clipboard()
+
+  if contact_email = %NONE_VALUE%
+    contact_email := get_contact_email_from_outlook_subject()
   
   if contact_email = %NONE_VALUE%
   {
