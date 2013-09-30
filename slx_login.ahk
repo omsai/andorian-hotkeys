@@ -18,8 +18,4 @@ Run %A_ProgramFilesX86%\SalesLogix\SalesLogix.exe
 WinWait, Please log on...  ; startup can take several minutes, so no timeout
 Sleep, 500
 WinActivate
-; Using clipboard, since sending keystrokes can be slow at startup,
-; causing login to be interrupted and fail.
-clipboard := SLX_PASS
-Send ^v{Enter}
-clipboard =
+Send %SLX_PASS%{Enter}
