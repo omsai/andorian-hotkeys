@@ -8,6 +8,7 @@
 #f::
   SetKeyDelay, -1
   focus_on_browser_page()
+  Click 10, 105			; fix for Chromium issue# 181144
   Send Pariksheet Nanda{Tab}
   Send Andor Technology{Tab}
   Send 8602909211{Tab}
