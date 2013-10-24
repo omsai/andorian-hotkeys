@@ -22,7 +22,7 @@ IniRead, REGION, %INI_FILE%, RMA, region, NONE_VALUE
 RMAShowReport() {
   RMA_BROWSER_TITLE = RMA Report - Google Chrome
   step_progress_bar()
-  Run http://intranet/scripts/wip/rma.asp
+  Run http://intranet/wipReports/rma.asp
   WinWait %RMA_BROWSER_TITLE%,,120
   if ErrorLevel
   {
