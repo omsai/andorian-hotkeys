@@ -360,7 +360,7 @@ if ErrorLevel
 WinActivate
 MouseMove 10, 105
 while (A_Cursor = "AppStarting")
-  continue
+  Sleep,500
 step_progress_bar()
 Send {tab}%clipboard%{tab}{Enter}
 Goto, end_hotkey
@@ -565,7 +565,7 @@ WinActivate
 ; focus on product code
 MouseMove 10, 105
 while (A_Cursor = "AppStarting")
-    continue
+  Sleep,500
 Sleep,400
 focus_on_browser_page()
 Click 10, 105			; fix for Chromium issue# 181144
@@ -575,7 +575,8 @@ Send %clipboard%{tab}{Enter}
 Sleep,1000
 MouseMove 10, 105
 while (A_Cursor = "AppStarting")
-    continue
+  Sleep,500
+Sleep,1000
 
 ; Copy description
 Send {tab}^a

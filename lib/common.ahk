@@ -25,7 +25,9 @@ copy_to_clipboard()
 focus_on_browser_page()
 {
   ; Chrome
-  Send ^l{tab}
+  Send ^l
+  Sleep,50
+  Send {tab}
 }
 
 get_legal_filename(string) {
