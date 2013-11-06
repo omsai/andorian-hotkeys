@@ -516,10 +516,7 @@ If %time_zone% = "Eastern Standard Time"
 ; [Windows Key + s] Open Shipment form, Shipped and Loans folders
 ;----------------------------------------------------------------------
 #s::
-create_progress_bar("Shipping form and loan folder")
-TimeVar := A_Now
-FormatTime, TimeVar, A_Now, yyyy
-Run \\ct-dc-01\home\Man Pack List & Loan Agreements\%TimeVar% LOAN AGREEMENTS
+create_progress_bar("Shipping form")
 Run \\be-fp-01\msystems\ISO 9001 - Quality\FORMS\FM US Shipment Request Form.doc
 kill_progress_bar()
 Return

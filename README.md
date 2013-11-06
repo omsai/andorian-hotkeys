@@ -41,7 +41,7 @@ Usage
 
 #### USA Hotkeys
 
-`⊞ Win`+`S` Open Shipment form, Shipped folder, and Loan agreements folder
+`⊞ Win`+`S` Open Shipment form
 
 `⊞ Win`+`P` Launch US Sales Plan
 
