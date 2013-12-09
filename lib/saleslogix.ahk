@@ -71,16 +71,27 @@ _ignore_saleslogix_refresh()
 }
 
 
-open_ticket(_ticket)
+_get_saleslogix_window()
 {
+    ; Returns 1 if SalesLogix window exists and is ready to accept
+    ; keyboard input; otherwise returns 0.
+
     If ! _unminimize_saleslogix_window()
-      return
+      Return 0
     SetTitleMatchMode, RegEx
     WinWait,SalesLogix,,10,(Server)|(Client)
     if ErrorLevel
-        return
+      Return 0
     WinActivate
     _ignore_saleslogix_refresh()
+    Return 1
+}
+
+
+open_ticket(_ticket)
+{
+    If !_get_saleslogix_window()
+      return
     WinMenuSelectItem,,,Lookup,Tickets,Ticket ID
     SetKeyDelay, -1
     Send %_ticket%
@@ -95,14 +106,8 @@ open_ticket(_ticket)
 
 open_contact_by_email(_email)
 {
-    If ! _unminimize_saleslogix_window()
+    If !_get_saleslogix_window()
       return
-    SetTitleMatchMode, RegEx
-    WinWait,SalesLogix,,10,(Server)|(Client)
-    if ErrorLevel
-        return
-    WinActivate
-    _ignore_saleslogix_refresh()
     WinMenuSelectItem,,,Lookup,Contacts,E-mail
     Send %_email%{tab}{enter}
     WinWait, Lookup Contact,,10
@@ -110,4 +115,74 @@ open_contact_by_email(_email)
         return
     WinActivate
     Send !o
+}
+
+
+_open_group(_category, _name, _action:="enter")
+{
+    ; Choose group results from group manager.  If "_action" is set to
+    ; "edit", it opens the Query Builder, otherwise 
+
+    If !_get_saleslogix_window()
+      Return 0
+    ; Workaround for SLX bug: "Edit" button in Group Manager is
+    ; disabled when no group windows are open.
+    If _action = edit
+    {
+      MsgBox Opening Ticket group...
+      Send +{F10}		; Open Ticket group
+      global SetTitleMatchMode
+      SetTitleMatchMode, 1
+      SetTitleMatchMode, Fast
+      WinWait,Sage SalesLogix - [Ticket:,,5
+    }
+    WinMenuSelectItem,,,View,Groups
+    Send %_category%{right}%_name%
+    If _action = edit
+    {
+      Send !e
+      WinWait, Query Builder - %_name%,,10
+      if ErrorLevel
+        Return 0
+      WinClose, Group Manager
+      WinActivate
+    }
+    Else
+      Send {Enter}
+    Return 1
+}
+
+edit_group_conditions(_category, _name)
+{
+    If !_open_group(_category, _name, "edit")
+      return
+    ControlClick, TPageControl1	   ; Properties tab.
+    Send {Right}		   ; Conditions tab.
+    ; Wait for the Conditions tab to load.
+    Sleep, 100
+    ControlGetPos,_x,_y,,,TSLGrid1 ; Fields table.
+    _x := _x + 10		   ; Row 1 x-offset.
+    _y := _y + 27		   ; Row 1 y-offset.
+    ControlClick, X%_x% Y%_y%	   ; Condition row 1.
+    ; Set all field values to clipboard.
+    _last_field =
+    Loop, 5
+    {
+        Send !e
+	WinWait, Assign Condition
+        ControlGetText, _field, TDataEdit1
+	; Check if we have reached the end.
+	If _field = %_last_field%
+	    Break
+	Else
+	   _last_field := _field
+	Send {Tab}^v{Enter}
+	WinWaitClose, Assign Condition
+	Send {Down}
+    }
+    WinClose, Assign Condition
+    WinActivate, Query Builder - %_name%,,10
+    Send {Enter}
+    ; Show result.
+    _open_group(_category, _name)
 }

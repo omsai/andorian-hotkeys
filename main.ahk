@@ -467,6 +467,16 @@ progress_error(A_LineNumber)
 Goto, end_hotkey_with_error
 
 ;----------------------------------------------------------------------
+; [Windows Key + s] Sales order search from clipboard
+;----------------------------------------------------------------------
+#s::
+create_progress_bar("Ticket search")
+copy_to_clipboard()
+edit_group_conditions("Ticket", "_Search Ticket")
+kill_progress_bar()
+Return
+
+;----------------------------------------------------------------------
 ; [Windows Key + z] Bugzilla search
 ;----------------------------------------------------------------------
 #z::
@@ -512,15 +522,6 @@ RegRead, time_zone, HKEY_LOCAL_MACHINE
   , System\CurrentControlSet\Control\TimeZoneInformation, Standard
 If %time_zone% = "Eastern Standard Time"
 {
-;----------------------------------------------------------------------
-; [Windows Key + s] Open Shipment form, Shipped and Loans folders
-;----------------------------------------------------------------------
-#s::
-create_progress_bar("Shipping form")
-Run \\be-fp-01\msystems\ISO 9001 - Quality\FORMS\FM US Shipment Request Form.doc
-kill_progress_bar()
-Return
-
 ;----------------------------------------------------------------------
 ; [Windows Key + p] Launch US Sales Plan
 ;----------------------------------------------------------------------

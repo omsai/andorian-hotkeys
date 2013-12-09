@@ -32,6 +32,8 @@ Usage
 
 `⊞ Win`+`B` BOM search from highlighted selection
 
+`⊞ Win`+`S` SalesLogix ticket search for highlighted selection
+
 `⊞ Win`+`Z` Bugzilla search from highlighted selection
 
 `⊞ Win`+`5` Paste your initials and today's date
@@ -40,8 +42,6 @@ Usage
 
 
 #### USA Hotkeys
-
-`⊞ Win`+`S` Open Shipment form
 
 `⊞ Win`+`P` Launch US Sales Plan
 
