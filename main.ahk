@@ -255,7 +255,7 @@ Goto, end_hotkey
   Loop, 10 ; loop since there's no way to know if the button has been clicked
   {
     Sleep, 500
-    IfWinExist, Export
+    IfWinExist, Export ahk_exe Andor.exe ahk_class #32770
     {
       WinActivate
       Break
