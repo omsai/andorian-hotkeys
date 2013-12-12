@@ -276,7 +276,8 @@ Goto, end_hotkey
     WinActivate
     Send {Esc}
   }
-  Sleep, 5000 ; otherwise Alt+F4 below doesn't work
+  WinWaitActive, ~Re ahk_class OpusApp,, 10 ; Wait for Word to open
+  ; Sleep, 5000 ; otherwise Alt+F4 below doesn't work
   IfWinExist,, 100`%
   {
     WinActivate
