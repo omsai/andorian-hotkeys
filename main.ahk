@@ -266,7 +266,7 @@ Goto, end_hotkey
     }
   }
   
-  Sleep, 500 ; sometimes the CSV window opens instead
+  Sleep, 1000 ; sometimes the CSV window opens instead
   Send {Tab 2}{End}{Tab}{Home}{Enter}
   ; close export and print window
   step_progress_bar()
