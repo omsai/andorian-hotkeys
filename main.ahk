@@ -208,6 +208,31 @@ Goto, end_hotkey
   add_progress_step("Saving RMA")
   add_progress_step("Reopening RMA")
   clipboard =
+
+  control_wait_focus(my_control, delay:=100, loops:=40)
+  {
+    ; Waits till the `my_control` is in focus again.
+    Loop, %loops%
+    {
+      ControlGetFocus, control
+      if control = %my_control%
+      {
+	ErrorLevel = 0
+	return
+      }
+      else
+	Sleep, %delay%
+    }
+    ErrorLevel = 1
+  }
+
+  ; Check if on secondary page
+  ControlGetText, page, ThunderRT6CommandButton8 ; "Page" button label
+  toggle_page = 0
+  if page = F7- Prev Page
+  {
+    toggle_page = 1
+  }  
   ControlGetText, clipboard, ThunderRT6TextBox17 ; "RMA No" textbox
   ClipWait, 3
   if clipboard !=
@@ -215,20 +240,20 @@ Goto, end_hotkey
     step_progress_bar()
     Progress,,Saving RMA %clipboard%
     ControlClick, ThunderRT6CommandButton6 ; "CR-Accept" button
-
-    ; Wait till the "RMA No" text field is in focus again
-    Loop, 10
+    control_wait_focus("ThunderRT6TextBox17") ; "RMA No" text field
+    if ErrorLevel
     {
-      ControlGetFocus, control
-      if control = ThunderRT6TextBox17
-      {	
-	step_progress_bar()
-	Send ^v{Tab}
-        Goto, End_hotkey
-      }
-      else
-	Sleep, 500
+      Goto, End_hotkey_with_error
     }
+    step_progress_bar()
+    Send ^v{Tab}
+  }
+  if toggle_page
+  {
+    control_wait_focus("ThunderRT6TextBox14") ; "Status" text field
+    Send {F6}
+    control_wait_focus("ThunderRT6TextBox1") ; "Work Carried Out" textbox
+    Send ^{End}
   }
   Goto, End_hotkey
 #IfWinActive ; turn off context sensitivity
