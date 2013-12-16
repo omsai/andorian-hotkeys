@@ -590,7 +590,7 @@ WinActivate
 MouseMove 10, 105
 while (A_Cursor = "AppStarting")
   Sleep,500
-Sleep,400
+Sleep, 1000
 focus_on_browser_page()
 Click 10, 105			; fix for Chromium issue# 181144
 Send {tab}			
