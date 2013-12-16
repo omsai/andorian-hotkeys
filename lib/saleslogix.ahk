@@ -129,7 +129,6 @@ _open_group(_category, _name, _action:="enter")
     ; disabled when no group windows are open.
     If _action = edit
     {
-      MsgBox Opening Ticket group...
       Send +{F10}		; Open Ticket group
       global SetTitleMatchMode
       SetTitleMatchMode, 1
