@@ -22,7 +22,7 @@ IniRead, REGION, %INI_FILE%, RMA, region, NONE_VALUE
 RMAShowReport() {
   RMA_BROWSER_TITLE = RMA Report - Google Chrome
   step_progress_bar()
-  Run http://intranet/wipReports/rma.asp
+  Run http://andor.andortech.net/wipReports/rma.asp
   WinWait %RMA_BROWSER_TITLE%,,120
   if ErrorLevel
   {
@@ -361,7 +361,7 @@ Goto, end_hotkey
   {
     step_progress_bar()
     order := sales_order%A_Index%
-    Run http://intranet/cm.mccann/Sales Orders/dbSearch.asp?order_no=%order%
+    Run http://andor.andortech.net/cm.mccann/Sales Orders/dbSearch.asp?order_no=%order%
   }
     Goto, End_hotkey
 
@@ -375,7 +375,7 @@ add_progress_step("Querying part number")
 copy_to_clipboard()
 clipboard := RegexReplace(clipboard, "[[:blank:]]") ; remove tabs and spaces
 step_progress_bar()
-Run http://intranet/bomreport/
+Run http://andor.andortech.net/bomreport/
 
 WinWait, Shamrock Components,,40
 if ErrorLevel
@@ -577,7 +577,7 @@ Progress,,Lookup "%clipboard%"
 
 ; focus on BOM window
 IfWinNotExist, Shamrock Components
-  Run http://intranet/bomreport/
+  Run http://andor.andortech.net/bomreport/
 WinWait, Shamrock Components,,20
 if ErrorLevel
 {
