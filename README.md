@@ -32,7 +32,7 @@ Usage
 
 `⊞ Win`+`B` BOM search from highlighted selection
 
-`⊞ Win`+`S` SalesLogix ticket search for highlighted selection
+`⊞ Win`+`S` SalesLogix ticket search for highlighted selection of SO#s or a serial#
 
 `⊞ Win`+`Z` Bugzilla search from highlighted selection
 

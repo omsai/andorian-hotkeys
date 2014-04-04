@@ -38,6 +38,11 @@ strip_illegal_characters(string) {
   return RegExReplace(string, "[<>:\/\\\|\?\*]", "_")
 }
 
+strip(string) {
+  ; Strips whitespace and line ends.
+  return RegExReplace(string, "[`r`n`t,; ]")
+}
+
 get_email_from_clipboard()
 {
   copy_to_clipboard()

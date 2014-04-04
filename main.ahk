@@ -363,7 +363,26 @@ Goto, end_hotkey
     order := sales_order%A_Index%
     Run http://andor.andortech.net/cm.mccann/Sales Orders/dbSearch.asp?order_no=%order%
   }
+
+  ; If there are no matches for sales orders, assume the selection is
+  ; a serial number and find the corresponding sales order(s).
+  if matches !=
+    Goto, End_hotkey  ; Sales orders were in clipboard, so end hotkey.
+
+  add_progress_step("Querying serial number")
+  Run http://intranet2/reports/ViewReport.aspx?ReportPath=I:\Intranet\Reports\Sales+Information\Utilities\Orders+with+serial+no.rpt
+  step_progress_bar()
+  WinWait, Report Viewer,,30
+  If ErrorLevel
+  {
+    progress_error(A_LineNumber, "Browser timeout")    
     Goto, End_hotkey
+  }
+  Sleep, 1500
+  WinActivate
+  clipboard:=strip(clipboard)	; Remove whitespace, CR, LF, commas, etc.
+  Send {Tab 3}%clipboard%{Enter}
+  Goto, End_hotkey
 
 ;----------------------------------------------------------------------
 ; [Windows Key + b] BOM search from clipboard
