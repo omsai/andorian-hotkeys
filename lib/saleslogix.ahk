@@ -76,6 +76,10 @@ _get_saleslogix_window()
     ; Returns 1 if SalesLogix window exists and is ready to accept
     ; keyboard input; otherwise returns 0.
 
+    ; Hack to close annoying Personal Web Server window, which due to
+    ; it's name steals focus from other SLX windows.
+    WinClose,Sage SalesLogix Personal Web Server
+
     If ! _unminimize_saleslogix_window()
       Return 0
     SetTitleMatchMode, RegEx
