@@ -155,7 +155,7 @@ _open_group(_category, _name, _action:="enter")
     Return 1
 }
 
-edit_group_conditions(_category, _name)
+edit_group_conditions(_category, _name, _text)
 {
     If !_open_group(_category, _name, "edit")
       return
@@ -179,7 +179,7 @@ edit_group_conditions(_category, _name)
 	    Break
 	Else
 	   _last_field := _field
-	Send {Tab}^v{Enter}
+	Send {Tab}%_text%{Enter}
 	WinWaitClose, Assign Condition
 	Send {Down}
     }
