@@ -693,28 +693,7 @@ add_progress_step("Locking onto Outlook COM objects")
 step_progress_bar()
 Send ^q
 step_progress_bar()
-Outlook := ComObjActive("Outlook.Application")
-MailItems := Outlook.ActiveExplorer.Selection
-MailItem := MailItems.Item(1)
-Namespace := Outlook.GetNamespace("MAPI")
-SharedInbox := Namespace.GetFolderFromID(MailItem.Parent.EntryID)
-OldInbox := SharedInbox.Folders("Old Inbox")
-count := MailItems.Count
-Loop, %count%
-{
-    add_progress_step("Moving E-mail " . A_Index . " of " . count)
-}
-; Yes, I know each iteration of this loop is hideously slow. The
-; problem is Outlook 2007 doesn't have the 2010 conversation API
-; necessary to handle the conversation headers.
-Loop, %count%
-{
-     step_progress_bar()
-     global MailItems
-     global OldInbox
-     MailItem := MailItems.Item(A_Index)
-     MailItem.Move(OldInbox)
-}
+Send ^+vOld{Enter}
 #IfWinActive
 kill_progress_bar()
 Return
