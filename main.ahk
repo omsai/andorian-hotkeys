@@ -523,11 +523,9 @@ Gui, Add, Text,
 Gui, Add, Text,
 Gui, Add, Text, Right, Using this Ticket group:
 Gui, Add, Edit, vSEARCH_TEXT ym,
-Gui, Add, CheckBox, vSUBJECT Checked, &Subject
-Gui, Add, CheckBox, vDESCRIPTION Checked, &Description
-Gui, Add, CheckBox, vRESOLUTION Checked, &Resolution
-Gui, Add, CheckBox, vSALES_ORDER Checked, Sales &Order
-Gui, Add, ComboBox, vGROUP_NAME, _Search Ticket||System Tickets|USA System Installations
+Gui, Add, Radio, vTYPE Group, &Subject or Description or Resolution
+Gui, Add, Radio, Checked, Sales &Order
+Gui, Add, ComboBox, vGROUP_NAME, _Search Ticket|System Tickets|USA System Installations||
 Gui, Add, Button, Default xm gapply_group, OK
 Gui, Show,, Ticket Search
 Return
@@ -535,15 +533,23 @@ Return
 apply_group:
 Gui, Submit
 step_progress_bar()
-If GROUP = 1
+; Create conditions array.
+conditions := Object()		
+If TYPE = 1
 {
-  group_name = _Search Ticket
-} Else {
-  group_name := GROUP_NAME
+  conditions.Insert("Ticket.Subject")
+  conditions.Insert("Ticket.TicketProblem.Notes")
+  conditions.Insert("Ticket.TicketSolution.Notes")
+  andor := "OR"
+}
+Else 
+{
+  conditions.Insert("Ticket.Userfield2")
+  andor := "AND"
 }
 Gui, Destroy
 create_progress_bar("Ticket search")
-edit_group_conditions("Ticket", group_name, SEARCH_TEXT)
+copy_group_adding_conditions("Ticket", GROUP_NAME, SEARCH_TEXT, conditions, andor)
 kill_progress_bar()
 Return
 

@@ -131,7 +131,7 @@ _open_group(_category, _name, _action:="enter")
       Return 0
     ; Workaround for SLX bug: "Edit" button in Group Manager is
     ; disabled when no group windows are open.
-    If _action = edit
+    If _action = copy
     {
       Send +{F10}		; Open Ticket group
       global SetTitleMatchMode
@@ -141,10 +141,10 @@ _open_group(_category, _name, _action:="enter")
     }
     WinMenuSelectItem,,,View,Groups
     Send %_category%{right}%_name%
-    If _action = edit
+    If _action = copy
     {
-      Send !e
-      WinWait, Query Builder - %_name%,,10
+      Send !c
+      WinWait, Query Builder - ,,10
       if ErrorLevel
         Return 0
       WinClose, Group Manager
@@ -155,37 +155,75 @@ _open_group(_category, _name, _action:="enter")
     Return 1
 }
 
-edit_group_conditions(_category, _name, _text)
+copy_group_adding_conditions(_category, _name, _text, _conditions, _andor:="OR")
 {
-    If !_open_group(_category, _name, "edit")
+    If !_open_group(_category, _name, "copy")
       return
-    ControlClick, TPageControl1	   ; Properties tab.
-    Send {Right}		   ; Conditions tab.
-    ; Wait for the Conditions tab to load.
-    Sleep, 100
-    ControlGetPos,_x,_y,,,TSLGrid1 ; Fields table.
-    _x := _x + 10		   ; Row 1 x-offset.
-    _y := _y + 27		   ; Row 1 y-offset.
-    ControlClick, X%_x% Y%_y%	   ; Condition row 1.
-    ; Set all field values to clipboard.
-    _last_field =
-    Loop, 5
+    Send tmp:%_text%		; Change the group name.
+    ControlClick, TPageControl1	; Properties tab.
+    Send {Right}		; Conditions tab.
+    for _index, _condition in _conditions
     {
-        Send !e
-	WinWait, Assign Condition
-        ControlGetText, _field, TDataEdit1
-	; Check if we have reached the end.
-	If _field = %_last_field%
-	    Break
-	Else
-	   _last_field := _field
-	Send {Tab}%_text%{Enter}
-	WinWaitClose, Assign Condition
-	Send {Down}
+      WinActivate, Query Builder - ,,10
+      StringSplit, _arr, _condition, `.
+      ; The canonical _arr.MaxIndex() returns nothing, so we have to
+      ; manually count the number of items.
+      _count := 0
+      Loop, %_arr0%
+      {
+      	_item := _arr%A_Index%
+	_count++
+      }
+      ; Focus on the top of the tree view.
+      Click 24, 62
+      Send {Home}
+      ; Move within the tree.
+      If _count = 3
+      {
+	Send {Right}
+	while (A_Cursor = "AppStarting")
+	  Sleep, 500
+	Send %_arr2%
+      }
+      ; Focus on field.
+      WinGetActiveStats, _z, _w, _h, _z, _z
+      _x2 := _w - 170		; 157 = width of right button panel.
+      _y2 := _h - 304		; 304 = height of bottom tab panel.
+      Click %_x2%, 62
+      _item := _arr%_count%
+      Send %_item%
+      ; Move mouse to the highlighted text using PixelSearch.
+      _x1 := A_CaretX
+      _y1 := A_CaretY
+      _highlight_color := 0xff9933
+      PixelSearch, _x, _y, %_x1%, %_y1%, %_x2%, %_y2%, %_highlight_color%
+      MouseMove, %_x%, %_y%
+      ; Open the Assign Condition window.
+      Click,,2
+      WinWait, Assign Condition
+      Send {Tab}%_text%
+      Control, Uncheck,, TCheckBox2 ; Try to uncheck Case Sensitive
+      Control, Choose, 2, TComboBox1 ; Select "contains".
+      ; ControlFocus, TButton3	; Focus on OK.
+      Send {Enter}		; Click OK.
+      WinWaitClose, Assign Condition
+      If _andor = OR
+      {
+        ; Set And/Or to OR
+        WinActivate, Query Builder - ,,10
+	Sleep, 200
+	_x1 := 20
+	_y1 := _h - 164		; 164 = height of bottom listbox.
+	PixelSearch, _x, _y, %_x1%, %_y1%, %_w%, %_h%, %_highlight_color%
+	_y := _y - 15
+	MouseMove, %_x%, %_y%
+	Click right
+	Sleep, 200
+	Send {Up}{Right}{Down}{Enter}
+      }
     }
-    WinClose, Assign Condition
-    WinActivate, Query Builder - %_name%,,10
+    WinActivate, Query Builder - ,,10
     Send {Enter}
     ; Show result.
-    _open_group(_category, _name)
+    _open_group(_category, "tmp:%_text%")
 }
