@@ -527,7 +527,7 @@ Gui, Add, Radio, vTYPE Group, &Subject or Description or Resolution
 Gui, Add, Radio, Checked, Sales &Order
 Gui, Add, ComboBox, vGROUP_NAME, _Search Ticket|System Tickets|USA System Installations||
 Gui, Add, Button, Default xm gapply_group, OK
-Gui, Show,, Ticket Search
+Gui, Show,, Ticket Group Search
 Return
 
 apply_group:
@@ -548,7 +548,10 @@ Else
   andor := "AND"
 }
 Gui, Destroy
-create_progress_bar("Ticket search")
+SEARCH_TEXT := Trim(SEARCH_TEXT)
+create_progress_bar("Ticket group search")
+add_progress_step("Filtering '" . SEARCH_TEXT . "'")
+step_progress_bar()
 copy_group_adding_conditions("Ticket", GROUP_NAME, SEARCH_TEXT, conditions, andor)
 kill_progress_bar()
 Return
