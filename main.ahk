@@ -340,6 +340,7 @@ Goto, end_hotkey
 #o::
   create_progress_bar("Sales Order search")
   copy_to_clipboard()
+  matches =			; Clear old matches.
   
   ; there's no native function to parse several regex matches, so one has to
   ; reuse the `begin` position parameter to check the full string
