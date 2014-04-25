@@ -482,12 +482,13 @@ If CLASS = 1
 }
 SetKeyDelay, -1
 WinWait, Edit Ticket Activity,, 5
-Send %activity%
-Sleep, 300
-Send {Tab}%access%
-Sleep, 300
+Sleep, 200
+Control, EditPaste, %activity%, TEditEx4
 Send {Tab}
-Sleep, 300
+Sleep, 200
+Control, EditPaste, %access%, TEditEx3
+Send {Tab}
+Sleep, 200
 SetKeyDelay, 10			; reset to default value
 Send !o
 Gui, Destroy
