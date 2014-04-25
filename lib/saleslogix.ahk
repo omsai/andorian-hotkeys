@@ -159,7 +159,8 @@ copy_group_adding_conditions(_category, _name, _text, _conditions, _andor:="OR")
 {
     If !_open_group(_category, _name, "copy")
       return
-    Send tmp:%_text%		; Change the group name.
+    _new_name = tmp_%_text%
+    Send %_new_name%		; Change the group name.
     ControlClick, TPageControl1	; Properties tab.
     Send {Right}		; Conditions tab.
     for _index, _condition in _conditions
@@ -192,6 +193,7 @@ copy_group_adding_conditions(_category, _name, _text, _conditions, _andor:="OR")
       Click %_x2%, 62
       _item := _arr%_count%
       Send %_item%
+      Sleep, 500	    	; Wait for h-scroll movement to stop.
       ; Move mouse to the highlighted text using PixelSearch.
       _x1 := A_CaretX
       _y1 := A_CaretY
@@ -225,5 +227,5 @@ copy_group_adding_conditions(_category, _name, _text, _conditions, _andor:="OR")
     WinActivate, Query Builder - ,,10
     Send {Enter}
     ; Show result.
-    _open_group(_category, "tmp:%_text%")
+    _open_group(_category, _new_name)
 }
