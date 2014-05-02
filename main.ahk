@@ -691,11 +691,11 @@ Goto, MyLabel
 ^e::
 create_progress_bar("Archive E-mails to 'Old Inbox' folder")
 add_progress_step("Mark as read")
-add_progress_step("Locking onto Outlook COM objects")
+add_progress_step("Moving to 'Old Inbox' folder")
 step_progress_bar()
 Send ^q
 step_progress_bar()
-Send ^+vOld{Enter}
+Send ^+v{Home}Mailbox - us_m{Right}In{Right}Old{Enter}
 #IfWinActive
 kill_progress_bar()
 Return
