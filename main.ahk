@@ -370,7 +370,8 @@ Goto, end_hotkey
   if matches !=
     Goto, End_hotkey  ; Sales orders were in clipboard, so end hotkey.
 
-  add_progress_step("Querying serial number")
+  clipboard:=strip(clipboard)	; Remove whitespace, CR, LF, commas, etc.
+  add_progress_step("Querying serial# '" . clipboard . "'")
   add_progress_step("Waiting for Enter Values window")
   Run http://intranet2/reports/ViewReport.aspx?ReportPath=I:\Intranet\Reports\Sales+Information\Utilities\Orders+with+serial+no.rpt
   step_progress_bar()
@@ -383,7 +384,6 @@ Goto, end_hotkey
   step_progress_bar()
   Sleep, 3000
   WinActivate
-  clipboard:=strip(clipboard)	; Remove whitespace, CR, LF, commas, etc.
   Send {Tab 3}%clipboard%{Enter}
   Goto, End_hotkey
 
