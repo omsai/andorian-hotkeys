@@ -392,25 +392,27 @@ Goto, end_hotkey
 ;----------------------------------------------------------------------
 #b::
 create_progress_bar("BOM search")
-add_progress_step("Opening web page")
-add_progress_step("Querying part number")
 copy_to_clipboard()
 clipboard := Trim(clipboard)	; Part numbers can contain spaces.
+add_progress_step("Opening web page")
+add_progress_step("Querying '" . clipboard . "'")
 step_progress_bar()
-Run http://andor.andortech.net/bomreport/
-
-WinWait, Shamrock Components,,40
+IfWinNotExist, Shamrock Components
+{
+  Run http://andor.andortech.net/bomreport/
+  WinWait, Shamrock Components,,40
+}
 if ErrorLevel
 {
   progress_error(A_LineNumber)
   Goto, end_hotkey
 }
 WinActivate
-MouseMove 10, 105
+Click 10, 105
 while (A_Cursor = "AppStarting")
   Sleep,500
 step_progress_bar()
-Send {tab}%clipboard%{tab}{Enter}
+Send {tab}%clipboard%{tab 2}{Enter}
 Goto, end_hotkey
 
 ;----------------------------------------------------------------------
