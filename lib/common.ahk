@@ -43,6 +43,12 @@ strip(string) {
   return RegExReplace(string, "[`r`n`t,; ]")
 }
 
+strip_line_ends(string) {
+  ; Strips whitespace and line ends.
+  return RegExReplace(string, "[`r`n]")
+}
+
+
 get_email_from_clipboard()
 {
   copy_to_clipboard()

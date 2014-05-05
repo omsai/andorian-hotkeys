@@ -393,6 +393,7 @@ Goto, end_hotkey
 #b::
 create_progress_bar("BOM search")
 copy_to_clipboard()
+clipboard := strip_line_ends(clipboard)
 clipboard := Trim(clipboard)	; Part numbers can contain spaces.
 add_progress_step("Opening web page")
 add_progress_step("Querying '" . clipboard . "'")
@@ -412,11 +413,13 @@ WinActivate
 Click 10, 105
 while (A_Cursor = "AppStarting")
   Sleep,500
+; Scroll to beginning of listbox so that previous queries don't affect
+; result.
 Send {tab}{Home}
-Sleep, 100
-Send %clipboard%{tab 2}
-Sleep, 500
-Send {Enter 2}
+; Select part number.
+Send %clipboard%{tab}
+; Click "Display"
+Send {Enter}
 Goto, end_hotkey
 
 ;----------------------------------------------------------------------
