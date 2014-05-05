@@ -407,12 +407,16 @@ if ErrorLevel
   progress_error(A_LineNumber)
   Goto, end_hotkey
 }
+step_progress_bar()
 WinActivate
 Click 10, 105
 while (A_Cursor = "AppStarting")
   Sleep,500
-step_progress_bar()
-Send {tab}%clipboard%{tab 2}{Enter}
+Send {tab}{Home}
+Sleep, 100
+Send %clipboard%{tab 2}
+Sleep, 500
+Send {Enter 2}
 Goto, end_hotkey
 
 ;----------------------------------------------------------------------
