@@ -631,15 +631,17 @@ Return
 create_progress_bar("Fill Loan Agreement")
 ; clear variables
 description = 
+WinGet, word_window_id, ID, A
 MyLabel:
 copy_to_clipboard()
+clipboard := strip_line_ends(clipboard)
+clipboard := Trim(clipboard)	; Part numbers can contain spaces.
 ; break repeat loop if nothing copied
 if clipboard =
 {
   kill_progress_bar()
   Return
 }
-clipboard := RegexReplace(clipboard, "[[:blank:]]") ; remove tabs and spaces
 Progress,,Lookup "%clipboard%"
 
 ; focus on BOM window
@@ -654,34 +656,34 @@ if ErrorLevel
 WinActivate
 
 ; focus on product code
-MouseMove 10, 105
+Click 10, 105
 while (A_Cursor = "AppStarting")
   Sleep,500
 Sleep, 1000
 focus_on_browser_page()
 Click 10, 105			; fix for Chromium issue# 181144
-Send {tab}			
+Send {tab}
+
 ; Display detail view
-Send %clipboard%{tab}{Enter}
+Send {Home}%clipboard%{tab}{Enter}
 Sleep,1000
-MouseMove 10, 105
+Click 10, 105
 while (A_Cursor = "AppStarting")
   Sleep,500
 Sleep,1000
 
 ; Copy description
-Send {tab}^a
+Click 10, 105			; focus on browser page, not iframe.
+Send {tab 3}^a			; 3 tab keystrokes to get to iframe.
 copy_to_clipboard()
 end := InStr(clipboard, "[Print]")
-Send {tab 7} ; clear web page element focus
 if end != 0
 {
     StringLeft, description, clipboard, end-1
     clipboard = %description%
     ; Remove all CR+LF's from the clipboard contents:
     StringReplace, clipboard, clipboard, `r`n, , All
-    Send !{tab}
-    Sleep,100 ; Wait for Word to be active
+    WinActivate, ahk_id %word_window_id%
     Send {tab}^v
 }
 else
