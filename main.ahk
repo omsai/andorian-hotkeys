@@ -83,13 +83,6 @@ Goto, end_hotkey
 #m::
 create_progress_bar("Open RMA record")
 copy_to_clipboard()
-open_live_rma_window()
-{
-   WinActivate Andor Technology
-   Send {Enter}
-   WinWait, Andor (Live),,10
-   WinActivate
-}
 wip_window_exists()
 {
   IfWinExist, Andor (Live)
@@ -107,13 +100,13 @@ open_rma_in_existing_wip_window(close_existing_rma = 0)
   WinActivate, Andor (Live)
   if close_existing_rma
   {
-    Send {Escape}
-    ; if no RMA is active, this would close the Andor (Live) window,
-    ; so we need to reopen it
-    IfWinExist, Andor (Live)
-      WinActivate
-    Else
-      open_live_rma_window()
+    ; If no RMA is displayed, sending ESC would close the Andor (Live)
+    ; window.  So only send ESC if the RMA field is not empty.
+    ControlGetText, existing_RMA, ThunderRT6TextBox17 ; "RMA No" text.
+    if existing_RMA !=
+    {
+      Send {Escape}
+    }
   }
 
   begin := RegExMatch(clipboard, "R\d{5}")
