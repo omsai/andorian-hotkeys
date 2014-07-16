@@ -28,7 +28,7 @@ Usage
 
 `⊞ Win`+`T` Open SalesLogix ticket from clipboard or Outlook e-mail title
 
-`⊞ Win`+`O` Sales order search from highlighted selection
+`⊞ Win`+`O` Find sales order from SO number or serial number that is highlighted or copied
 
 `⊞ Win`+`B` BOM search from highlighted selection
 
