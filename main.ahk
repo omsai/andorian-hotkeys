@@ -60,6 +60,7 @@ if REGION = NONE_VALUE
   Gui, Add, DropDownList, vREGION, AndorUS||AndorUK|AndorJapan|All
   Gui, Add, Button, Default, OK
   Gui, Show
+  Return
   
   ButtonOK:
   Gui, Submit
