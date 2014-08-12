@@ -322,9 +322,9 @@ if INITIALS = NONE_VALUE
   }
 }
 TimeVar := A_Now
-FormatTime, TimeVar, A_Now, yyyy-MM-dd
+FormatTime, TimeVar, A_Now, dd-MMM-yyyy
 SetKeyDelay, -1
-Send %INITIALS% %TimeVar%{Enter}
+Send %INITIALS% %TimeVar%{Enter}{Enter}
 SetKeyDelay, 10			; reset to default value
 Goto, end_hotkey
 
