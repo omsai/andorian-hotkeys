@@ -1,9 +1,9 @@
 Make repetitive work awesome!
 =============================
-<img src="https://github.com/downloads/omsai/andorian-hotkeys/andorian-scripts-banner.png"
+<img src="https://cloud.github.com/downloads/omsai/andorian-hotkeys/andorian-scripts-banner.png"
  alt="hot-scripts logo" title="Happy Andorian" align="right" />
 
-Automate your computer to save cummulative hours of your life a year,
+Automate your computer to save cumulative hours of your life a year,
 and watch your mundane work do itself.
 
 Autohotkey is a powerful scripting language that sends keystrokes,
