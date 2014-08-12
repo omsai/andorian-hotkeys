@@ -1,5 +1,5 @@
-Make repetitive work awesome!
-=============================
+Make repetitive work awesome! (RoW Edition)
+===========================================
 <img src="https://cloud.github.com/downloads/omsai/andorian-hotkeys/andorian-scripts-banner.png"
  alt="hot-scripts logo" title="Happy Andorian" align="right" />
 
