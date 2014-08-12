@@ -19,6 +19,8 @@ NOTE - This is a fork from Pariksheet's (GitHub name Omsai) original work - I've
 Usage
 -----
 
+`⊞ Win`+`?` shows the hotkeys active in this script
+
 `⊞ Win`+`M` Launch WIP RMA database (automatic login) and optionally opens RMA from highlighted selection
 
 `⊞ Win`+`T` Open SalesLogix ticket from clipboard or Outlook e-mail title
