@@ -35,6 +35,8 @@ Usage
 
 `⊞ Win`+`N` Opens a text editor - either Emacs, Notepad++ or Notepad
 
+`⊞ Win`+`S` Find ship date from Sales Order
+
 
 
 Installation

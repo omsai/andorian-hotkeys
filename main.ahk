@@ -143,6 +143,31 @@ else
   WinActivate
   Send {Tab 3}%clipboard%{Enter}
   Goto, End_hotkey
+  
+  ;----------------------------------------------------------------------
+; [Windows Key + s] Shipping date from SO from clipboard
+;----------------------------------------------------------------------
+#s::
+  create_progress_bar("Ship date search")
+  copy_to_clipboard()
+  matches =			; Clear old matches.
+  
+  clipboard:=strip(clipboard)	; Remove whitespace, CR, LF, commas, etc.
+  add_progress_step("Querying Sales Order '" . clipboard . "'")
+  add_progress_step("Waiting for Enter Values window")
+  Run http://intranet2/reports/ViewReport.aspx?ReportPath=I:\Intranet\Reports\Sales+Information\Utilities\shipping_invoice_sub_report.rpt
+  step_progress_bar()
+  WinWait, Report Viewer,,30
+  If ErrorLevel
+  {
+    progress_error(A_LineNumber, "Browser timeout")    
+    Goto, End_hotkey
+  }
+  step_progress_bar()
+  Sleep, 3000
+  WinActivate
+  Send {Tab}%clipboard%{Enter}
+  Goto, End_hotkey
 
 ;----------------------------------------------------------------------
 ; [Windows Key + b] BOM search from clipboard
