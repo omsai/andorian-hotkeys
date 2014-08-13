@@ -7,6 +7,7 @@
 ; [Windows Key + z] Bugzilla from Clipboard
 ; [Windows Key + t] Opens SLX Ticket from any word or Ticket ID from Outlook subject or opens contact if no ticket found
 ; [Windows Key + 5] Pastes today's date and your initials - useful when updating Tickets
+; [Windows Key + n] Opens text editor (Emacs, Notepad++ or Notepad)
 
 ;----------------------------------------------------------------------
 ; Boilerplate
@@ -251,6 +252,25 @@ SetKeyDelay, -1
 Send %TimeVar% %INITIALS%{Enter}{Enter}
 SetKeyDelay, 10			; reset to default value
 Goto, end_hotkey
+
+;----------------------------------------------------------------------
+; [Windows Key + n] Text Editor
+;----------------------------------------------------------------------
+#n::
+create_progress_bar("Launch Text Editor")
+ErrorLevel = ERROR
+; Editor preference in descending order
+emacs := A_ProgramFilesX86 . "\ErgoEmacs\ErgoEmacs.exe"
+editors = %emacs%,notepad++,notepad
+Loop, parse, editors, `,
+{
+  Run, %A_LoopField%, %A_Desktop%, UseErrorLevel
+  if ErrorLevel = 0
+    Goto, end_hotkey
+}
+
+progress_error(A_LineNumber)
+Goto, end_hotkey_with_error
 
 ;----------------------------------------------------------------------
 ; [Windows Key + /] Help
