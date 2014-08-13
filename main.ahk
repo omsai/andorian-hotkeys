@@ -231,11 +231,13 @@ Goto, end_hotkey
 ; [Windows Key + 5] Date paste
 ;----------------------------------------------------------------------
 #5::
+
+;FIXME - Pressing Cancel on dialogue box results in blank name in AHK.ini. It should result in no file being created.
 create_progress_bar("Date stamp")
 IniRead, INITIALS, %INI_FILE%, Timestamp, initials, NONE_VALUE
 if INITIALS = NONE_VALUE
 {
-  InputBox INITIALS, New Timestamp user, Enter your initials
+  InputBox INITIALS, New Timestamp user, Enter your name or initials - the Date stamp will then appear as "dd-MMM-yyyy YourName" when Win + 5 is pressed:
   IniWrite %INITIALS%, %INI_FILE%, Timestamp, initials
   if ErrorLevel
   {
