@@ -298,6 +298,50 @@ progress_error(A_LineNumber)
 Goto, end_hotkey_with_error
 
 ;----------------------------------------------------------------------
+; [Windows Key + x] SLX sales order search from clipboard
+;----------------------------------------------------------------------
+#x::
+; Create GUI
+Gui, Destroy
+Gui, Add, Text, Right c40, Search for text:
+;Gui, Add, Text, Right, In any of these fields:
+Gui, Add, Text, Right, Using this Ticket group:
+Gui, Add, Edit, vSEARCH_TEXT ym,
+;Gui, Add, Radio, vTYPE Group, &Subject or Description or Resolution
+;Gui, Add, Radio, Checked, Sales &Order
+;Gui, Add, Text,
+Gui, Add, ComboBox, vGROUP_NAME, Team Tickets - (Open)|Microscopy Install (RoW)||
+Gui, Add, Button, Default xm gapply_group, OK
+Gui, Show,, Ticket Group Search
+Return
+
+apply_group:
+Gui, Submit
+step_progress_bar()
+; Create conditions array.
+conditions := Object()		
+If TYPE = 1
+{
+  conditions.Insert("Ticket.Subject")
+  conditions.Insert("Ticket.TicketProblem.Notes")
+  conditions.Insert("Ticket.TicketSolution.Notes")
+  andor := "OR"
+}
+Else 
+{
+  conditions.Insert("Ticket.Userfield2")
+  andor := "AND"
+}
+Gui, Destroy
+SEARCH_TEXT := Trim(SEARCH_TEXT)
+create_progress_bar("Ticket group search")
+add_progress_step("Filtering '" . SEARCH_TEXT . "'")
+step_progress_bar()
+copy_group_adding_conditions("Ticket", GROUP_NAME, SEARCH_TEXT, conditions, andor)
+kill_progress_bar()
+Return
+
+;----------------------------------------------------------------------
 ; [Windows Key + /] Help
 ;----------------------------------------------------------------------
 #/::

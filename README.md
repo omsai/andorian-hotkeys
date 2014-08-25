@@ -37,6 +37,8 @@ Usage
 
 `⊞ Win`+`S` Find ship date from Sales Order
 
+`⊞ Win`+`X` Find SLX Tickets from Sales Order
+
 
 
 Installation
