@@ -254,9 +254,9 @@ open_ticket(ticket)
 Goto, end_hotkey
 
 ;----------------------------------------------------------------------
-; [Windows Key + 5] Date paste
+; [Windows Key + V] Date paste
 ;----------------------------------------------------------------------
-#5::
+#v::
 
 ;FIXME - Pressing Cancel on dialogue box results in blank name in AHK.ini. It should result in no file being created.
 create_progress_bar("Date stamp")

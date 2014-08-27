@@ -31,7 +31,7 @@ Usage
 
 `⊞ Win`+`Z` Bugzilla search from highlighted selection
 
-`⊞ Win`+`5` Paste your initials and today's date
+`⊞ Win`+`V` Paste your initials and today's date
 
 `⊞ Win`+`N` Opens a text editor - either Emacs, Notepad++ or Notepad
 
