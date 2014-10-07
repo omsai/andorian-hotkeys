@@ -52,18 +52,20 @@ prompts for Windows credentials when accessing Intranet resources.
 
 2.  Install [GitHub for Windows](http://windows.github.com/)
 
-3.  In "GitHub for Windows",
-    login to your GitHub account (you probably need to signup for a free
+3.  Register for a GitHub account [here](https://github.com/join)
+	
+4.	In "GitHub for Windows",
+    login to your GitHub account (you probably need to sign up for a free
     account first).
     After login enter your e-mail and name for Git.
 
-4.  Login to your GitHub account on this webpage and 
+5.  Login to your GitHub account on this webpage and 
     [clone this repository](github-windows://openRepo/https://github.com/JimboMahoney/andorian-hotkeys)
 
-5.  Have the script startup automatically in Windows by
+6.  Have the script startup automatically in Windows by
     making a shortcut to `main.ahk` in your Windows start menu > Startup folder
 
-6.  Create the SLX auto-login shortcut by right-clicking on `SalesLogix-Login`
+7.  Create the SLX auto-login shortcut by right-clicking on `SalesLogix-Login`
     and pinning it to the Start Menu
 
 
