@@ -48,15 +48,14 @@ Please report any issues you may encounter with other browsers.
 Mozilla Firefox works but is not ideal since, unlike Chrome and Explorer, it 
 prompts for Windows credentials when accessing Intranet resources.
 
-1.  Install [Autohotkey](http://www.autohotkey.com/download/)
+1.  Install [Autohotkey](http://ahkscript.org/)
 
 2.  Install [GitHub for Windows](http://windows.github.com/)
 
 3.  Register for a GitHub account [here](https://github.com/join)
 	
 4.	In "GitHub for Windows",
-    login to your GitHub account (you probably need to sign up for a free
-    account first).
+    Login to your GitHub account. 
     After login enter your e-mail and name for Git.
 
 5.  Login to your GitHub account on this webpage and 
