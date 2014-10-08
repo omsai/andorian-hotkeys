@@ -263,7 +263,7 @@ create_progress_bar("Date stamp")
 IniRead, INITIALS, %INI_FILE%, Timestamp, initials, NONE_VALUE
 if INITIALS = NONE_VALUE
 {
-  InputBox INITIALS, New Timestamp user, Enter your name or initials - the Date stamp will then appear as "dd-MMM-yyyy YourName" when Win + 5 is pressed:
+  InputBox INITIALS, New Timestamp user, Enter your name or initials - the Date stamp will then appear as "dd-MMM-yyyy YourName" when Win + V is pressed:
   IniWrite %INITIALS%, %INI_FILE%, Timestamp, initials
   if ErrorLevel
   {
