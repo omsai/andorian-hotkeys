@@ -274,7 +274,7 @@ if INITIALS = NONE_VALUE
 TimeVar := A_Now
 FormatTime, TimeVar, A_Now, dd-MMM-yyyy
 SetKeyDelay, -1
-Sleep 250
+Sleep 500
 Send %TimeVar% %INITIALS%{Enter}{Enter}
 Send Summary:{Enter}{Enter}
 Send --------------------------------------------------------------------------------{Enter}
