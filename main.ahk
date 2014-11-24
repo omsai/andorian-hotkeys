@@ -274,7 +274,12 @@ if INITIALS = NONE_VALUE
 TimeVar := A_Now
 FormatTime, TimeVar, A_Now, dd-MMM-yyyy
 SetKeyDelay, -1
+Sleep 250
 Send %TimeVar% %INITIALS%{Enter}{Enter}
+Send Summary:{Enter}{Enter}
+Send --------------------------------------------------------------------------------{Enter}
+Send Original E-mail:{Enter}{Enter}
+Send ********************************************************************************{Enter}
 SetKeyDelay, 10			; reset to default value
 Goto, end_hotkey
 
