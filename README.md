@@ -48,7 +48,7 @@ Please report any issues you may encounter with other browsers.
 Mozilla Firefox works but is not ideal since, unlike Chrome and Explorer, it 
 prompts for Windows credentials when accessing Intranet resources.
 
-1.  Install [Autohotkey](http://ahkscript.org/)
+1.  Install <a href="http://ahkscript.org/" target="_blank">Autohotkey</a>
 
 2.  Install [GitHub for Windows](http://windows.github.com/)
 
