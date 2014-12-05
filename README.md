@@ -50,25 +50,21 @@ prompts for Windows credentials when accessing Intranet resources.
 
 1.  Install <a href="http://ahkscript.org/" target="_blank">Autohotkey</a>
 
-2.  Install [GitHub for Windows](http://windows.github.com/)
+2.  Install <a href="http://windows.github.com/" target="_blank">GitHub for Windows</a>
 
-3.  Register for a GitHub account [here](https://github.com/join)
+3.  Register for a GitHub account <a href="https://github.com/join" target="_blank">here</a>
 	
-4.	In "GitHub for Windows",
-    Login to your GitHub account. 
-    After login enter your e-mail and name for Git.
+4.	Run GitHub for Windows (in the Start Menu) and log in to your GitHub account. 
+    After login, enter your e-mail and name for Git.
 
-5.  Login to your GitHub account on this webpage and 
+5.  Login to your GitHub account on <a href="https://github.com/JimboMahoney/andorian-hotkeys" target="_blank">this</a> webpage and 
     [clone this repository](github-windows://openRepo/https://github.com/JimboMahoney/andorian-hotkeys)
 
 6.  Have the script startup automatically in Windows by
     making a shortcut to `main.ahk` in your Windows start menu > Startup folder
 
-7.  Create the SLX auto-login shortcut by right-clicking on `SalesLogix-Login`
-    and pinning it to the Start Menu
 
-
-Create your own hotkeys
+	Create your own hotkeys
 -----------------------
 In the same directory as main.ahk, create your ahk file and edit
 [main.ahk](andorian-hotkeys/blob/master/main.ahk#L18) to `#Include` it
@@ -76,6 +72,6 @@ In the same directory as main.ahk, create your ahk file and edit
 
 Contribute
 ----------
-Code and feature requests welcome.
+Code and feature requests welcome!
 
 
