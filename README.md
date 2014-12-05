@@ -48,7 +48,7 @@ Please report any issues you may encounter with other browsers.
 Mozilla Firefox works but is not ideal since, unlike Chrome and Explorer, it 
 prompts for Windows credentials when accessing Intranet resources.
 
-1.  Install <a href="http://ahkscript.org/" target="_blank">Autohotkey</a>
+1.  Install <a href="http://ahkscript.org/" target="_blank">Autohotkey</a> (Big blue Download button on top right).
 
 2.  Install <a href="http://windows.github.com/" target="_blank">GitHub for Windows</a>
 
@@ -58,10 +58,10 @@ prompts for Windows credentials when accessing Intranet resources.
     After login, enter your e-mail and name for Git.
 
 5.  Login to your GitHub account on <a href="https://github.com/JimboMahoney/andorian-hotkeys" target="_blank">this</a> webpage and 
-    [clone this repository](github-windows://openRepo/https://github.com/JimboMahoney/andorian-hotkeys)
+    [clone this repository](github-windows://openRepo/https://github.com/JimboMahoney/andorian-hotkeys), choosing a sensible directory on your machine and remembering where you save it!
 
 6.  Have the script startup automatically in Windows by
-    making a shortcut to `main.ahk` in your Windows start menu > Startup folder
+    making a shortcut to `main.ahk` (in the GitHub, Andorian Hotkeys directory) in your Windows start menu > Startup folder
 
 
 	Create your own hotkeys
