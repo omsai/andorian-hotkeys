@@ -96,7 +96,7 @@ open_systemticket()
     If !_get_saleslogix_window()
       return
     WinMenuSelectItem,,,Lookup,Tickets,Advanced Lookup
-	SetKeyDelay, 5
+	SetKeyDelay, 10
 	Sleep 500
     Send {tab}
 	Send %clipboard%
@@ -107,8 +107,7 @@ open_systemticket()
 	Send {tab}
 	Send INSTALLATION
 	SEND {enter}
-	SetKeyDelay, 10		; reset to default value
-    WinWait, Advanced Lookup,,10
+	WinWait, Advanced Lookup,,10
     if ErrorLevel
         return
     WinActivate
