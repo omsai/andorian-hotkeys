@@ -212,6 +212,18 @@ if found
 }
 Goto, end_hotkey
 
+;----------------------------------------------------------------------
+; [Windows Key + i] Install Ticket search from SLX Account in clipboard 
+;----------------------------------------------------------------------
+#i::
+create_progress_bar("Ticket search")
+add_progress_step("Searching for System Ticket...")
+copy_to_clipboard()
+step_progress_bar()
+step_progress_bar()
+open_systemticket()
+Goto, end_hotkey
+
 
 ;----------------------------------------------------------------------
 ; [Windows Key + t] Ticket search from clipboard or Outlook e-mail title

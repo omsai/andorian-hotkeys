@@ -91,6 +91,30 @@ _get_saleslogix_window()
     Return 1
 }
 
+open_systemticket()
+{
+    If !_get_saleslogix_window()
+      return
+    WinMenuSelectItem,,,Lookup,Tickets,Advanced Lookup
+	SetKeyDelay, 5
+	Sleep 500
+    Send {tab}
+	Send %clipboard%
+	Send {tab}{tab}{tab}
+	Send SERVICE
+	Send {tab}
+	Send CONFOCAL
+	Send {tab}
+	Send INSTALLATION
+	SEND {enter}
+	SetKeyDelay, 10		; reset to default value
+    WinWait, Advanced Lookup,,10
+    if ErrorLevel
+        return
+    WinActivate
+    Send !o
+}
+
 
 open_ticket(_ticket)
 {

@@ -25,13 +25,15 @@ Usage
 
 `⊞ Win`+`T` Open SalesLogix ticket from clipboard or Outlook e-mail title
 
+`⊞ Win`+`I` Open SalesLogix System / installation ticket from SLX Account in clipboard
+
 `⊞ Win`+`O` Find sales order from SO number or serial number that is highlighted or copied
 
 `⊞ Win`+`B` BOM search from highlighted selection
 
 `⊞ Win`+`Z` Bugzilla search from highlighted selection
 
-`⊞ Win`+`V` Paste your initials and today's date
+`⊞ Win`+`V` Paste an SLX Template for updating Tickets (Name, Date, Summary, Original E-mail)
 
 `⊞ Win`+`N` Opens a text editor - either Emacs, Notepad++ or Notepad
 
