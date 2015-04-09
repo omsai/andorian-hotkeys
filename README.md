@@ -21,25 +21,25 @@ Usage
 
 `⊞ Win`+`?` shows the hotkeys active in this script
 
+`⊞ Win`+`B` BOM (Bill of Materials) search from highlighted selection
+
+`⊞ Win`+`I` Open SalesLogix System / Installation ticket from SLX Account in clipboard
+
 `⊞ Win`+`M` Launch WIP RMA database (automatic login) and optionally opens RMA from highlighted selection
-
-`⊞ Win`+`T` Open SalesLogix ticket from clipboard or Outlook e-mail title
-
-`⊞ Win`+`I` Open SalesLogix System / installation ticket from SLX Account in clipboard
-
-`⊞ Win`+`O` Find sales order from SO number or serial number that is highlighted or copied
-
-`⊞ Win`+`B` BOM search from highlighted selection
-
-`⊞ Win`+`Z` Bugzilla search from highlighted selection
-
-`⊞ Win`+`V` Paste an SLX Template for updating Tickets (Name, Date, Summary, Original E-mail)
 
 `⊞ Win`+`N` Opens a text editor - either Emacs, Notepad++ or Notepad
 
+`⊞ Win`+`O` Find Sales Order from SO number or serial number that is highlighted or copied
+
 `⊞ Win`+`S` Find ship date from Sales Order
 
+`⊞ Win`+`T` Open SalesLogix ticket from clipboard or Outlook e-mail title
+
+`⊞ Win`+`V` Paste an SLX comment template for updating Tickets (Name, Date, Summary, Original E-mail)
+
 `⊞ Win`+`X` Find SLX Tickets from Sales Order
+
+`⊞ Win`+`Z` Bugzilla search from highlighted selection
 
 
 

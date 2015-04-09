@@ -1,13 +1,4 @@
-; Shortcuts implemented in this script
-;
-
-; [Windows Key + m] WIP RMA database from clipboard
-; [Windows Key + o] Sales order or serial number search from clipboard
-; [Windows Key + b] BoM report from Clipboard
-; [Windows Key + z] Bugzilla from Clipboard
-; [Windows Key + t] Opens SLX Ticket from any word or Ticket ID from Outlook subject or opens contact if no ticket found
-; [Windows Key + 5] Pastes today's date and your initials - useful when updating Tickets
-; [Windows Key + n] Opens text editor (Emacs, Notepad++ or Notepad)
+; See README.md for shortcuts in this script
 
 ;----------------------------------------------------------------------
 ; Boilerplate
@@ -20,6 +11,71 @@ SetWorkingDir %A_ScriptDir%  ; consistent starting directory.
 #Include lib\common.ahk
 #Include lib\progress_bar.ahk
 #Include lib\saleslogix.ahk
+
+;----------------------------------------------------------------------
+; [Windows Key + /?] Help
+;----------------------------------------------------------------------
+#/::
+Gui, Destroy
+FileRead, readme, README.md
+If ErrorLevel
+{
+  Gui, Add, Text,,Error: unable to open README file
+}
+Else
+{
+  begin := RegexMatch(readme, "Usage\r*\n*---[-]*")
+  end := RegexMatch(readme, "\r*\n*Installation\r*\n*---[-]*", "", begin + 20)
+  shortcuts := SubStr(readme, begin, end - begin)
+  ; Remove Windows characters since they don't render properly.
+  new_shortcuts := RegexReplace(shortcuts, ".*Win", "``Win")
+  Gui, Add, Text,,%new_shortcuts%
+}
+Gui, Show,, Keyboard Shortcuts
+;WinSet, Transparent, 150
+Return
+
+
+
+;----------------------------------------------------------------------
+; [Windows Key + b] BOM search from clipboard
+;----------------------------------------------------------------------
+#b::
+create_progress_bar("BOM search")
+add_progress_step("Opening web page")
+add_progress_step("Querying part number")
+copy_to_clipboard()
+clipboard := RegexReplace(clipboard, "[[:blank:]]") ; remove tabs and spaces
+step_progress_bar()
+Run http://andor.andortech.net/cm.mccann/BOM and COGS/
+
+
+WinWait, Shamrock Components,,40
+if ErrorLevel
+{
+  progress_error(A_LineNumber)
+  Goto, end_hotkey
+}
+WinActivate
+while (A_Cursor = "AppStarting")
+  Sleep,500
+step_progress_bar()
+Send {tab}{tab}{tab}{tab}%clipboard%{tab}{Enter}
+Goto, end_hotkey
+
+;----------------------------------------------------------------------
+; [Windows Key + i] Install Ticket search from SLX Account in clipboard 
+;----------------------------------------------------------------------
+#i::
+create_progress_bar("System Ticket search")
+add_progress_step("Searching for System Ticket...")
+copy_to_clipboard()
+step_progress_bar()
+open_systemticket()
+Goto, end_hotkey
+
+
+
 
 ;----------------------------------------------------------------------
 ; [Windows Key + m] Login to RMA WIP and open RMA from clipboard
@@ -88,7 +144,24 @@ else
   }
 }
 
+;----------------------------------------------------------------------
+; [Windows Key + n] Text Editor
+;----------------------------------------------------------------------
+#n::
+create_progress_bar("Launch Text Editor")
+ErrorLevel = ERROR
+; Editor preference in descending order
+emacs := A_ProgramFilesX86 . "\ErgoEmacs\ErgoEmacs.exe"
+editors = %emacs%,notepad++,notepad
+Loop, parse, editors, `,
+{
+  Run, %A_LoopField%, %A_Desktop%, UseErrorLevel
+  if ErrorLevel = 0
+    Goto, end_hotkey
+}
 
+progress_error(A_LineNumber)
+Goto, end_hotkey_with_error
 
 
 ;----------------------------------------------------------------------
@@ -102,7 +175,7 @@ else
   ; there's no native function to parse several regex matches, so one has to
   ; reuse the `begin` position parameter to check the full string
   begin = 1
-  While begin := RegExMatch(clipboard, "(((CN\d{6})|([M]?\d{6,7})|(u\d{5,6})|(R\d{5})|(DS\d{4,5})|(D\d{4,5}))[\/]?\d?)"
+  While begin := RegExMatch(clipboard, "(((CN\d{6})|([M]?\d{6,7})|(u\d{5,6})|(R\d{5})|(DS\d{4,5})|(D\d{4,5})|(X\d{4,5}))[\/]?\d?)"
                             , match
                             , begin + StrLen(match))
   {
@@ -144,6 +217,7 @@ else
   Send {Tab 3}%clipboard%{Enter}
   Goto, End_hotkey
   
+  
   ;----------------------------------------------------------------------
 ; [Windows Key + s] Shipping date from SO from clipboard
 ;----------------------------------------------------------------------
@@ -168,63 +242,8 @@ else
   WinActivate
   Send {Tab}%clipboard%{Enter}
   Goto, End_hotkey
-
-;----------------------------------------------------------------------
-; [Windows Key + b] BOM search from clipboard
-;----------------------------------------------------------------------
-#b::
-create_progress_bar("BOM search")
-add_progress_step("Opening web page")
-add_progress_step("Querying part number")
-copy_to_clipboard()
-clipboard := RegexReplace(clipboard, "[[:blank:]]") ; remove tabs and spaces
-step_progress_bar()
-Run http://andor.andortech.net/cm.mccann/BOM and COGS/
-
-
-WinWait, Shamrock Components,,40
-if ErrorLevel
-{
-  progress_error(A_LineNumber)
-  Goto, end_hotkey
-}
-WinActivate
-while (A_Cursor = "AppStarting")
-  Sleep,500
-step_progress_bar()
-Send {tab}{tab}{tab}{tab}%clipboard%{tab}{Enter}
-Goto, end_hotkey
-
-;----------------------------------------------------------------------
-; [Windows Key + z] Bugzilla search
-;----------------------------------------------------------------------
-#z::
-create_progress_bar("Bugzilla search")
-add_progress_step("Reading bug number from selection")
-add_progress_step("Opening web link")
-copy_to_clipboard()  
-step_progress_bar()
-found := RegExMatch(clipboard, "(\d+)", bug)
-if found
-{
-  step_progress_bar()
-  Run http://be-qa-01/show_bug.cgi?id=%bug1%
-}
-Goto, end_hotkey
-
-;----------------------------------------------------------------------
-; [Windows Key + i] Install Ticket search from SLX Account in clipboard 
-;----------------------------------------------------------------------
-#i::
-create_progress_bar("System Ticket search")
-add_progress_step("Searching for System Ticket...")
-copy_to_clipboard()
-step_progress_bar()
-open_systemticket()
-Goto, end_hotkey
-
-
-;----------------------------------------------------------------------
+  
+  ;----------------------------------------------------------------------
 ; [Windows Key + t] Ticket search from clipboard or Outlook e-mail title
 ;----------------------------------------------------------------------
 #t::
@@ -294,24 +313,6 @@ Send ***************************************************************************
 SetKeyDelay, 10			; reset to default value
 Goto, end_hotkey
 
-;----------------------------------------------------------------------
-; [Windows Key + n] Text Editor
-;----------------------------------------------------------------------
-#n::
-create_progress_bar("Launch Text Editor")
-ErrorLevel = ERROR
-; Editor preference in descending order
-emacs := A_ProgramFilesX86 . "\ErgoEmacs\ErgoEmacs.exe"
-editors = %emacs%,notepad++,notepad
-Loop, parse, editors, `,
-{
-  Run, %A_LoopField%, %A_Desktop%, UseErrorLevel
-  if ErrorLevel = 0
-    Goto, end_hotkey
-}
-
-progress_error(A_LineNumber)
-Goto, end_hotkey_with_error
 
 ;----------------------------------------------------------------------
 ; [Windows Key + x] SLX sales order search from clipboard
@@ -357,28 +358,34 @@ copy_group_adding_conditions("Ticket", GROUP_NAME, SEARCH_TEXT, conditions, ando
 kill_progress_bar()
 Return
 
+Goto, end_hotkey
+
+
 ;----------------------------------------------------------------------
-; [Windows Key + /] Help
+; [Windows Key + z] Bugzilla search
 ;----------------------------------------------------------------------
-#/::
-Gui, Destroy
-FileRead, readme, README.md
-If ErrorLevel
+#z::
+create_progress_bar("Bugzilla search")
+add_progress_step("Reading bug number from selection")
+add_progress_step("Opening web link")
+copy_to_clipboard()  
+step_progress_bar()
+found := RegExMatch(clipboard, "(\d+)", bug)
+if found
 {
-  Gui, Add, Text,,Error: unable to open README file
+  step_progress_bar()
+  Run http://be-qa-01/show_bug.cgi?id=%bug1%
 }
-Else
-{
-  begin := RegexMatch(readme, "Usage\r*\n*---[-]*")
-  end := RegexMatch(readme, "\r*\n*Installation\r*\n*---[-]*", "", begin + 20)
-  shortcuts := SubStr(readme, begin, end - begin)
-  ; Remove Windows characters since they don't render properly.
-  new_shortcuts := RegexReplace(shortcuts, ".*Win", "``Win")
-  Gui, Add, Text,,%new_shortcuts%
-}
-Gui, Show,, Keyboard Shortcuts
-;WinSet, Transparent, 150
-Return
+Goto, end_hotkey
+
+
+
+
+
+
+
+
+
 
 
 
