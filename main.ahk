@@ -224,7 +224,7 @@ Goto, end_hotkey_with_error
 #s::
   create_progress_bar("Ship date search")
   copy_to_clipboard()
-  matches =			; Clear old matches.
+  ;matches =			; Clear old matches.
   
   clipboard:=strip(clipboard)	; Remove whitespace, CR, LF, commas, etc.
   add_progress_step("Querying Sales Order '" . clipboard . "'")

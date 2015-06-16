@@ -103,7 +103,7 @@ open_systemticket()
     WinActivate
     Send {tab}
 	Send %clipboard%
-	Sleep 100
+	Sleep 250
 	SetKeyDelay, 10
 	Send {tab}{tab}{tab}
 	SetKeyDelay, -1
@@ -249,7 +249,7 @@ copy_group_adding_conditions(_category, _name, _text, _conditions, _andor:="OR")
 	Sleep, 200
 	_x1 := 20
 	_y1 := _h - 164		; 164 = height of bottom listbox.
-	PixelSearch, _x, _y, %_x1%, %_y1%, %_w%, %_h%, %_highlight_color%
+	PixelSearch, _x, _y, %_x1%, %_y1%, %_w%, %_h%, %_highlight_color%, , Fast
 	_y := _y - 15
 	MouseMove, %_x%, %_y%
 	Click right
