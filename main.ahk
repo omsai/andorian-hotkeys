@@ -127,8 +127,10 @@ else
   {
     WinActivate
     Sleep 100
+	SetKeyDelay, 50
     Send {Down}{Enter}{Down}{Enter}{Down}{Down}{Enter}
     Sleep 100
+	SetKeyDelay, -1
     Send %clipboard%{Enter}
     
     WinWait, Andor (Live),,10
