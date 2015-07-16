@@ -106,6 +106,17 @@ if RMA_PASS = NONE_VALUE
     Goto, end_hotkey
   }
 }
+IniRead, RMA_MENU, %INI_FILE%, RMA, menu, NONE_VALUE
+if RMA_MENU = NONE_VALUE
+{
+  InputBox RMA_MENU, New RMA user, Enter the depth of the RMA Process menu numbers 4 or 5)
+  IniWrite %RMA_MENU%, %INI_FILE%, RMA, menu
+  if ErrorLevel
+  {
+    MsgBox Error: Could not write your menu location to %INI_FILE%
+    Goto, end_hotkey
+  }
+}
 
 Run C:\vb6\Andor\Andor.exe
 WinWait, Login,,40
@@ -123,7 +134,9 @@ else
   {
     return
   }
-  else
+  else 
+  IniRead, RMA_MENU, %INI_FILE%, RMA, menu
+  if RMA_MENU = 5
   {
     WinActivate
     Sleep 100
@@ -143,8 +156,34 @@ else
       return
     }
   }
+else if RMA_MENU = 4
+  {
+    WinActivate
+    Sleep 100
+	SetKeyDelay, 50
+    Send {Down}{Enter}{Down}{Down}{Enter}
+    Sleep 100
+	Send %clipboard%{Enter}
+    
+    WinWait, Andor (Live),,10
+    if ErrorLevel
+    {
+      return
+    }
+    else
+    {
+      WinActivate, Andor (Live)
+      return
+    }
+  }
+else
+ {
+ MsgBox Error: Could not locate RMA Process menu - check the menu entry in ahk.ini or report an issue on the RoW-Andorian-Hotkeys GitHub.
+ Goto, end_hotkey
+ }
 }
 SetKeyDelay, -1
+Goto, End_hotkey
 
 ;----------------------------------------------------------------------
 ; [Windows Key + n] Text Editor
