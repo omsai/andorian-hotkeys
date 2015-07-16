@@ -130,8 +130,7 @@ else
 	SetKeyDelay, 50
     Send {Down}{Enter}{Down}{Enter}{Down}{Down}{Enter}
     Sleep 100
-	SetKeyDelay, -1
-    Send %clipboard%{Enter}
+	Send %clipboard%{Enter}
     
     WinWait, Andor (Live),,10
     if ErrorLevel
@@ -145,6 +144,7 @@ else
     }
   }
 }
+SetKeyDelay, -1
 
 ;----------------------------------------------------------------------
 ; [Windows Key + n] Text Editor

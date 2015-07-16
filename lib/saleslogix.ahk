@@ -103,7 +103,7 @@ open_systemticket()
     WinActivate
     Send {tab}
 	Send %clipboard%
-	Sleep 250
+	Sleep 500
 	SetKeyDelay, 10
 	Send {tab}{tab}{tab}
 	SetKeyDelay, -1

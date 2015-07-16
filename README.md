@@ -1,4 +1,5 @@
-Make repetitive work awesome! (RoW Edition)
+Make repetitive work awesome! 
+(RoW Edition)
 ===========================================
 <img src="https://cloud.github.com/downloads/omsai/andorian-hotkeys/andorian-scripts-banner.png"
  alt="hot-scripts logo" title="Happy Andorian" align="right" />
@@ -7,13 +8,14 @@ Automate your computer to save cumulative hours of your life a year,
 and watch your mundane work do itself.
 
 Autohotkey is a powerful scripting language that sends keystrokes,
-runs programs and processes information so that you can focus on
-important things in life.
+runs programs and processes information for repetitive tasks (for example, looking up SOs; Tickets and RMAs).
 
-Batteries are included: these scripts ask for your information and
+Batteries are (mostly) included: these scripts ask for your information and
 save it to an ini file, so no code editing is required to get running.
 
 NOTE - This is a fork from Pariksheet's (GitHub name Omsai) original work - I've simplified it so that I can maintain it for the RoW Team.
+
+LIMITATIONS - Due to different users having different layouts for WIP Tracking, Win + M may require user-specific customisation.
 
 
 Usage
@@ -47,8 +49,6 @@ Installation
 ------------
 *Google Chrome* is recommended, since it is used for development and testing.
 Please report any issues you may encounter with other browsers.
-Mozilla Firefox works but is not ideal since, unlike Chrome and Explorer, it 
-prompts for Windows credentials when accessing Intranet resources.
 
 1.  Install <a href="http://ahkscript.org/" target="_blank">Autohotkey</a> (Big blue Download button on top right).
 
@@ -56,7 +56,7 @@ prompts for Windows credentials when accessing Intranet resources.
 
 3.  Register for a GitHub account <a href="https://github.com/join" target="_blank">here</a>
 	
-4.	Run GitHub for Windows (in the Start Menu) and log in to your GitHub account. 
+4.	Run GitHub for Windows (in the Start Menu) and log in to your GitHub account. Patience is required here, as it takes a long time (30 seconds?) to load...
     After login, enter your e-mail and name for Git.
 
 5.  Login to your GitHub account on <a href="https://github.com/JimboMahoney/andorian-hotkeys" target="_blank">this</a> webpage and 
@@ -66,7 +66,7 @@ prompts for Windows credentials when accessing Intranet resources.
     making a shortcut to `main.ahk` (in the GitHub, Andorian Hotkeys directory) in your Windows start menu > Startup folder
 
 
-	Create your own hotkeys
+Create your own hotkeys
 -----------------------
 In the same directory as main.ahk, create your ahk file and edit
 [main.ahk](andorian-hotkeys/blob/master/main.ahk#L18) to `#Include` it
