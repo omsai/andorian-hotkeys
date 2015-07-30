@@ -38,7 +38,7 @@ Return
 
 
 ;----------------------------------------------------------------------
-; [Windows Key + b] BOM search from clipboard
+; [Windows Key + b] BOM search from clipboard or highlighted selection
 ;----------------------------------------------------------------------
 #b::
 create_progress_bar("BOM search")
@@ -50,16 +50,17 @@ step_progress_bar()
 Run http://andor.andortech.net/cm.mccann/BOM and COGS/
 
 
-WinWait, Shamrock Components,,40
+WinWait, Shamrock Components,,100
 if ErrorLevel
 {
   progress_error(A_LineNumber)
   Goto, end_hotkey
 }
 WinActivate
-while (A_Cursor = "AppStarting")
+;while (A_Cursor = "AppStarting")
   Sleep,500
 step_progress_bar()
+SetKeyDelay 100
 Send {tab}{tab}{tab}{tab}%clipboard%{tab}{Enter}
 Goto, end_hotkey
 
@@ -69,7 +70,7 @@ Goto, end_hotkey
 #i::
 create_progress_bar("System Ticket search")
 add_progress_step("Searching for System Ticket...")
-copy_to_clipboard()
+;copy_to_clipboard()
 step_progress_bar()
 open_systemticket()
 Goto, end_hotkey
@@ -205,9 +206,9 @@ progress_error(A_LineNumber)
 Goto, end_hotkey_with_error
 
 
-;----------------------------------------------------------------------
-; [Windows Key + o] Sales order or serial number search from clipboard
-;----------------------------------------------------------------------
+;---------------------------------------------------------------------------------
+; [Windows Key + o] Sales order or serial number search from highlighted selection
+;---------------------------------------------------------------------------------
 #o::
   create_progress_bar("Sales Order search")
   copy_to_clipboard()
@@ -259,9 +260,9 @@ Goto, end_hotkey_with_error
   Goto, End_hotkey
   
   
-  ;----------------------------------------------------------------------
-; [Windows Key + s] Shipping date from SO from clipboard
-;----------------------------------------------------------------------
+  ;------------------------------------------------------------------------------
+; [Windows Key + s] Shipping date from SO from clipboard or highlighted selection
+;--------------------------------------------------------------------------------
 #s::
   create_progress_bar("Ship date search")
   copy_to_clipboard()
@@ -368,7 +369,7 @@ Gui, Add, Edit, vSEARCH_TEXT ym,
 ;Gui, Add, Radio, vTYPE Group, &Subject or Description or Resolution
 ;Gui, Add, Radio, Checked, Sales &Order
 ;Gui, Add, Text,
-Gui, Add, ComboBox, vGROUP_NAME, Team Tickets - (Open)|Microscopy Install (RoW)||
+Gui, Add, ComboBox, vGROUP_NAME, Team Tickets - (All)|Microscopy Install (RoW)||
 Gui, Add, Button, Default xm gapply_group, OK
 Gui, Show,, Ticket Group Search
 Return
@@ -402,9 +403,9 @@ Return
 Goto, end_hotkey
 
 
-;----------------------------------------------------------------------
-; [Windows Key + z] Bugzilla search
-;----------------------------------------------------------------------
+;--------------------------------------------------------------------------
+; [Windows Key + z] Bugzilla search from clipboard or highlighted selection
+;--------------------------------------------------------------------------
 #z::
 create_progress_bar("Bugzilla search")
 add_progress_step("Reading bug number from selection")

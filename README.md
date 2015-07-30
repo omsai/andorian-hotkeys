@@ -22,25 +22,25 @@ Usage
 
 `⊞ Win`+`?` shows the hotkeys active in this script
 
-`⊞ Win`+`B` BOM (Bill of Materials) search from highlighted selection
+`⊞ Win`+`B` Open BOM (Bill of Materials) for part code (highlighted selection or copied to clipboard)
 
-`⊞ Win`+`I` Open SalesLogix System / Installation ticket from SLX Account in clipboard
+`⊞ Win`+`I` Open SalesLogix System / Installation ticket from SLX Account (copied to clipboard)
 
-`⊞ Win`+`M` Launch WIP RMA database (automatic login) and optionally opens RMA from highlighted selection
+`⊞ Win`+`M` Launch WIP RMA database (automatic login) and optionally opens RMA (copied to clipboard)
 
 `⊞ Win`+`N` Opens a text editor - either Emacs, Notepad++ or Notepad
 
-`⊞ Win`+`O` Find Sales Order from SO number or serial number that is highlighted or copied
+`⊞ Win`+`O` Find Sales Order from SO number or serial number (highlighted selection or copied to clipboard)
 
-`⊞ Win`+`S` Find ship date from Sales Order
+`⊞ Win`+`S` Find ship date from Sales Order (highlighted selection or copied to clipboard)
 
 `⊞ Win`+`T` Open SalesLogix ticket from clipboard or Outlook e-mail title
 
 `⊞ Win`+`V` Paste an SLX comment template for updating Tickets (Name, Date, Summary, Original E-mail)
 
-`⊞ Win`+`X` Find SLX Tickets from Sales Order
+`⊞ Win`+`X` Find SLX Tickets from Sales Order (copied to clipboard)
 
-`⊞ Win`+`Z` Bugzilla search from highlighted selection
+`⊞ Win`+`Z` Bugzilla search (highlighted selection or copied to clipboard)
 
 Suggestions should be posted as issues here => https://github.com/JimboMahoney/RoW-Andorian-Hotkeys/issues
 
