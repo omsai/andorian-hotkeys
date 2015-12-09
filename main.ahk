@@ -282,7 +282,9 @@ Goto, end_hotkey_with_error
   step_progress_bar()
   Sleep, 3000
   WinActivate
-  Send {Tab}%clipboard%{Enter}
+  Send {Tab}%clipboard%
+  Send {Tab}{Down}
+  Send {Tab}{Tab}{Down}{Down}{Enter}
   Goto, End_hotkey
   
   ;----------------------------------------------------------------------
