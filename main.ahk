@@ -245,7 +245,7 @@ Goto, end_hotkey_with_error
   clipboard:=strip(clipboard)	; Remove whitespace, CR, LF, commas, etc.
   add_progress_step("Querying serial# '" . clipboard . "'")
   add_progress_step("Waiting for Enter Values window")
-  Run http://intranet2/reports/ViewReport.aspx?ReportPath=I:\Intranet\Reports\Sales+Information\Utilities\Orders+with+serial+no.rpt
+  Run http://andor.andortech.net/reports/ViewReport.aspx?ReportPath=I:/Intranet/Reports/Sales+Information/Utilities/shipping_invoice_sub_report.rpt
   step_progress_bar()
   WinWait, Report Viewer,,30
   If ErrorLevel
@@ -271,7 +271,7 @@ Goto, end_hotkey_with_error
   clipboard:=strip(clipboard)	; Remove whitespace, CR, LF, commas, etc.
   add_progress_step("Querying Sales Order '" . clipboard . "'")
   add_progress_step("Waiting for Enter Values window")
-  Run http://intranet2/reports/ViewReport.aspx?ReportPath=I:\Intranet\Reports\Sales+Information\Utilities\shipping_invoice_sub_report.rpt
+  Run http://andor.andortech.net/reports/ViewReport.aspx?ReportPath=I:/Intranet/Reports/Sales+Information/Utilities/shipping_invoice_sub_report.rpt
   step_progress_bar()
   WinWait, Report Viewer,,30
   If ErrorLevel
