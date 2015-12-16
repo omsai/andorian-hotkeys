@@ -144,6 +144,7 @@ else
 	SetKeyDelay, 50
     Send {Down}{Enter}{Down}{Enter}{Down}{Down}{Enter}
     Sleep 100
+	StringReplace, clipboard, clipboard,MA
 	Send %clipboard%{Enter}
     
     WinWait, Andor (Live),,10
