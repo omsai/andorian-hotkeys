@@ -144,7 +144,7 @@ else
 	SetKeyDelay, 50
     Send {Down}{Enter}{Down}{Enter}{Down}{Down}{Enter}
     Sleep 100
-	StringReplace, clipboard, clipboard,MA
+	StringReplace, clipboard, clipboard,MA ;Change/remove "MA" from e.g. RMA12345 => R12345
 	Send %clipboard%{Enter}
     
     WinWait, Andor (Live),,10
@@ -246,7 +246,7 @@ Goto, end_hotkey_with_error
   clipboard:=strip(clipboard)	; Remove whitespace, CR, LF, commas, etc.
   add_progress_step("Querying serial# '" . clipboard . "'")
   add_progress_step("Waiting for Enter Values window")
-  Run http://andor.andortech.net/reports/ViewReport.aspx?ReportPath=I:/Intranet/Reports/Sales+Information/Utilities/shipping_invoice_sub_report.rpt
+  Run http://andor.oxinst.com/reports/ViewReport.aspx?ReportPath=I:/Intranet/Reports/Sales+Information/Utilities/Orders+with+serial+no.rpt
   step_progress_bar()
   WinWait, Report Viewer,,30
   If ErrorLevel
