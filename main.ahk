@@ -61,7 +61,7 @@ WinActivate
   Sleep,500
 step_progress_bar()
 SetKeyDelay 100
-Send {tab}{tab}{tab}{tab}%clipboard%{tab}{Enter}
+Send {tab 4}%clipboard%{tab}{Enter}
 Goto, end_hotkey
 
 ;----------------------------------------------------------------------
@@ -142,9 +142,11 @@ else
     WinActivate
     Sleep 100
 	SetKeyDelay, 50
-    Send {Down}{Enter}{Down}{Enter}{Down}{Down}{Enter}
+    Send {Down}{Enter}{Down}{Enter}{Down 2}{Enter}
     Sleep 100
 	StringReplace, clipboard, clipboard,MA ;Change/remove "MA" from e.g. RMA12345 => R12345
+	StringReplace, clipboard, clipboard,[ ;Remove leading [ sometimes found in SLX RMA references
+	StringReplace, clipboard, clipboard,] ;Remove trailing ] sometimes found in SLX RMA references
 	Send %clipboard%{Enter}
     
     WinWait, Andor (Live),,10
@@ -163,8 +165,11 @@ else if RMA_MENU = 4
     WinActivate
     Sleep 100
 	SetKeyDelay, 50
-    Send {Down}{Enter}{Down}{Down}{Enter}
+    Send {Down}{Enter}{Down 2}{Enter}
     Sleep 100
+	StringReplace, clipboard, clipboard,MA ;Change/remove "MA" from e.g. RMA12345 => R12345
+	StringReplace, clipboard, clipboard,[ ;Remove leading [ sometimes found in SLX RMA references
+	StringReplace, clipboard, clipboard,] ;Remove trailing ] sometimes found in SLX RMA references
 	Send %clipboard%{Enter}
     
     WinWait, Andor (Live),,10
@@ -285,7 +290,7 @@ Goto, end_hotkey_with_error
   WinActivate
   Send {Tab}%clipboard%
   Send {Tab}{Down}
-  Send {Tab}{Tab}{Down}{Down}{Enter}
+  Send {Tab 2}{Down 2}{Enter}
   Goto, End_hotkey
   
   ;----------------------------------------------------------------------
@@ -348,12 +353,12 @@ if INITIALS = NONE_VALUE
 }
 TimeVar := A_Now
 FormatTime, TimeVar, A_Now, dd-MMM-yyyy
-SetKeyDelay, -1
+SetKeyDelay, 0
 Sleep 500
-Send %TimeVar% %INITIALS%{Enter}{Enter}
-Send Summary:{Enter}{Enter}{Enter}
+Send %TimeVar% %INITIALS%{Enter 2}
+Send Summary:{Enter 3}
 Send --------------------------------------------------------------------------------{Enter}
-Send Original E-mail:{Enter}{Enter}{Enter}
+Send Original E-mail:{Enter 3}
 Send ********************************************************************************{Enter}
 SetKeyDelay, 10			; reset to default value
 Goto, end_hotkey
